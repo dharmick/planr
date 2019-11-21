@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Button, Text, Grid, Row, Container, Content, Header, Form, Item, Label, Input } from 'native-base';
 import { colors } from '../config/colors';
-class Login extends Component {
+class Signup extends Component {
     constructor(props) {
         super(props);
         this.state = {}
@@ -14,11 +14,15 @@ class Login extends Component {
                 <Grid>
                     <Row size={2}>
                         <View style={styles.header}>
-                            <Text style={{ fontSize: 40 }}>Login</Text>
+                            <Text style={{ fontSize: 40 }}>Signup</Text>
                         </View>
                     </Row>
                     <Row size={8} style={{ backgroundColor: colors.LIGHT_SILVER }}>
                         <View style={styles.login_wrapper}>
+                            <Item floatingLabel>
+                                <Label>Name</Label>
+                                <Input />
+                            </Item>
                             <Item floatingLabel>
                                 <Label>Username</Label>
                                 <Input />
@@ -28,10 +32,10 @@ class Login extends Component {
                                 <Input />
                             </Item>
                             <Button block style={styles.loginButton}>
-                                <Text>TAKE ME IN</Text>
+                                <Text>Create Account</Text>
                             </Button>
-                            <Text style={styles.link} onPress={() => this.props.navigation.navigate('Signup')}>
-                                Create an Account now
+                            <Text style={styles.link} onPress={() => this.props.navigation.navigate('Login')}>
+                                Already have an account? Login here
                             </Text>
                         </View>
                     </Row>
@@ -72,4 +76,4 @@ const styles = StyleSheet.create({
         textDecorationLine: 'underline'
     }
 })
-export default Login;
+export default Signup;

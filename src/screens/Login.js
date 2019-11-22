@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Button, Text, Grid, Row, Container, Content, Header, Form, Item, Label, Input } from 'native-base';
+import { Button, Text, Grid, Row, Container, Content, Header, Left, Right, Body, Title, Form, Item, Label, Input } from 'native-base';
 import { colors } from '../config/colors';
 class Login extends Component {
     constructor(props) {
@@ -8,13 +8,23 @@ class Login extends Component {
         this.state = {}
     }
     componentDidMount() { }
+
+    handleLogin = () => {
+        this.props.navigation.navigate('Home');
+    }
+
     render() {
         return (
             <Container>
+                <Header>
+                    <Body>
+                        <Title>PLANR</Title>
+                    </Body>
+                </Header>
                 <Grid>
                     <Row size={2}>
                         <View style={styles.header}>
-                            <Text style={{ fontSize: 40 }}>Login</Text>
+                            <Text style={styles.headerText}>Login</Text>
                         </View>
                     </Row>
                     <Row size={8} style={{ backgroundColor: colors.LIGHT_SILVER }}>
@@ -27,7 +37,7 @@ class Login extends Component {
                                 <Label>Password</Label>
                                 <Input />
                             </Item>
-                            <Button block style={styles.loginButton}>
+                            <Button block style={styles.loginButton} onPress={this.handleLogin}>
                                 <Text>TAKE ME IN</Text>
                             </Button>
                             <Text style={styles.link} onPress={() => this.props.navigation.navigate('Signup')}>
@@ -56,12 +66,20 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         paddingHorizontal: 20,
+
     },
     header: {
         backgroundColor: colors.LIGHT_SILVER,
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
+    },
+    headerText: {
+        fontSize: 50,
+        fontFamily: 'kalam-bold',
+        color: colors.SILVER,
+        marginTop: 20,
+        // opacity: 0.3
     },
     loginButton: {
         width: '100%',

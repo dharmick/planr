@@ -215,7 +215,7 @@ export default (variables /* : * */ = variable) => {
             color: variables.toolbarBtnColor,
             fontSize:
               platform === PLATFORM.IOS &&
-              variables.platformStyle !== PLATFORM.MATERIAL
+                variables.platformStyle !== PLATFORM.MATERIAL
                 ? variables.iconHeaderSize + 1
                 : variables.iconHeaderSize,
             marginTop: 0,
@@ -227,7 +227,7 @@ export default (variables /* : * */ = variable) => {
             color: variables.toolbarBtnColor,
             fontSize:
               platform === PLATFORM.IOS &&
-              variables.platformStyle !== PLATFORM.MATERIAL
+                variables.platformStyle !== PLATFORM.MATERIAL
                 ? variables.iconHeaderSize + 1
                 : variables.iconHeaderSize - 2,
             marginTop: 0,
@@ -357,7 +357,7 @@ export default (variables /* : * */ = variable) => {
             top: platform === PLATFORM.IOS ? 1 : -1.5,
             paddingRight:
               platform === PLATFORM.IOS &&
-              variables.platformStyle !== PLATFORM.MATERIAL
+                variables.platformStyle !== PLATFORM.MATERIAL
                 ? 0
                 : undefined
           },
@@ -390,10 +390,10 @@ export default (variables /* : * */ = variable) => {
     paddingLeft:
       platform === PLATFORM.IOS && variables.platformStyle !== PLATFORM.MATERIAL
         ? 6
-        : 10,
+        : 20,
     paddingRight: 10,
     justifyContent: 'center',
-    paddingTop: platform === PLATFORM.IOS ? 18 : 0,
+    paddingTop: platform === PLATFORM.IOS ? 18 : StatusBar.currentHeight,
     borderBottomWidth:
       platform === PLATFORM.IOS
         ? 1 / PixelRatio.getPixelSizeForLayoutSize(1)
@@ -401,9 +401,9 @@ export default (variables /* : * */ = variable) => {
     borderBottomColor: variables.toolbarDefaultBorder,
     height:
       variables.platform === PLATFORM.IOS &&
-      variables.platformStyle === PLATFORM.MATERIAL
+        variables.platformStyle === PLATFORM.MATERIAL
         ? variables.toolbarHeight + 10
-        : variables.toolbarHeight,
+        : variables.toolbarHeight + StatusBar.currentHeight,
     elevation: 3,
     shadowColor: platformStyle === PLATFORM.MATERIAL ? '#000' : undefined,
     shadowOffset:

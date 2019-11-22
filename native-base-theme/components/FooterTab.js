@@ -13,11 +13,12 @@ export default (variables /* : * */ = variable) => {
       '.active': {
         'NativeBase.Text': {
           color: variables.tabBarActiveTextColor,
-          fontSize: variables.tabBarTextSize,
+          fontSize: variables.tabBarTextSize + 2,
           lineHeight: 16
         },
         'NativeBase.Icon': {
-          color: variables.tabBarActiveTextColor
+          color: variables.tabBarActiveTextColor,
+          fontSize: 27
         },
         'NativeBase.IconNB': {
           color: variables.tabBarActiveTextColor

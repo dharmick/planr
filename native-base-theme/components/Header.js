@@ -390,10 +390,10 @@ export default (variables /* : * */ = variable) => {
     paddingLeft:
       platform === PLATFORM.IOS && variables.platformStyle !== PLATFORM.MATERIAL
         ? 6
-        : 20,
+        : 10,
     paddingRight: 10,
     justifyContent: 'center',
-    paddingTop: platform === PLATFORM.IOS ? 18 : StatusBar.currentHeight,
+    // paddingTop: platform === PLATFORM.IOS ? 18 : StatusBar.currentHeight,
     borderBottomWidth:
       platform === PLATFORM.IOS
         ? 1 / PixelRatio.getPixelSizeForLayoutSize(1)
@@ -403,7 +403,7 @@ export default (variables /* : * */ = variable) => {
       variables.platform === PLATFORM.IOS &&
         variables.platformStyle === PLATFORM.MATERIAL
         ? variables.toolbarHeight + 10
-        : variables.toolbarHeight + StatusBar.currentHeight,
+        : variables.toolbarHeight,
     elevation: 3,
     shadowColor: platformStyle === PLATFORM.MATERIAL ? '#000' : undefined,
     shadowOffset:

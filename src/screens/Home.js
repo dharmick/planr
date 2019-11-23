@@ -10,16 +10,13 @@ class Home extends Component {
         this.state = {}
     }
     componentDidMount() { }
+    static navigationOptions = {
+        title: 'Home',
+    };
     render() {
         return (
             <Container>
-                <Header>
-                    <Body>
-                        <Title>PLANR</Title>
-                    </Body>
-                </Header>
 
-                <FooterMenu activeName="plan" />
             </Container>
         )
     }

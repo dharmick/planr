@@ -1,26 +1,56 @@
 import React, { Component } from 'react';
-import { StyleSheet, View } from 'react-native';
-import { Button, Text, Grid, Row, Container, Content, Header, Left, Right, Body, Title, Form, Item, Label, Input } from 'native-base';
+import { StyleSheet, View, Alert, AsyncStorage } from 'react-native';
+import { Button, Text, Grid, Row, Container, Content, Header, Item, Label, Input } from 'native-base';
 import { colors } from '../config/colors';
+import { axiosPost } from '../../axios'
+
+
 class Login extends Component {
     constructor(props) {
         super(props);
-        this.state = {}
+        this.state = {
+            email: '',
+            password: ''
+        }
     }
     componentDidMount() { }
 
     handleLogin = () => {
-        this.props.navigation.navigate('Home');
+        const { email, password } = this.state;
+        if (!email || !password) {
+            Alert.alert("OOPS!!", "All fields are mandatory");
+            return;
+        }
+        const data = {
+            email: email,
+            password: password
+        }
+
+        axiosPost('/login', data, false)
+            .then(res => {
+                alert(res.data.message)
+                try {
+                    AsyncStorage.setItem('userToken', res.data.token)
+                        .then(() => {
+                            this.props.navigation.navigate('Home');
+                        })
+                } catch (error) {
+                    alert("Something went wrong. " + error)
+                }
+            }, err => {
+                alert(err)
+            })
+    }
+
+    inputChangeHandler = (text, name) => {
+        this.setState({
+            [name]: text
+        })
     }
 
     render() {
         return (
             <Container>
-                <Header>
-                    <Body>
-                        <Title>PLANR</Title>
-                    </Body>
-                </Header>
                 <Grid>
                     <Row size={2}>
                         <View style={styles.header}>
@@ -29,13 +59,21 @@ class Login extends Component {
                     </Row>
                     <Row size={8} style={{ backgroundColor: colors.LIGHT_SILVER }}>
                         <View style={styles.login_wrapper}>
-                            <Item floatingLabel>
-                                <Label>Username</Label>
-                                <Input />
+                            <Item regular style={styles.input}>
+                                <Input
+                                    placeholder='Email'
+                                    value={this.state.email}
+                                    keyboardType="email-address"
+                                    autoCorrect={false}
+                                    autoCapitalize="none"
+                                    onChangeText={(text) => this.inputChangeHandler(text, 'email')} />
                             </Item>
-                            <Item floatingLabel>
-                                <Label>Password</Label>
-                                <Input />
+                            <Item regular style={styles.input}>
+                                <Input
+                                    placeholder='Password'
+                                    value={this.state.password}
+                                    secureTextEntry={true}
+                                    onChangeText={(text) => this.inputChangeHandler(text, 'password')} />
                             </Item>
                             <Button block style={styles.loginButton} onPress={this.handleLogin}>
                                 <Text>TAKE ME IN</Text>
@@ -84,6 +122,9 @@ const styles = StyleSheet.create({
     loginButton: {
         width: '100%',
         marginVertical: 30,
+    },
+    input: {
+        marginVertical: 10
     },
     link: {
         textDecorationColor: 'black',

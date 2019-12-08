@@ -1,37 +1,93 @@
 import React, { Component } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, KeyboardAvoidingView, Alert, AsyncStorage } from 'react-native';
 import { Button, Text, Grid, Row, Container, Content, Header, Form, Item, Label, Input } from 'native-base';
 import { colors } from '../config/colors';
+import { axiosPost } from '../../axios'
+
+
 class Signup extends Component {
     constructor(props) {
         super(props);
-        this.state = {}
+        this.state = {
+            name: '',
+            email: '',
+            password: ''
+        }
     }
     componentDidMount() { }
+
+    inputChangeHandler = (text, name) => {
+        this.setState({
+            [name]: text
+        })
+    }
+
+    submitHandler = () => {
+        const { name, email, password } = this.state;
+        if (!name || !email || !password) {
+            Alert.alert("OOPS!!", "All fields are mandatory");
+            return;
+        }
+        const data = {
+            name: name,
+            email: email,
+            password: password
+        }
+
+        axiosPost('/signup', data, false)
+            .then(res => {
+                alert(res.data.message)
+                try {
+                    AsyncStorage.setItem('userToken', res.data.token)
+                        .then(() => {
+                            this.props.navigation.navigate('Home');
+                        })
+                } catch (error) {
+                    alert("Something went wrong. " + error)
+                }
+            }, err => {
+                alert(err)
+            })
+    }
+
     render() {
+        console.log(this.state)
         return (
             <Container>
+
                 <Grid>
                     <Row size={2}>
                         <View style={styles.header}>
-                            <Text style={{ fontSize: 40 }}>Signup</Text>
+                            <Text style={styles.headerText}>Signup</Text>
                         </View>
                     </Row>
                     <Row size={8} style={{ backgroundColor: colors.LIGHT_SILVER }}>
                         <View style={styles.login_wrapper}>
-                            <Item floatingLabel>
-                                <Label>Name</Label>
-                                <Input />
-                            </Item>
-                            <Item floatingLabel>
-                                <Label>Username</Label>
-                                <Input />
-                            </Item>
-                            <Item floatingLabel>
-                                <Label>Password</Label>
-                                <Input />
-                            </Item>
-                            <Button block style={styles.loginButton}>
+                            <KeyboardAvoidingView style={{ width: '100%' }} behavior="padding" enabled keyboardVerticalOffset={300}>
+                                <Item regular style={styles.input}>
+                                    <Input
+                                        placeholder='Name'
+                                        value={this.state.name}
+                                        onChangeText={(text) => this.inputChangeHandler(text, 'name')} />
+                                </Item>
+                                <Item regular style={styles.input}>
+                                    <Input
+                                        placeholder='Email'
+                                        value={this.state.email}
+                                        keyboardType="email-address"
+                                        autoCorrect={false}
+                                        autoCapitalize="none"
+                                        onChangeText={(text) => this.inputChangeHandler(text, 'email')} />
+                                </Item>
+                                <Item regular style={styles.input}>
+                                    <Input
+                                        placeholder='Password'
+                                        value={this.state.password}
+                                        secureTextEntry={true}
+                                        onChangeText={(text) => this.inputChangeHandler(text, 'password')} />
+                                </Item>
+                            </KeyboardAvoidingView>
+                            <Button block style={styles.loginButton} onPress={this.submitHandler}>
                                 <Text>Create Account</Text>
                             </Button>
                             <Text style={styles.link} onPress={() => this.props.navigation.navigate('Login')}>
@@ -40,6 +96,7 @@ class Signup extends Component {
                         </View>
                     </Row>
                 </Grid>
+
             </Container>
         )
     }
@@ -67,9 +124,19 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
+    headerText: {
+        fontSize: 50,
+        fontFamily: 'kalam-bold',
+        color: colors.SILVER,
+        marginTop: 20,
+        // opacity: 0.3
+    },
     loginButton: {
         width: '100%',
         marginVertical: 30,
+    },
+    input: {
+        marginVertical: 10
     },
     link: {
         textDecorationColor: 'black',

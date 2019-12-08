@@ -4,7 +4,7 @@ import Login from './src/screens/Login';
 import { StyleProvider, Container, Content, Text, } from 'native-base';
 import getTheme from './native-base-theme/components';
 import common from './native-base-theme/variables/commonColor';
-import AppNavigator from './Navigator';
+import { RootStack } from './Navigator';
 import { StatusBar, View } from 'react-native';
 
 class Setup extends Component {
@@ -27,7 +27,7 @@ class Setup extends Component {
         return (
             this.state.fontLoaded ? (
                 <StyleProvider style={getTheme(common)}>
-                    <AppNavigator />
+                    <RootStack />
                 </StyleProvider>
             ) : null
 

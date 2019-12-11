@@ -1,5 +1,6 @@
 import React from 'react';
-import { Ionicons } from '@expo/vector-icons'
+import { Icon } from 'native-base'
+import { Image, View, StyleSheet } from 'react-native'
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import { createBottomTabNavigator } from 'react-navigation-tabs'
@@ -15,7 +16,15 @@ const HomeStack = createStackNavigator({
     Home: {
         screen: Home,
         navigationOptions: {
-            title: "Home"
+            title: 'Home',
+            // headerTitle: () => (
+            //     <View style={styles.headerTitle}>
+            //         <Image
+            //             source={require('./assets/planr-logo.png')}
+            //             style={{ width: 30, height: 30 }} />
+            //         <Text>Home</Text>
+            //     </View>
+            // ),
         }
     },
 });
@@ -53,18 +62,35 @@ const LoggedInStack = createBottomTabNavigator(
             tabBarIcon: ({ focused, tintColor }) => {
                 const { routeName } = navigation.state;
                 let iconName;
+                let iconType;
                 if (routeName === 'Home') {
-                    iconName = `ios-home`;
+                    iconName = focused ? `home` : `home-outline`;
+                    iconType = `MaterialCommunityIcons`;
                 } else if (routeName === 'User') {
-                    iconName = `ios-contact`
+                    iconName = focused ? `account` : `account-outline`;
+                    iconType = `MaterialCommunityIcons`;
                 }
 
-                return <Ionicons name={iconName} size={25} color={tintColor} />;
+                return <Icon name={iconName} type={iconType} />;
             },
         }),
         tabBarOptions: {
             activeTintColor: colors.PRIMARY,
-            inactiveTintColor: 'gray',
+            inactiveTintColor: colors.SILVER,
+            showLabel: false,
+            labelStyle: {
+                fontSize: 5
+            },
+            style: {
+                // borderRadius: 30,
+                // borderTopWidth: 0,
+                // marginBottom: 10,
+                // marginHorizontal: 10,
+                // elevation: 20,
+                // height: 60,
+                // paddingVertical: 7,
+                // backgroundColor: '#fafafa'
+            }
         },
     }
 );
@@ -91,3 +117,16 @@ export const RootStack = createAppContainer(createSwitchNavigator(
         initialRouteName: 'AuthLoading',
     }
 ));
+
+
+const styles = StyleSheet.create({
+    headerTitle: {
+        flex: 1,
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginLeft: 10
+    },
+    headerTitleText: {
+
+    }
+})

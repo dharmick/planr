@@ -36,6 +36,7 @@ class Signup extends Component {
 
         axiosPost('/signup', data, false)
             .then(res => {
+                console.log(res)
                 alert(res.data.message)
                 try {
                     AsyncStorage.setItem('userToken', res.data.token)
@@ -51,7 +52,6 @@ class Signup extends Component {
     }
 
     render() {
-        console.log(this.state)
         return (
             <Container>
 
@@ -68,6 +68,7 @@ class Signup extends Component {
                                     <Input
                                         placeholder='Name'
                                         value={this.state.name}
+                                        placeholderTextColor={colors.SILVER}
                                         onChangeText={(text) => this.inputChangeHandler(text, 'name')} />
                                 </Item>
                                 <Item regular style={styles.input}>
@@ -77,6 +78,7 @@ class Signup extends Component {
                                         keyboardType="email-address"
                                         autoCorrect={false}
                                         autoCapitalize="none"
+                                        placeholderTextColor={colors.SILVER}
                                         onChangeText={(text) => this.inputChangeHandler(text, 'email')} />
                                 </Item>
                                 <Item regular style={styles.input}>
@@ -84,6 +86,7 @@ class Signup extends Component {
                                         placeholder='Password'
                                         value={this.state.password}
                                         secureTextEntry={true}
+                                        placeholderTextColor={colors.SILVER}
                                         onChangeText={(text) => this.inputChangeHandler(text, 'password')} />
                                 </Item>
                             </KeyboardAvoidingView>
@@ -136,7 +139,8 @@ const styles = StyleSheet.create({
         marginVertical: 30,
     },
     input: {
-        marginVertical: 10
+        marginVertical: 10,
+        borderColor: colors.SILVER
     },
     link: {
         textDecorationColor: 'black',

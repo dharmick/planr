@@ -2,7 +2,8 @@ import axios from 'axios';
 import { AsyncStorage } from 'react-native';
 
 
-const BASE_URL = 'https://hot-otter-22.localtunnel.me';
+// const BASE_URL = 'https://hot-otter-22.localtunnel.me';
+const BASE_URL = 'https://planr-api-dev.herokuapp.com';
 
 export const axiosPost = async (url, data = null, sendToken = true) => {
     const options = {

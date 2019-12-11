@@ -16,11 +16,11 @@ class Profile extends Component {
                     <ListItem icon>
                         <Left>
                             <Button style={{ backgroundColor: "#FF9501" }}>
-                                <Icon active name="history" />
+                                <Icon name="history" type="FontAwesome5" />
                             </Button>
                         </Left>
                         <Body>
-                            <Text>Option 1</Text>
+                            <Text>History</Text>
                         </Body>
                         <Right>
                             <Text>ON</Text>
@@ -28,18 +28,18 @@ class Profile extends Component {
                     </ListItem>
                     <ListItem icon>
                         <Left>
-                            <Button style={{ backgroundColor: "#007AFF" }}>
-                                <Icon active name="md-log-out" />
+                            <Button style={{ backgroundColor: "#db2c8c" }}>
+                                <Icon name="heart" type="FontAwesome5" />
                             </Button>
                         </Left>
                         <Body>
-                            <Text>Option 2</Text>
+                            <Text>Wishlist</Text>
                         </Body>
                     </ListItem>
                     <ListItem icon>
                         <Left>
                             <Button style={{ backgroundColor: "#45d991" }}>
-                                <Icon active name="md-help" />
+                                <Icon name="hands-helping" type="FontAwesome5" />
                             </Button>
                         </Left>
                         <Body>
@@ -52,7 +52,6 @@ class Profile extends Component {
                     </Separator>
                     <ListItem icon
                         onPress={() => {
-                            alert("pressed");
                             AsyncStorage.removeItem('userToken')
                                 .then(() => {
                                     this.props.navigation.navigate('Auth')

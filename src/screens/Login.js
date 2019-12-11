@@ -66,6 +66,7 @@ class Login extends Component {
                                     keyboardType="email-address"
                                     autoCorrect={false}
                                     autoCapitalize="none"
+                                    placeholderTextColor={colors.SILVER}
                                     onChangeText={(text) => this.inputChangeHandler(text, 'email')} />
                             </Item>
                             <Item regular style={styles.input}>
@@ -73,6 +74,7 @@ class Login extends Component {
                                     placeholder='Password'
                                     value={this.state.password}
                                     secureTextEntry={true}
+                                    placeholderTextColor={colors.SILVER}
                                     onChangeText={(text) => this.inputChangeHandler(text, 'password')} />
                             </Item>
                             <Button block style={styles.loginButton} onPress={this.handleLogin}>
@@ -124,7 +126,8 @@ const styles = StyleSheet.create({
         marginVertical: 30,
     },
     input: {
-        marginVertical: 10
+        marginVertical: 10,
+        borderColor: colors.SILVER
     },
     link: {
         textDecorationColor: 'black',

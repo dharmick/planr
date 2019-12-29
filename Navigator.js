@@ -10,6 +10,7 @@ import Signup from './src/screens/Signup';
 import Home from './src/screens/Home';
 import Profile from './src/screens/Profile';
 import AuthLoadingScreen from './AuthLoadingScreen';
+import CurrentTrip from './src/screens/CurrentTrip';
 
 
 const HomeStack = createStackNavigator({
@@ -38,6 +39,14 @@ const UserStack = createStackNavigator({
     }
 });
 
+const TripStack = createStackNavigator({
+    CurrentTrip: {
+        screen: CurrentTrip,
+        navigationOptions: {
+            title: 'Mumbai'
+        }
+    }
+})
 
 
 
@@ -45,15 +54,12 @@ const LoggedInStack = createBottomTabNavigator(
     {
         Home: {
             screen: HomeStack,
-            navigationOptions: {
-                title: "Home"
-            }
+        },
+        Trip: {
+            screen: TripStack,
         },
         User: {
             screen: UserStack,
-            navigationOptions: {
-                title: "Profile"
-            }
         },
     },
     {
@@ -64,11 +70,14 @@ const LoggedInStack = createBottomTabNavigator(
                 let iconName;
                 let iconType;
                 if (routeName === 'Home') {
-                    iconName = focused ? `home` : `home-outline`;
-                    iconType = `MaterialCommunityIcons`;
+                    iconName = focused ? 'home' : 'home-outline';
+                    iconType = 'MaterialCommunityIcons';
                 } else if (routeName === 'User') {
-                    iconName = focused ? `account` : `account-outline`;
-                    iconType = `MaterialCommunityIcons`;
+                    iconName = focused ? 'account' : 'account-outline';
+                    iconType = 'MaterialCommunityIcons';
+                } else if (routeName === 'Trip') {
+                    iconName = focused ? 'map-marker' : 'map-marker-outline'
+                    iconType = 'MaterialCommunityIcons'
                 }
 
                 return <Icon name={iconName} type={iconType} />;

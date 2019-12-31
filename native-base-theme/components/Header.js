@@ -278,6 +278,9 @@ export default (variables /* : * */ = variable) => {
     },
     'NativeBase.Body': {
       flex: 1,
+      'NativeBase.Title': {
+        color: variables.titleTextColor
+      },
       alignItems:
         platform === PLATFORM.IOS && platformStyle !== PLATFORM.MATERIAL
           ? 'center'
@@ -384,6 +387,7 @@ export default (variables /* : * */ = variable) => {
       flexDirection: 'row',
       justifyContent: 'flex-end'
     },
+
     backgroundColor: variables.toolbarDefaultBg,
     flexDirection: 'row',
     // paddingHorizontal: 10,
@@ -393,7 +397,7 @@ export default (variables /* : * */ = variable) => {
         : 10,
     paddingRight: 10,
     justifyContent: 'center',
-    // paddingTop: platform === PLATFORM.IOS ? 18 : StatusBar.currentHeight,
+    paddingTop: platform === PLATFORM.IOS ? 18 : StatusBar.currentHeight,
     borderBottomWidth:
       platform === PLATFORM.IOS
         ? 1 / PixelRatio.getPixelSizeForLayoutSize(1)
@@ -403,13 +407,14 @@ export default (variables /* : * */ = variable) => {
       variables.platform === PLATFORM.IOS &&
         variables.platformStyle === PLATFORM.MATERIAL
         ? variables.toolbarHeight + 10
-        : variables.toolbarHeight,
+        : variables.toolbarHeight + StatusBar.currentHeight,
     elevation: 3,
     shadowColor: platformStyle === PLATFORM.MATERIAL ? '#000' : undefined,
     shadowOffset:
       platformStyle === PLATFORM.MATERIAL ? { width: 0, height: 2 } : undefined,
     shadowOpacity: platformStyle === PLATFORM.MATERIAL ? 0.2 : undefined,
     shadowRadius: platformStyle === PLATFORM.MATERIAL ? 1.2 : undefined,
+    // top: StatusBar.currentHeight,
     top: 0,
     left: 0,
     right: 0

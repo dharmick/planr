@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, AsyncStorage, ScrollView, ImageBackground } from 'react-native';
-import { Button, Text, Container, Item, Input, Icon, Card } from 'native-base';
+import { StyleSheet, StatusBar, View, AsyncStorage, ScrollView, ImageBackground, Image } from 'react-native';
+import { Button, Text, Container, Item, Input, Icon, Card, Header, Title, Left, Right, Body, } from 'native-base';
 import { colors } from '../config/colors';
 import { LinearGradient } from 'expo-linear-gradient';
+
 
 
 class Home extends Component {
@@ -43,90 +44,103 @@ class Home extends Component {
             ]
         }
     }
+
+    static navigationOptions = {
+        header: (
+            <Header searchBar>
+                <Left style={{ flex: null }}>
+                    <Image source={require('../../assets/planr-logo.png')} style={{ height: 35, width: 35 }} />
+                </Left>
+                <Item>
+                    <Input placeholder="Search, Explore, Wander" />
+                    <Icon name="search" />
+                </Item>
+            </Header>
+        )
+    }
+
     componentDidMount() {
 
     }
     render() {
         return (
-            <ScrollView>
-                <View style={styles.greeting}>
-                    <Text style={styles.greetingName}>Hey, Dharmik!</Text>
-                    <Text style={styles.greetingText}>Where would you like to go today?</Text>
-                    <Item style={styles.searchBox} rounded>
-                        <Icon active name='search' />
-                        <Input placeholder='Search, Explore, Wander' />
-                    </Item>
-                </View>
-
-                <LinearGradient colors={[colors.PRIMARY, '#2D0F64']}
-                    start={[0, 0]} end={[1, 1]} style={styles.nearMe}>
-                    <View style={styles.nearMeHeader}>
-                        <Text style={styles.nearMeHeaderText} >Near me</Text>
-                    </View>
-                    <View style={styles.nearMeItem}>
-                        <Icon style={styles.nearMeItemIcon} name="local-atm" type="MaterialIcons" />
-                        <Text style={styles.nearMeItemText}>ATM</Text>
-                    </View>
-                    <View style={styles.nearMeItem}>
-                        <Icon style={styles.nearMeItemIcon} name="gas-pump" type="FontAwesome5" />
-                        <Text style={styles.nearMeItemText}>Petrol Pump</Text>
-                    </View>
-                    <View style={styles.nearMeItem}>
-                        <Icon style={styles.nearMeItemIcon} name="clinic-medical" type="FontAwesome5" />
-                        <Text style={styles.nearMeItemText}>Medical</Text>
-                    </View>
-                    <View style={styles.nearMeItem}>
-                        <Icon style={styles.nearMeItemIcon} name="food" type="MaterialCommunityIcons" />
-                        <Text style={styles.nearMeItemText}>Food</Text>
-                    </View>
-                    <View style={styles.nearMeItem}>
-                        <Icon style={styles.nearMeItemIcon} name="hotel" type="FontAwesome" />
-                        <Text style={styles.nearMeItemText}>Hotels</Text>
-                    </View>
-                    <View style={styles.nearMeItem}>
-                        <Icon style={styles.nearMeItemIcon} name="theater" type="MaterialCommunityIcons" />
-                        <Text style={styles.nearMeItemText}>Theatres</Text>
-                    </View>
-                </LinearGradient>
-
-                <View style={styles.trendingList}>
-                    <View style={styles.trendingListHeader}>
-                        <Text style={styles.trendingListTitle}>Trending Places</Text>
-                        <Text style={styles.trendingListView}>View all</Text>
+            <>
+                <ScrollView>
+                    <View style={styles.greeting}>
+                        <Text style={styles.greetingName}>Hey, Dharmik!</Text>
+                        <Text style={styles.greetingText}>Where would you like to go today?</Text>
                     </View>
 
-                    <ScrollView horizontal={true}>
-                        {
-                            this.state.trendingPlaces.map((item, index) => (
-                                <View key={index}>
-                                    {
-                                        item.map((item1, index1) => (
-                                            <View style={styles.trendingListItemWrapper} key={index1}>
-                                                <ImageBackground
-                                                    source={{ uri: item1.image }}
-                                                    imageStyle={{ borderRadius: 4 }}
-                                                    style={styles.trendingListItem}>
-                                                    <View style={styles.trendingListItemTextWrapper}>
-                                                        <Text style={styles.trendingListItemText}>{item1.name}</Text>
-                                                    </View>
-                                                </ImageBackground>
-                                            </View>
-                                        ))
-                                    }
-                                </View>
-                            ))
-                        }
-                    </ScrollView>
-                </View>
-            </ScrollView >
+                    <LinearGradient colors={[colors.PRIMARY, '#2D0F64']}
+                        start={[0, 0]} end={[1, 1]} style={styles.nearMe}>
+                        <View style={styles.nearMeHeader}>
+                            <Text style={styles.nearMeHeaderText} >Near me</Text>
+                        </View>
+                        <View style={styles.nearMeItem}>
+                            <Icon style={styles.nearMeItemIcon} name="local-atm" type="MaterialIcons" />
+                            <Text style={styles.nearMeItemText}>ATM</Text>
+                        </View>
+                        <View style={styles.nearMeItem}>
+                            <Icon style={styles.nearMeItemIcon} name="gas-pump" type="FontAwesome5" />
+                            <Text style={styles.nearMeItemText}>Petrol Pump</Text>
+                        </View>
+                        <View style={styles.nearMeItem}>
+                            <Icon style={styles.nearMeItemIcon} name="clinic-medical" type="FontAwesome5" />
+                            <Text style={styles.nearMeItemText}>Medical</Text>
+                        </View>
+                        <View style={styles.nearMeItem}>
+                            <Icon style={styles.nearMeItemIcon} name="food" type="MaterialCommunityIcons" />
+                            <Text style={styles.nearMeItemText}>Food</Text>
+                        </View>
+                        <View style={styles.nearMeItem}>
+                            <Icon style={styles.nearMeItemIcon} name="hotel" type="FontAwesome" />
+                            <Text style={styles.nearMeItemText}>Hotels</Text>
+                        </View>
+                        <View style={styles.nearMeItem}>
+                            <Icon style={styles.nearMeItemIcon} name="theater" type="MaterialCommunityIcons" />
+                            <Text style={styles.nearMeItemText}>Theatres</Text>
+                        </View>
+                    </LinearGradient>
+
+                    <View style={styles.trendingList}>
+                        <View style={styles.trendingListHeader}>
+                            <Text style={styles.trendingListTitle}>Trending Places</Text>
+                            <Text style={styles.trendingListView}>View all</Text>
+                        </View>
+
+                        <ScrollView horizontal={true}>
+                            {
+                                this.state.trendingPlaces.map((item, index) => (
+                                    <View key={index}>
+                                        {
+                                            item.map((item1, index1) => (
+                                                <View style={styles.trendingListItemWrapper} key={index1}>
+                                                    <ImageBackground
+                                                        source={{ uri: item1.image }}
+                                                        imageStyle={{ borderRadius: 4 }}
+                                                        style={styles.trendingListItem}>
+                                                        <View style={styles.trendingListItemTextWrapper}>
+                                                            <Text style={styles.trendingListItemText}>{item1.name}</Text>
+                                                        </View>
+                                                    </ImageBackground>
+                                                </View>
+                                            ))
+                                        }
+                                    </View>
+                                ))
+                            }
+                        </ScrollView>
+                    </View>
+                </ScrollView >
+            </>
         )
     }
 }
 
 const styles = StyleSheet.create({
     greeting: {
-        paddingVertical: 50,
-        backgroundColor: '#fafafa'
+        paddingTop: 50,
+        backgroundColor: '#fff'
     },
     greetingName: {
         textAlign: 'center',

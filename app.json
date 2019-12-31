@@ -14,7 +14,6 @@
     "icon": "./assets/planr-logo.png",
     "splash": {
       "image": "./assets/planr-logo.png",
-      "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
     "updates": {

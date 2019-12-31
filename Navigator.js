@@ -1,6 +1,5 @@
 import React from 'react';
-import { Icon } from 'native-base'
-import { Image, View, StyleSheet } from 'react-native'
+import { Image, View, StyleSheet, StatusBar } from 'react-native'
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import { createBottomTabNavigator } from 'react-navigation-tabs'
@@ -11,6 +10,8 @@ import Home from './src/screens/Home';
 import Profile from './src/screens/Profile';
 import AuthLoadingScreen from './AuthLoadingScreen';
 import CurrentTrip from './src/screens/CurrentTrip';
+import { Header, Title, Button, Icon, Left, Right, Body, Text, Item, Input } from "native-base";
+
 
 
 const HomeStack = createStackNavigator({
@@ -18,14 +19,6 @@ const HomeStack = createStackNavigator({
         screen: Home,
         navigationOptions: {
             title: 'Home',
-            // headerTitle: () => (
-            //     <View style={styles.headerTitle}>
-            //         <Image
-            //             source={require('./assets/planr-logo.png')}
-            //             style={{ width: 30, height: 30 }} />
-            //         <Text>Home</Text>
-            //     </View>
-            // ),
         }
     },
 });

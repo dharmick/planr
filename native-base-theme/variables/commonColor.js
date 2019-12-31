@@ -176,15 +176,18 @@ export default {
   tabActiveBgColor: '#fff',
 
   // Header
-  toolbarBtnColor: platform === PLATFORM.IOS ? '#007aff' : '#fff',
-  toolbarDefaultBg: '#673AB7',
+  toolbarBtnColor: platform === PLATFORM.IOS ? '#007aff' : '#444',
+  toolbarDefaultBg: '#fff',
+  titleTextColor: '#444',
   toolbarHeight: platform === PLATFORM.IOS ? 64 : 56,
   toolbarSearchIconSize: platform === PLATFORM.IOS ? 20 : 23,
   toolbarInputColor: platform === PLATFORM.IOS ? '#CECDD2' : '#fff',
-  searchBarHeight: platform === PLATFORM.IOS ? 30 : 40,
-  searchBarInputHeight: platform === PLATFORM.IOS ? 30 : 50,
-  toolbarBtnTextColor: platform === PLATFORM.IOS ? '#007aff' : '#fff',
+  searchBarHeight: platform === PLATFORM.IOS ? 30 : 56,
+  searchBarInputHeight: platform === PLATFORM.IOS ? 30 : 56,
+  toolbarBtnTextColor: platform === PLATFORM.IOS ? '#007aff' : '#444',
   iosStatusbar: platform === PLATFORM.IOS ? 'dark-content' : 'light-content',
+  // iosStatusbarColor: 'red',
+  // statusBarColor: 'rgba(103,58,183,1)',
   toolbarDefaultBorder: platform === PLATFORM.IOS ? '#a7a6ab' : '#3F51B5',
   get statusBarColor() {
     return color(this.toolbarDefaultBg)

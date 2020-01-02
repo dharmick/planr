@@ -11,16 +11,24 @@ import Profile from './src/screens/Profile';
 import AuthLoadingScreen from './AuthLoadingScreen';
 import CurrentTrip from './src/screens/CurrentTrip';
 import { Header, Title, Button, Icon, Left, Right, Body, Text, Item, Input } from "native-base";
+import City from './src/screens/City';
+import SearchCity from './src/screens/SearchCity';
 
 
 
 const HomeStack = createStackNavigator({
-    Home: {
+    HomePage: {
         screen: Home,
-        navigationOptions: {
-            title: 'Home',
-        }
     },
+    City: {
+        screen: City,
+    },
+    SearchCity: {
+        screen: SearchCity,
+    }
+}, {
+    headerMode: 'none',
+    initialRouteName: 'HomePage'
 });
 
 const UserStack = createStackNavigator({
@@ -30,6 +38,8 @@ const UserStack = createStackNavigator({
             title: "Profile"
         }
     }
+}, {
+    headerMode: 'none'
 });
 
 const TripStack = createStackNavigator({

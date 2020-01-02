@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Alert, AsyncStorage } from 'react-native';
+import { StyleSheet, View, Alert, AsyncStorage, StatusBar } from 'react-native';
 import { Button, Text, Grid, Row, Container, Content, Header, Item, Label, Input } from 'native-base';
 import { colors } from '../config/colors';
 import { axiosPost } from '../../axios'
@@ -13,7 +13,8 @@ class Login extends Component {
             password: ''
         }
     }
-    componentDidMount() { }
+    componentDidMount() {
+    }
 
     handleLogin = () => {
         const { email, password } = this.state;

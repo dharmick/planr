@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { StyleSheet, StatusBar, View, AsyncStorage, ScrollView, ImageBackground, Image } from 'react-native';
-import { Button, Text, Container, Item, Input, Icon, Card, Header, Title, Left, Right, Body, } from 'native-base';
+import { StyleSheet, FlatList, StatusBar, View, AsyncStorage, ScrollView, ImageBackground, Image, TouchableOpacity, TouchableNativeFeedback } from 'react-native';
+import { Button, Text, Container, Item, Input, Icon, Card, Header, Title, Left, Right, Body, List, ListItem } from 'native-base';
 import { colors } from '../config/colors';
 import { LinearGradient } from 'expo-linear-gradient';
 
@@ -10,6 +10,7 @@ class Home extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            searchText: '',
             trendingPlaces: [
                 [
                     {
@@ -41,30 +42,36 @@ class Home extends Component {
                         image: "https://www.globalgovernmentforum.com/wp-content/uploads/2019/08/Kashmir-Pictures_flickr_RESIZED-620x414.jpg"
                     },
                 ]
-            ]
+            ],
         }
     }
 
-    static navigationOptions = {
-        header: (
-            <Header searchBar>
-                <Left style={{ flex: null }}>
-                    <Image source={require('../../assets/planr-logo.png')} style={{ height: 35, width: 35 }} />
-                </Left>
-                <Item>
-                    <Input placeholder="Search, Explore, Wander" />
-                    <Icon name="search" />
-                </Item>
-            </Header>
-        )
+
+
+
+    handleSearch = () => {
+        this.props.navigation.navigate('SearchCity');
     }
 
-    componentDidMount() {
 
+
+    componentDidMount() {
     }
     render() {
         return (
             <>
+                <Header>
+                    <Left>
+                        <Image source={require('../../assets/planr-logo.png')} style={{ height: 35, width: 35 }} />
+                    </Left>
+                    <Body>
+                        <Title>Home</Title>
+                    </Body>
+                    <Right>
+                        <Icon name="search" onPress={this.handleSearch} />
+                    </Right>
+                </Header>
+
                 <ScrollView>
                     <View style={styles.greeting}>
                         <Text style={styles.greetingName}>Hey, Dharmik!</Text>
@@ -131,7 +138,9 @@ class Home extends Component {
                             }
                         </ScrollView>
                     </View>
-                </ScrollView >
+                </ScrollView>
+
+
             </>
         )
     }

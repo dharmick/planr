@@ -27,6 +27,10 @@
     },
     "android": {
       "package": "com.planr.planr"
+    },
+    "androidStatusBar": {
+      "backgroundColor": "#000000",
+      "barStyle": "light-content"
     }
   }
 }

@@ -6,6 +6,8 @@ import getTheme from './native-base-theme/components';
 import common from './native-base-theme/variables/commonColor';
 import { RootStack } from './Navigator';
 import { StatusBar, View } from 'react-native';
+import NavigationService from './NavigationService';
+
 
 class Setup extends Component {
     constructor(props) {
@@ -27,7 +29,9 @@ class Setup extends Component {
         return (
             this.state.fontLoaded ? (
                 <StyleProvider style={getTheme(common)}>
-                    <RootStack />
+                    <RootStack ref={navigatorRef => {
+                        NavigationService.setTopLevelNavigator(navigatorRef);
+                    }} />
                 </StyleProvider>
             ) : null
 

@@ -1,29 +1,28 @@
 import React, { Component } from 'react'
-import { StyleSheet, View, FlatList, TouchableOpacity } from 'react-native'
-import { Item, Header, Input, Text, Icon } from 'native-base'
+import { StyleSheet, View, FlatList, TouchableOpacity, ActivityIndicator } from 'react-native'
+import { Item, Header, Input, Text, Icon, Toast } from 'native-base'
 import { colors } from '../config/colors';
+import { axiosGet } from '../../axios';
 
 export default class SearchCity extends Component {
     constructor(props) {
         super(props);
         this.state = {
             searchText: '',
-            cities: [
-                {
-                    name: 'Mumbai',
-                    id: '1'
-                },
-                {
-                    name: 'Bangalore',
-                    id: '2'
-                },
-                {
-                    name: 'Hyderabad',
-                    id: '3'
-                }
-            ],
-            filteredCities: []
+            cities: [],
+            filteredCities: [],
+            isLoadingCities: true,
         }
+    }
+
+    componentDidMount() {
+        axiosGet('/getAllCities')
+            .then(res => {
+                this.setState({
+                    cities: res.data.data,
+                    isLoadingCities: false
+                })
+            })
     }
 
     onCitySelect = (city) => {
@@ -59,33 +58,42 @@ export default class SearchCity extends Component {
                     </Item>
                 </Header>
 
-                <FlatList
-                    keyExtractor={item => item.id}
-                    data={this.state.filteredCities}
-                    renderItem={({ item, index, separators }) => (
-                        <TouchableOpacity onPress={() => this.onCitySelect(item)}>
-                            <View style={{ paddingVertical: 20, paddingHorizontal: 10 }}>
-                                <Text>{item.name}</Text>
-                            </View>
-                        </TouchableOpacity>
-                    )}
-                    ListEmptyComponent={() => (
-                        <View style={{ paddingVertical: 100, alignItems: 'center' }}>
-                            {
-                                this.state.searchText ?
-                                    <>
-                                        <Text style={{ fontSize: 20, color: colors.SILVER }}>OOPS!</Text>
-                                        <Text style={{ fontSize: 16, color: colors.SILVER }}>Nothing found.</Text>
-                                    </>
-                                    :
-                                    <>
-                                        <Text style={{ fontSize: 20, color: colors.SILVER }}>Try Mumbai :)</Text>
-                                        <Text style={{ fontSize: 16, color: colors.SILVER }}>You won't regret. Promise.</Text>
-                                    </>
-                            }
+                {
+                    this.state.isLoadingCities ?
+                        <View style={{ paddingVertical: 20 }}>
+                            <ActivityIndicator size="large" color={colors.PRIMARY} />
                         </View>
-                    )}
-                />
+                        :
+                        <FlatList
+                            keyExtractor={item => item.id.toString()}
+                            data={this.state.filteredCities}
+                            renderItem={({ item, index, separators }) => (
+                                <TouchableOpacity onPress={() => this.onCitySelect(item)}>
+                                    <View style={{ paddingVertical: 20, paddingHorizontal: 10 }}>
+                                        <Text>{item.name}</Text>
+                                    </View>
+                                </TouchableOpacity>
+                            )}
+                            ListEmptyComponent={() => (
+                                <View style={{ paddingVertical: 100, alignItems: 'center' }}>
+                                    {
+                                        this.state.searchText ?
+                                            <>
+                                                <Text style={{ fontSize: 20, color: colors.SILVER }}>OOPS!</Text>
+                                                <Text style={{ fontSize: 16, color: colors.SILVER }}>Nothing found.</Text>
+                                            </>
+                                            :
+                                            <>
+                                                <Text style={{ fontSize: 20, color: colors.SILVER }}>Try Mumbai :)</Text>
+                                                <Text style={{ fontSize: 16, color: colors.SILVER }}>You won't regret. Promise.</Text>
+                                            </>
+                                    }
+                                </View>
+                            )}
+                        />
+                }
+
+
 
             </>
         )

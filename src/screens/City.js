@@ -108,7 +108,8 @@ export default class City extends Component {
                         <Text style={{ color: "#444", fontSize: 14, marginHorizontal: 20 }}>
                             {this.state.cityDetails.description}
                         </Text>
-                        <Button block style={{ marginTop: 20, marginHorizontal: 20, marginBottom: 10 }}>
+                        <Button iconLeft block style={{ marginTop: 20, marginHorizontal: 20, marginBottom: 10 }}>
+                            <Icon name="map-marker-path" type="MaterialCommunityIcons" />
                             <Text>Generate Schedule</Text>
                         </Button>
                     </View>

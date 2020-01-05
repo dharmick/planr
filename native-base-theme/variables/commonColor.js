@@ -47,7 +47,7 @@ export default {
 
   // Android
   androidRipple: true,
-  androidRippleColor: 'rgba(256, 256, 256, 0.3)',
+  androidRippleColor: 'rgba(200, 200, 200, 1)',
   androidRippleColorDark: 'rgba(0, 0, 0, 0.15)',
   buttonUppercaseAndroidText: true,
 

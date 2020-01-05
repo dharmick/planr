@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import { StyleSheet, FlatList, StatusBar, View, AsyncStorage, ScrollView, ImageBackground, Image, TouchableOpacity, TouchableNativeFeedback } from 'react-native';
+import { StyleSheet, FlatList, StatusBar, View, AsyncStorage, ScrollView, ImageBackground, Image, TouchableNativeFeedback } from 'react-native';
 import { Button, Text, Container, Item, Input, Icon, Card, Header, Title, Left, Right, Body, List, ListItem } from 'native-base';
 import { colors } from '../config/colors';
 import { LinearGradient } from 'expo-linear-gradient';
+import { metrics } from '../config/metrics';
+import RippleIcon from '../components/RippleIcon';
 
 
 
@@ -58,8 +60,10 @@ class Home extends Component {
     componentDidMount() {
     }
     render() {
+        const { DEVICE_WIDTH } = metrics;
         return (
             <>
+
                 <Header>
                     <Left>
                         <Image source={require('../../assets/planr-logo.png')} style={{ height: 35, width: 35 }} />
@@ -68,7 +72,7 @@ class Home extends Component {
                         <Title>Home</Title>
                     </Body>
                     <Right>
-                        <Icon name="search" onPress={this.handleSearch} />
+                        <RippleIcon iconName="search" onPress={this.handleSearch} />
                     </Right>
                 </Header>
 
@@ -139,7 +143,6 @@ class Home extends Component {
                         </ScrollView>
                     </View>
                 </ScrollView>
-
 
             </>
         )

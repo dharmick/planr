@@ -13,6 +13,7 @@ import CurrentTrip from './src/screens/CurrentTrip';
 import { Header, Title, Button, Icon, Left, Right, Body, Text, Item, Input } from "native-base";
 import City from './src/screens/City';
 import SearchCity from './src/screens/SearchCity';
+import Loader from './src/components/Loader';
 
 
 

@@ -1,8 +1,11 @@
 import React, { Component } from 'react'
-import { StyleSheet, View, FlatList, TouchableOpacity, ActivityIndicator } from 'react-native'
+import { StyleSheet, View, FlatList, TouchableOpacity } from 'react-native'
 import { Item, Header, Input, Text, Icon, Toast } from 'native-base'
 import { colors } from '../config/colors';
 import { axiosGet } from '../../axios';
+import Loader from '../components/Loader';
+import RippleIcon from '../components/RippleIcon';
+
 
 export default class SearchCity extends Component {
     constructor(props) {
@@ -22,6 +25,9 @@ export default class SearchCity extends Component {
                     cities: res.data.data,
                     isLoadingCities: false
                 })
+            })
+            .catch(err => {
+
             })
     }
 
@@ -48,7 +54,7 @@ export default class SearchCity extends Component {
             <>
                 <Header searchBar rounded>
                     <Item>
-                        <Icon name='ios-arrow-back' onPress={() => this.props.navigation.goBack()} />
+                        <RippleIcon iconName="ios-arrow-back" onPress={() => this.props.navigation.goBack()} />
                         <Input
                             autoFocus
                             placeholder="Search, Explore, Wander"
@@ -60,9 +66,7 @@ export default class SearchCity extends Component {
 
                 {
                     this.state.isLoadingCities ?
-                        <View style={{ paddingVertical: 20 }}>
-                            <ActivityIndicator size="large" color={colors.PRIMARY} />
-                        </View>
+                        <Loader />
                         :
                         <FlatList
                             keyExtractor={item => item.id.toString()}

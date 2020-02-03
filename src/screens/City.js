@@ -5,6 +5,7 @@ import { colors } from '../config/colors';
 import Separator from '../components/Separator';
 import { axiosGet } from '../../axios';
 import Loader from '../components/Loader';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 export default class City extends Component {
     constructor(props) {
@@ -82,6 +83,10 @@ export default class City extends Component {
                 ]
             }
         }
+    }
+
+    onPoISelect = (place) => {
+        this.props.navigation.navigate('Place', { id: place.id })
     }
 
 
@@ -195,12 +200,14 @@ export default class City extends Component {
                         <View style={{ flex: 1, flexDirection: 'row', flexWrap: 'wrap', paddingBottom: 30 }}>
                             {
                                 this.state.cityDetails.pois.map((item, index) => (
-                                    <View key={index} style={{ width: '50%' }}>
-                                        <View style={{ margin: 10, borderColor: colors.LIGHT_SILVER, borderWidth: 1, borderRadius: 10, overflow: "hidden" }}>
-                                            <Image source={{ uri: item.image }} style={{ width: '100%', height: 150 }} />
-                                            <Text numberOfLines={1} style={{ padding: 10 }}>{item.name}</Text>
+                                    // <TouchableOpacity onPress={() => this.onPoISelect(item)}>
+                                        <View key={index} style={{ width: '50%' }}>
+                                            <View style={{ margin: 10, borderColor: colors.LIGHT_SILVER, borderWidth: 1, borderRadius: 10, overflow: "hidden" }}>
+                                                <Image source={{ uri: item.image }} style={{ width: '100%', height: 150 }} />
+                                                <Text numberOfLines={1} style={{ padding: 10 }}>{item.name}</Text>
+                                            </View>
                                         </View>
-                                    </View>
+                                // </TouchableOpacity>
                                 ))
                             }
                         </View>

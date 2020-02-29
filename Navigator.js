@@ -7,6 +7,8 @@ import { colors } from './src/config/colors'
 import Login from './src/screens/Login';
 import Signup from './src/screens/Signup';
 import Home from './src/screens/Home';
+import Place from './src/screens/Place';
+// import City from './src/screens/City';
 import Profile from './src/screens/Profile';
 import AuthLoadingScreen from './AuthLoadingScreen';
 import CurrentTrip from './src/screens/CurrentTrip';
@@ -26,6 +28,9 @@ const HomeStack = createStackNavigator({
     },
     SearchCity: {
         screen: SearchCity,
+    },
+    Place: {
+        screen: Place,
     }
 }, {
     headerMode: 'none',

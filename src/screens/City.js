@@ -5,6 +5,7 @@ import { colors } from '../config/colors';
 import Separator from '../components/Separator';
 import { axiosGet } from '../../axios';
 import Loader from '../components/Loader';
+import { TouchableHighlight } from 'react-native-gesture-handler';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 export default class City extends Component {
@@ -22,23 +23,23 @@ export default class City extends Component {
                     total_count: 15000,
                     individual_ratings: [
                         {
-                            value: 1,
+                            rating: 1,
                             count: 1000
                         },
                         {
-                            value: 2,
+                            rating: 2,
                             count: 2000
                         },
                         {
-                            value: 3,
+                            rating: 3,
                             count: 7500
                         },
                         {
-                            value: 4,
+                            rating: 4,
                             count: 1500
                         },
                         {
-                            value: 5,
+                            rating: 5,
                             count: 3000
                         }
                     ]
@@ -87,6 +88,8 @@ export default class City extends Component {
 
     onPoISelect = (place) => {
         this.props.navigation.navigate('Place', { id: place.id })
+        // console.log("hiii")
+        // console.log(place.id)
     }
 
 
@@ -157,7 +160,8 @@ export default class City extends Component {
                     ============== */}
 
                         <Grid >
-                            <Text style={{ fontSize: 18, marginHorizontal: 20 }}>Ratings</Text>
+                            <Text style={{ fontSize: 18, marginHorizontal: 20 }}> Ratings</Text>
+                            <Text></Text>
                             <Row>
                                 <Col size={1} style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                                     <View style={{ width: 80, height: 80, justifyContent: 'center', alignItems: 'center', borderColor: colors.LIGHT_SILVER, borderWidth: 2, borderRadius: 50 }}>
@@ -171,7 +175,7 @@ export default class City extends Component {
                                             <Fragment key={index} >
                                                 <View style={{ flex: 1, flexDirection: 'row' }}>
                                                     {
-                                                        [...Array(item.value)].map((val, ind) => (
+                                                        [...Array(item.rating)].map((val, ind) => (
                                                             <Icon name='ios-star' key={ind} style={{ color: colors.YELLOW, fontSize: 16 }} />
                                                         ))
                                                     }
@@ -200,14 +204,14 @@ export default class City extends Component {
                         <View style={{ flex: 1, flexDirection: 'row', flexWrap: 'wrap', paddingBottom: 30 }}>
                             {
                                 this.state.cityDetails.pois.map((item, index) => (
-                                    // <TouchableOpacity onPress={() => this.onPoISelect(item)}>
-                                        <View key={index} style={{ width: '50%' }}>
+                                    <TouchableOpacity onPress={() => this.onPoISelect(item)}>
+                                        <View key={index} style={{ width: '100%' }}>
                                             <View style={{ margin: 10, borderColor: colors.LIGHT_SILVER, borderWidth: 1, borderRadius: 10, overflow: "hidden" }}>
                                                 <Image source={{ uri: item.image }} style={{ width: '100%', height: 150 }} />
                                                 <Text numberOfLines={1} style={{ padding: 10 }}>{item.name}</Text>
                                             </View>
                                         </View>
-                                // </TouchableOpacity>
+                                    </TouchableOpacity>
                                 ))
                             }
                         </View>

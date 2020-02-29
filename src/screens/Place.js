@@ -14,33 +14,33 @@ export default class Place extends Component {
             isLoaded: false,
             poiDetails: {
                 name: "Bandra Worli Sea Link",
-                description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis vero veritatis obcaecati vel corrupti, ducimus necessitatibus consequuntur eum reiciendis deleniti maxime architecto dolor? Veritatis in vitae, ratione dolor quidem quia!",
-                image: 'https://images.livemint.com/img/2019/10/30/600x338/mumba--621x414_1572414902335.jpg',
+                description: "The Bandra–Worli Sea Link (officially known as Rajiv Gandhi Sea Link) is a cable-stayed bridge with pre-stressed concrete-steel viaducts on either side that links Bandra in the Western Suburbs of Mumbai with Worli in South Mumbai. The bridge is a part of the proposed Western Freeway that will link the Western Suburbs to Nariman Point in Mumbai's main business district.",
+                image: 'https://res.cloudinary.com/planr/image/upload/v1578477176/Mumbai/bandraworli_azvcde.jpg',
                 opening_time: '00.00 hrs',
                 closing_time: '24:00 hrs',
-                time: '2 hrs',
+                time_to_spend: '2 hrs',
                 ratings: {
                     average: 4.5,
                     total_count: 15000,
                     individual_ratings: [
                         {
-                            value: 1,
+                            rating: 1,
                             count: 1000
                         },
                         {
-                            value: 2,
+                            rating: 2,
                             count: 2000
                         },
                         {
-                            value: 3,
+                            rating: 3,
                             count: 7500
                         },
                         {
-                            value: 4,
+                            rating: 4,
                             count: 1500
                         },
                         {
-                            value: 5,
+                            rating: 5,
                             count: 3000
                         }
                     ]
@@ -104,7 +104,7 @@ export default class Place extends Component {
                             <Text></Text>
                             <Text style={{ fontSize: 14, marginHorizontal: 20, marginBottom: 10 }}>Opening Time: {this.state.poiDetails.opening_time}</Text>
                             <Text style={{ fontSize: 14, marginHorizontal: 20, marginBottom: 10, marginTop: -10 }}>Closing Time: {this.state.poiDetails.closing_time}</Text>
-                            <Text style={{ fontSize: 14, marginHorizontal: 20, marginBottom: 10, marginTop: -10 }}>Time to Spend: {this.state.poiDetails.time}</Text>
+                            <Text style={{ fontSize: 14, marginHorizontal: 20, marginBottom: 10, marginTop: -10 }}>Time to Spend: {this.state.poiDetails.time_to_spend} hrs</Text>
                         </View>
 
                         <Separator />
@@ -114,7 +114,8 @@ export default class Place extends Component {
                     ============== */}
 
                         <Grid >
-                            <Text style={{ fontSize: 18, marginHorizontal: 20 }}>Ratings</Text>
+                            <Text style={{ fontSize: 18, marginHorizontal: 20 }}> Ratings</Text>
+                            <Text></Text>
                             <Row>
                                 <Col size={1} style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                                     <View style={{ width: 80, height: 80, justifyContent: 'center', alignItems: 'center', borderColor: colors.LIGHT_SILVER, borderWidth: 2, borderRadius: 50 }}>
@@ -128,7 +129,7 @@ export default class Place extends Component {
                                             <Fragment key={index} >
                                                 <View style={{ flex: 1, flexDirection: 'row' }}>
                                                     {
-                                                        [...Array(item.value)].map((val, ind) => (
+                                                        [...Array(item.rating)].map((val, ind) => (
                                                             <Icon name='ios-star' key={ind} style={{ color: colors.YELLOW, fontSize: 16 }} />
                                                         ))
                                                     }
@@ -143,6 +144,7 @@ export default class Place extends Component {
                                     }
                                 </Col>
                             </Row>
+                            <Text></Text>
                         </Grid>
 
                         {/* <Separator /> */}
@@ -153,3 +155,5 @@ export default class Place extends Component {
         );
     }
 }
+
+const styles = StyleSheet.create({})

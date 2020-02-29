@@ -5,37 +5,33 @@ import { colors } from '../config/colors';
 import { axiosPost } from '../../axios'
 
 
-class Login extends Component {
+class Forgot extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            email: '',
-            password: ''
+            email: ''
         }
     }
     componentDidMount() {
     }
 
-    handleLogin = () => {
-        const { email, password } = this.state;
-        if (!email || !password) {
+    handleForgot = () => {
+        const { email } = this.state;
+        if (!email) {
             Alert.alert("OOPS!!", "All fields are mandatory");
             return;
         }
         const data = {
-            email: email,
-            password: password
+            email: email
         }
 
-        axiosPost('/login', data, false)
+        axiosPost('/forgot-password', data, false)
             .then(res => {
                 alert(res.data.message)
                 try {
-                    AsyncStorage.setItem('userToken', res.data.token)
-                        .then(() => {
-                            this.props.navigation.navigate('Home');
-                        })
-                } catch (error) {
+                    this.props.navigation.navigate('Login');
+                }
+                catch (error) {
                     alert("Something went wrong. " + error)
                 }
             }, err => {
@@ -55,7 +51,7 @@ class Login extends Component {
                 <Grid>
                     <Row size={2}>
                         <View style={styles.header}>
-                            <Text style={styles.headerText}>Login</Text>
+                            <Text style={styles.headerText}>Forgot Password</Text>
                         </View>
                     </Row>
                     <Row size={8} style={{ backgroundColor: colors.LIGHT_SILVER }}>
@@ -70,22 +66,11 @@ class Login extends Component {
                                     placeholderTextColor={colors.SILVER}
                                     onChangeText={(text) => this.inputChangeHandler(text, 'email')} />
                             </Item>
-                            <Item regular style={styles.input}>
-                                <Input
-                                    placeholder='Password'
-                                    value={this.state.password}
-                                    secureTextEntry={true}
-                                    placeholderTextColor={colors.SILVER}
-                                    onChangeText={(text) => this.inputChangeHandler(text, 'password')} />
-                            </Item>
-                            <Button block style={styles.loginButton} onPress={this.handleLogin}>
-                                <Text>TAKE ME IN</Text>
+                            <Button block style={styles.loginButton} onPress={this.handleForgot}>
+                                <Text>Send Email</Text>
                             </Button>
-                            <Text style={styles.link} onPress={() => this.props.navigation.navigate('Signup')}>
-                                Create an Account now
-                            </Text>
-                            <Text style={styles.link} onPress={() => this.props.navigation.navigate('Forgot')}>
-                                Forgot Password
+                            <Text style={styles.link} onPress={() => this.props.navigation.navigate('Login')}>
+                                Go to Login Page
                             </Text>
                         </View>
                     </Row>
@@ -119,7 +104,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     headerText: {
-        fontSize: 50,
+        fontSize: 42,
         fontFamily: 'kalam-bold',
         color: colors.SILVER,
         marginTop: 20,
@@ -138,4 +123,4 @@ const styles = StyleSheet.create({
         textDecorationLine: 'underline'
     }
 })
-export default Login;
+export default Forgot;

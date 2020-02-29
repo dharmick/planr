@@ -4,7 +4,7 @@ import { Toast } from 'native-base';
 import NavigationService from './NavigationService';
 
 
-const BASE_URL = 'https://bfdf345e.ngrok.io';
+const BASE_URL = 'https://8c3eb002.ngrok.io';
 // const BASE_URL = 'https://planr-api-dev.herokuapp.com';
 
 const axios_instance = axios.create({

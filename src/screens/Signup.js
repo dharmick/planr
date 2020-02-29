@@ -54,16 +54,15 @@ class Signup extends Component {
     render() {
         return (
             <Container>
-
                 <Grid>
                     <Row size={2}>
                         <View style={styles.header}>
                             <Text style={styles.headerText}>Signup</Text>
                         </View>
                     </Row>
-                    <Row size={8} style={{ backgroundColor: colors.LIGHT_SILVER }}>
+                    <Row size={9} style={{ backgroundColor: colors.LIGHT_SILVER }}>
                         <View style={styles.login_wrapper}>
-                            <KeyboardAvoidingView style={{ width: '100%' }} behavior="padding" enabled keyboardVerticalOffset={300}>
+                            {/* <KeyboardAvoidingView style={{ width: '100%' }} behavior="padding" enabled keyboardVerticalOffset={300}> */}
                                 <Item regular style={styles.input}>
                                     <Input
                                         placeholder='Name'
@@ -89,7 +88,7 @@ class Signup extends Component {
                                         placeholderTextColor={colors.SILVER}
                                         onChangeText={(text) => this.inputChangeHandler(text, 'password')} />
                                 </Item>
-                            </KeyboardAvoidingView>
+                            {/* </KeyboardAvoidingView> */}
                             <Button block style={styles.loginButton} onPress={this.submitHandler}>
                                 <Text>Create Account</Text>
                             </Button>

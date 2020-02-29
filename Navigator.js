@@ -6,6 +6,7 @@ import { createBottomTabNavigator } from 'react-navigation-tabs'
 import { colors } from './src/config/colors'
 import Login from './src/screens/Login';
 import Signup from './src/screens/Signup';
+import Forgot from './src/screens/Forgot';
 import Home from './src/screens/Home';
 import Place from './src/screens/Place';
 // import City from './src/screens/City';
@@ -119,6 +120,9 @@ const NotLoggedInStack = createStackNavigator({
     },
     Signup: {
         screen: Signup,
+    },
+    Forgot: {
+        screen: Forgot,
     },
 }, {
     headerMode: 'none'

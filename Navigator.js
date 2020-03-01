@@ -4,19 +4,25 @@ import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import { createBottomTabNavigator } from 'react-navigation-tabs'
 import { colors } from './src/config/colors'
+
 import Login from './src/screens/Login';
 import Signup from './src/screens/Signup';
 import Forgot from './src/screens/Forgot';
-import Home from './src/screens/Home';
 import ChangePassword from './src/screens/ChangePassword';
+import ResetPassword from './src/screens/ResetPassword';
+import VerifyCode from './src/screens/VerifyCode';
+
+import Home from './src/screens/Home';
+import SearchCity from './src/screens/SearchCity';
+import City from './src/screens/City';
 import Place from './src/screens/Place';
-// import City from './src/screens/City';
+
 import Profile from './src/screens/Profile';
 import AuthLoadingScreen from './AuthLoadingScreen';
 import CurrentTrip from './src/screens/CurrentTrip';
 import { Header, Title, Button, Icon, Left, Right, Body, Text, Item, Input } from "native-base";
-import City from './src/screens/City';
-import SearchCity from './src/screens/SearchCity';
+
+
 import Loader from './src/components/Loader';
 
 
@@ -127,6 +133,12 @@ const NotLoggedInStack = createStackNavigator({
     },
     Forgot: {
         screen: Forgot,
+    },
+    VerifyCode: {
+        screen: VerifyCode,
+    },
+    ResetPassword: {
+        screen: ResetPassword,
     },
 }, {
     headerMode: 'none'

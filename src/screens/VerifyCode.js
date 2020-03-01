@@ -5,34 +5,46 @@ import { colors } from '../config/colors';
 import { axiosPost } from '../../axios'
 
 
-class Forgot extends Component {
+class VerifyCode extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            email: ''
+            email: this.props.navigation.getParam('email'),
+            otp: ''
         }
     }
     componentDidMount() {
     }
 
-    handleForgot = () => {
-        const { email } = this.state;
-        if (!email) {
+    handleVerifyCode = () => {
+        const { email, otp } = this.state;
+        if (!otp) {
             Alert.alert("OOPS!!", "All fields are mandatory");
             return;
         }
         const data = {
-            email: email
+            email: email,
+            otp: otp
         }
 
-        axiosPost('/forgot-password', data, false)
+        axiosPost('/verify-otp', data, false)
             .then(res => {
                 alert(res.data.message)
-                try {
-                    this.props.navigation.navigate('VerifyCode', data);
+                if (res.data.message == "OTP is Incorrect. Enter Again!") {
+                    try {
+                        this.props.navigation.navigate('VerifyCode');
+                    }
+                    catch (error) {
+                        alert("Something went wrong. " + error)
+                    }
                 }
-                catch (error) {
-                    alert("Something went wrong. " + error)
+                else {
+                    try {
+                        this.props.navigation.navigate('ResetPassword');
+                    }
+                    catch (error) {
+                        alert("Something went wrong. " + error)
+                    }
                 }
             }, err => {
                 alert(err)
@@ -58,16 +70,14 @@ class Forgot extends Component {
                         <View style={styles.login_wrapper}>
                             <Item regular style={styles.input}>
                                 <Input
-                                    placeholder='Email'
-                                    value={this.state.email}
-                                    keyboardType="email-address"
-                                    autoCorrect={false}
-                                    autoCapitalize="none"
+                                    placeholder='Enter 6-Digit Code'
+                                    value={this.state.code}
+                                    keyboardType="numeric"
                                     placeholderTextColor={colors.SILVER}
-                                    onChangeText={(text) => this.inputChangeHandler(text, 'email')} />
+                                    onChangeText={(text) => this.inputChangeHandler(text, 'otp')} />
                             </Item>
-                            <Button block style={styles.loginButton} onPress={this.handleForgot}>
-                                <Text>Send Email</Text>
+                            <Button block style={styles.loginButton} onPress={this.handleVerifyCode}>
+                                <Text>Verify Code</Text>
                             </Button>
                             <Text style={styles.link} onPress={() => this.props.navigation.navigate('Login')}>
                                 Go to Login Page
@@ -123,4 +133,4 @@ const styles = StyleSheet.create({
         textDecorationLine: 'underline'
     }
 })
-export default Forgot;
+export default VerifyCode;

@@ -5,34 +5,47 @@ import { colors } from '../config/colors';
 import { axiosPost } from '../../axios'
 
 
-class Forgot extends Component {
+class ResetPassword extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            email: ''
+            newpassword: '',
+            confirmpassword: ''
         }
     }
+    
     componentDidMount() {
     }
 
-    handleForgot = () => {
-        const { email } = this.state;
-        if (!email) {
+    handleResetPassword = () => {
+        const { newpassword, confirmpassword } = this.state;
+        if (!newpassword || !confirmpassword ) {
             Alert.alert("OOPS!!", "All fields are mandatory");
             return;
         }
         const data = {
-            email: email
+            newpassword: newpassword,
+            confirmpassword: confirmpassword
         }
 
-        axiosPost('/forgot-password', data, false)
+        axiosPost('/reset-password', data, false)
             .then(res => {
                 alert(res.data.message)
-                try {
-                    this.props.navigation.navigate('VerifyCode', data);
+                if (res.data.message == "Passwords did not match. Enter again!") {
+                    try {
+                        this.props.navigation.navigate('ResetPassword');
+                    }
+                    catch (error) {
+                        alert("Something went wrong. " + error)
+                    }
                 }
-                catch (error) {
-                    alert("Something went wrong. " + error)
+                else {
+                    try {
+                        this.props.navigation.navigate('Login');
+                    }
+                    catch (error) {
+                        alert("Something went wrong. " + error)
+                    }
                 }
             }, err => {
                 alert(err)
@@ -51,23 +64,29 @@ class Forgot extends Component {
                 <Grid>
                     <Row size={2}>
                         <View style={styles.header}>
-                            <Text style={styles.headerText}>Forgot Password</Text>
+                            <Text style={styles.headerText}>Reset Password</Text>
                         </View>
                     </Row>
                     <Row size={8} style={{ backgroundColor: colors.LIGHT_SILVER }}>
                         <View style={styles.login_wrapper}>
                             <Item regular style={styles.input}>
                                 <Input
-                                    placeholder='Email'
-                                    value={this.state.email}
-                                    keyboardType="email-address"
-                                    autoCorrect={false}
-                                    autoCapitalize="none"
+                                    placeholder='New Password'
+                                    value={this.state.newpassword}
+                                    secureTextEntry={true}
                                     placeholderTextColor={colors.SILVER}
-                                    onChangeText={(text) => this.inputChangeHandler(text, 'email')} />
+                                    onChangeText={(text) => this.inputChangeHandler(text, 'newpassword')} />
                             </Item>
-                            <Button block style={styles.loginButton} onPress={this.handleForgot}>
-                                <Text>Send Email</Text>
+                            <Item regular style={styles.input}>
+                                <Input
+                                    placeholder='Confirm Password'
+                                    value={this.state.confirmpassword}
+                                    secureTextEntry={true}
+                                    placeholderTextColor={colors.SILVER}
+                                    onChangeText={(text) => this.inputChangeHandler(text, 'confirmpassword')} />
+                            </Item>
+                            <Button block style={styles.loginButton} onPress={this.handleChangePassword}>
+                                <Text>Reset Password</Text>
                             </Button>
                             <Text style={styles.link} onPress={() => this.props.navigation.navigate('Login')}>
                                 Go to Login Page
@@ -123,4 +142,4 @@ const styles = StyleSheet.create({
         textDecorationLine: 'underline'
     }
 })
-export default Forgot;
+export default ResetPassword;

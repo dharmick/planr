@@ -51,6 +51,19 @@ class Profile extends Component {
                         <Text></Text>
                     </Separator>
                     <ListItem icon
+                        onPress={() => 
+                            this.props.navigation.navigate('ChangePassword')
+                        }>
+                        <Left>
+                            <Button style={{ backgroundColor: "#d9454f" }}>
+                                <Icon active name="md-lock" />
+                            </Button>
+                        </Left>
+                        <Body>
+                            <Text>Change Password</Text>
+                        </Body>
+                    </ListItem>
+                    <ListItem icon
                         onPress={() => {
                             AsyncStorage.removeItem('userToken')
                                 .then(() => {

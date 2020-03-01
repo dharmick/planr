@@ -8,6 +8,7 @@ import Login from './src/screens/Login';
 import Signup from './src/screens/Signup';
 import Forgot from './src/screens/Forgot';
 import Home from './src/screens/Home';
+import ChangePassword from './src/screens/ChangePassword';
 import Place from './src/screens/Place';
 // import City from './src/screens/City';
 import Profile from './src/screens/Profile';
@@ -44,6 +45,9 @@ const UserStack = createStackNavigator({
         navigationOptions: {
             title: "Profile"
         }
+    },
+    ChangePassword: {
+        screen: ChangePassword
     }
 }, {
     headerMode: 'none'

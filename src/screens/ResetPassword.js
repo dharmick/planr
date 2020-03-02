@@ -9,6 +9,7 @@ class ResetPassword extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            email: this.props.navigation.getParam('email'),
             newpassword: '',
             confirmpassword: ''
         }
@@ -18,12 +19,13 @@ class ResetPassword extends Component {
     }
 
     handleResetPassword = () => {
-        const { newpassword, confirmpassword } = this.state;
+        const { email, newpassword, confirmpassword } = this.state;
         if (!newpassword || !confirmpassword ) {
             Alert.alert("OOPS!!", "All fields are mandatory");
             return;
         }
         const data = {
+            email: email,
             newpassword: newpassword,
             confirmpassword: confirmpassword
         }
@@ -85,7 +87,7 @@ class ResetPassword extends Component {
                                     placeholderTextColor={colors.SILVER}
                                     onChangeText={(text) => this.inputChangeHandler(text, 'confirmpassword')} />
                             </Item>
-                            <Button block style={styles.loginButton} onPress={this.handleChangePassword}>
+                            <Button block style={styles.loginButton} onPress={this.handleResetPassword}>
                                 <Text>Reset Password</Text>
                             </Button>
                             <Text style={styles.link} onPress={() => this.props.navigation.navigate('Login')}>

@@ -40,7 +40,7 @@ class VerifyCode extends Component {
                 }
                 else {
                     try {
-                        this.props.navigation.navigate('ResetPassword');
+                        this.props.navigation.navigate('ResetPassword',{email: email});
                     }
                     catch (error) {
                         alert("Something went wrong. " + error)

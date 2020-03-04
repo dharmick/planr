@@ -21,7 +21,7 @@ import Profile from './src/screens/Profile';
 import AuthLoadingScreen from './AuthLoadingScreen';
 import CurrentTrip from './src/screens/CurrentTrip';
 import { Header, Title, Button, Icon, Left, Right, Body, Text, Item, Input } from "native-base";
-
+import GenerateScheduleInput from './src/screens/GenerateScheduleInput';
 
 import Loader from './src/components/Loader';
 
@@ -29,7 +29,7 @@ import Loader from './src/components/Loader';
 
 const HomeStack = createStackNavigator({
     HomePage: {
-        screen: Home,
+        screen: GenerateScheduleInput,
     },
     City: {
         screen: City,
@@ -149,7 +149,8 @@ export const RootStack = createAppContainer(createSwitchNavigator(
     {
         AuthLoading: AuthLoadingScreen,
         App: LoggedInStack,
-        Auth: NotLoggedInStack,
+        // Auth: NotLoggedInStack,
+        Auth: LoggedInStack
     },
     {
         initialRouteName: 'AuthLoading',

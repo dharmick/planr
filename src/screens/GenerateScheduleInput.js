@@ -2,8 +2,11 @@ import React, { Component } from 'react'
 import DatePicker from 'react-native-datepicker'
 import { Text, Item, Input, View, Header, Left, Icon, Body, Title, Button } from 'native-base'
 import { colors } from '../config/colors';
-import { StyleSheet } from 'react-native'
+import { StyleSheet, FlatList, TouchableOpacity } from 'react-native'
 import RippleIcon from '../components/RippleIcon';
+import axios from 'axios';
+// import * as Location from 'expo-location';
+// import * as Permissions from 'expo-permissions';
 
 
 
@@ -11,14 +14,77 @@ export default class GenerateScheduleInput extends Component {
     constructor(props) {
         super(props)
         this.state = {
+            source: "",
             destination: "",
             from: "",
-            to: ""
+            to: "",
+            sourceSuggestions: [],
+            destinationSuggestions: [],
+            selectedSource: {},
+            selectedDestination: {},
+            userLocation: {}
         }
+    }
+
+    async componentDidMount() {
+        // Location.requestPermissionsAsync().then(async () => {
+        //     let userLocation = await Location.getCurrentPositionAsync({});
+        //     this.setState({ userLocation });
+        // })
+
     }
 
     destinationChangeHandler = (text) => {
         this.setState({ destination: text })
+        axios.get('https://atlas.mapmyindia.com/api/places/search/json', {
+            params: {
+                'query': this.state.destination
+            },
+            headers: {
+                'Authorization': 'bearerb6534e1c-455f-4ef6-a834-3577c159b0c5'
+            }
+        })
+            .then(res => {
+                this.setState({ destinationSuggestions: res.data.suggestedLocations })
+            })
+            .catch(err => {
+                alert('something went wrong')
+            })
+    }
+
+    sourceChangeHandler = (text) => {
+        this.setState({ source: text })
+        axios.get('https://atlas.mapmyindia.com/api/places/search/json', {
+            params: {
+                'query': this.state.source,
+                // 'location': this.state.userLocation.coords.latitude + ',' + this.state.userLocation.coords.longitude
+            },
+            headers: {
+                'Authorization': 'bearerb6534e1c-455f-4ef6-a834-3577c159b0c5'
+            }
+        })
+            .then(res => {
+                this.setState({ sourceSuggestions: res.data.suggestedLocations })
+            })
+            .catch(err => {
+                alert('something went wrong')
+            })
+    }
+
+    sourceSelectHandler = (item) => {
+        this.setState({
+            selectedSource: item,
+            source: item.placeName,
+            sourceSuggestions: []
+        })
+    }
+
+    destinationSelectHandler = (item) => {
+        this.setState({
+            selectedDestination: item,
+            destination: item.placeName,
+            destinationSuggestions: []
+        })
     }
 
     render() {
@@ -30,20 +96,58 @@ export default class GenerateScheduleInput extends Component {
                         <RippleIcon iconName="ios-arrow-back" onPress={() => this.props.navigation.goBack()} />
                     </Left>
                     <Body>
-                        <Title>Generate Schedule</Title>
+                        <Title>Generate Schedule - Mumbai</Title>
                     </Body>
                 </Header>
+
+                <Text>{JSON.stringify(this.state.userLocation.coords)}</Text>
+
+                <View style={styles.inputWrapper}>
+                    <Text style={styles.label}>Source</Text>
+                    <Item regular>
+                        <Input
+                            placeholder='e.g. your hotel or airport'
+                            value={this.state.source}
+                            placeholderTextColor={colors.SILVER}
+                            style={{ fontSize: 22, fontWeight: 'bold', color: '#777', height: 60, borderWidth: 2, borderColor: colors.SILVER }}
+                            onChangeText={(text) => this.sourceChangeHandler(text)} />
+                    </Item>
+                    <FlatList
+                        keyExtractor={item => item.eLoc}
+                        data={this.state.sourceSuggestions}
+                        renderItem={({ item, index, separators }) => (
+                            <TouchableOpacity onPress={() => this.sourceSelectHandler(item)}>
+                                <View style={{ paddingVertical: 20, paddingHorizontal: 10 }}>
+                                    <Text>{item.placeName}</Text>
+                                    <Text>{item.placeAddress}</Text>
+                                </View>
+                            </TouchableOpacity>
+                        )}
+                    />
+                </View>
 
                 <View style={styles.inputWrapper}>
                     <Text style={styles.label}>Destination</Text>
                     <Item regular>
                         <Input
-                            placeholder='Try Mumbai'
+                            placeholder='e.g. your hotel or airport'
                             value={this.state.destination}
                             placeholderTextColor={colors.SILVER}
-                            style={{ textAlign: 'center', fontSize: 22, fontWeight: 'bold', color: '#777', height: 60, borderWidth: 2, borderColor: colors.SILVER }}
+                            style={{ fontSize: 22, fontWeight: 'bold', color: '#777', height: 60, borderWidth: 2, borderColor: colors.SILVER }}
                             onChangeText={(text) => this.destinationChangeHandler(text)} />
                     </Item>
+                    <FlatList
+                        keyExtractor={item => item.eLoc}
+                        data={this.state.destinationSuggestions}
+                        renderItem={({ item, index, separators }) => (
+                            <TouchableOpacity onPress={() => this.destinationSelectHandler(item)}>
+                                <View style={{ paddingVertical: 20, paddingHorizontal: 10 }}>
+                                    <Text>{item.placeName}</Text>
+                                    <Text>{item.placeAddress}</Text>
+                                </View>
+                            </TouchableOpacity>
+                        )}
+                    />
                 </View>
 
                 <View style={styles.inputWrapper}>
@@ -51,10 +155,10 @@ export default class GenerateScheduleInput extends Component {
                     <DatePicker
                         style={styles.dateTime}
                         date={this.state.from}
-                        mode="datetime"
+                        mode="time"
                         showIcon={false}
-                        placeholder="Select date &amp; time"
-                        format="DD-MM-YYYY HH:mm"
+                        placeholder="Select time"
+                        format="HH:mm"
                         is24Hour={false}
                         customStyles={{
                             dateInput: styles.dateTimeInput,
@@ -70,10 +174,10 @@ export default class GenerateScheduleInput extends Component {
                     <DatePicker
                         style={styles.dateTime}
                         date={this.state.to}
-                        mode="datetime"
+                        mode="time"
                         showIcon={false}
-                        placeholder="Select date &amp; time"
-                        format="DD-MM-YYYY HH:mm"
+                        placeholder="Select time"
+                        format="HH:mm"
                         is24Hour={false}
                         customStyles={{
                             dateInput: styles.dateTimeInput,

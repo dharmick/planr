@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Alert, AsyncStorage, StatusBar } from 'react-native';
-import { Button, Text, Grid, Row, Container, Content, Header, Item, Label, Input } from 'native-base';
+import { Button, Text, Grid, Row, Container, Content, Header, Item, Label, Input, Toast } from 'native-base';
 import { colors } from '../config/colors';
 import { axiosPost } from '../../axios'
 
@@ -29,9 +29,13 @@ class Login extends Component {
 
         axiosPost('/login', data, false)
             .then(res => {
-                alert(res.data.message)
+                Toast.show({
+                    text: "Signed in as " + res.data.email,
+                    duration: 5000,
+                    type: 'success',
+                })
                 try {
-                    AsyncStorage.setItem('userToken', res.data.token)
+                    AsyncStorage.multiSet([['userToken', res.data.token], ['name', res.data.name], ['email', res.data.email]])
                         .then(() => {
                             this.props.navigation.navigate('Home');
                         })

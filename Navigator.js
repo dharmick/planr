@@ -24,12 +24,13 @@ import { Header, Title, Button, Icon, Left, Right, Body, Text, Item, Input } fro
 import GenerateScheduleInput from './src/screens/GenerateScheduleInput';
 
 import Loader from './src/components/Loader';
+import ViewSchedule from './src/screens/ViewSchedule';
 
 
 
 const HomeStack = createStackNavigator({
     HomePage: {
-        screen: GenerateScheduleInput,
+        screen: Home,
     },
     City: {
         screen: City,
@@ -39,6 +40,12 @@ const HomeStack = createStackNavigator({
     },
     Place: {
         screen: Place,
+    },
+    GenerateScheduleInput: {
+        screen: GenerateScheduleInput
+    },
+    ViewSchedule: {
+        screen: ViewSchedule
     }
 }, {
     headerMode: 'none',
@@ -149,8 +156,7 @@ export const RootStack = createAppContainer(createSwitchNavigator(
     {
         AuthLoading: AuthLoadingScreen,
         App: LoggedInStack,
-        // Auth: NotLoggedInStack,
-        Auth: LoggedInStack
+        Auth: NotLoggedInStack,
     },
     {
         initialRouteName: 'AuthLoading',

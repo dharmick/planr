@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, KeyboardAvoidingView, Alert, AsyncStorage } from 'react-native';
-import { Button, Text, Grid, Row, Container, Content, Header, Form, Item, Label, Input } from 'native-base';
+import { Button, Text, Grid, Row, Container, Content, Header, Form, Item, Label, Input, Toast } from 'native-base';
 import { colors } from '../config/colors';
 import { axiosPost } from '../../axios'
 
@@ -37,9 +37,13 @@ class Signup extends Component {
         axiosPost('/signup', data, false)
             .then(res => {
                 console.log(res)
-                alert(res.data.message)
+                Toast.show({
+                    text: "Signed in as " + res.data.email,
+                    duration: 5000,
+                    type: 'success',
+                })
                 try {
-                    AsyncStorage.setItem('userToken', res.data.token)
+                    AsyncStorage.multiSet([['userToken', res.data.token], ['name', res.data.name], ['email', res.data.email]])
                         .then(() => {
                             this.props.navigation.navigate('Home');
                         })
@@ -63,31 +67,31 @@ class Signup extends Component {
                     <Row size={9} style={{ backgroundColor: colors.LIGHT_SILVER }}>
                         <View style={styles.login_wrapper}>
                             {/* <KeyboardAvoidingView style={{ width: '100%' }} behavior="padding" enabled keyboardVerticalOffset={300}> */}
-                                <Item regular style={styles.input}>
-                                    <Input
-                                        placeholder='Name'
-                                        value={this.state.name}
-                                        placeholderTextColor={colors.SILVER}
-                                        onChangeText={(text) => this.inputChangeHandler(text, 'name')} />
-                                </Item>
-                                <Item regular style={styles.input}>
-                                    <Input
-                                        placeholder='Email'
-                                        value={this.state.email}
-                                        keyboardType="email-address"
-                                        autoCorrect={false}
-                                        autoCapitalize="none"
-                                        placeholderTextColor={colors.SILVER}
-                                        onChangeText={(text) => this.inputChangeHandler(text, 'email')} />
-                                </Item>
-                                <Item regular style={styles.input}>
-                                    <Input
-                                        placeholder='Password'
-                                        value={this.state.password}
-                                        secureTextEntry={true}
-                                        placeholderTextColor={colors.SILVER}
-                                        onChangeText={(text) => this.inputChangeHandler(text, 'password')} />
-                                </Item>
+                            <Item regular style={styles.input}>
+                                <Input
+                                    placeholder='Name'
+                                    value={this.state.name}
+                                    placeholderTextColor={colors.SILVER}
+                                    onChangeText={(text) => this.inputChangeHandler(text, 'name')} />
+                            </Item>
+                            <Item regular style={styles.input}>
+                                <Input
+                                    placeholder='Email'
+                                    value={this.state.email}
+                                    keyboardType="email-address"
+                                    autoCorrect={false}
+                                    autoCapitalize="none"
+                                    placeholderTextColor={colors.SILVER}
+                                    onChangeText={(text) => this.inputChangeHandler(text, 'email')} />
+                            </Item>
+                            <Item regular style={styles.input}>
+                                <Input
+                                    placeholder='Password'
+                                    value={this.state.password}
+                                    secureTextEntry={true}
+                                    placeholderTextColor={colors.SILVER}
+                                    onChangeText={(text) => this.inputChangeHandler(text, 'password')} />
+                            </Item>
                             {/* </KeyboardAvoidingView> */}
                             <Button block style={styles.loginButton} onPress={this.submitHandler}>
                                 <Text>Create Account</Text>

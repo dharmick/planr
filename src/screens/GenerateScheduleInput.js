@@ -5,6 +5,7 @@ import { colors } from '../config/colors';
 import { StyleSheet, FlatList, TouchableOpacity } from 'react-native'
 import RippleIcon from '../components/RippleIcon';
 import axios from 'axios';
+import { axiosGet } from '../../axios';
 // import * as Location from 'expo-location';
 // import * as Permissions from 'expo-permissions';
 
@@ -87,6 +88,32 @@ export default class GenerateScheduleInput extends Component {
         })
     }
 
+    timeStringToFloat = (time) => {
+        var hoursMinutes = time.split(/[.:]/);
+        var hours = parseInt(hoursMinutes[0], 10);
+        var minutes = hoursMinutes[1] ? parseInt(hoursMinutes[1], 10) : 0;
+        return hours + minutes / 60;
+    }
+
+    generateSchedule = () => {
+        const data = {
+            source_lat: this.state.selectedSource.latitude,
+            source_lon: this.state.selectedSource.longitude,
+            destination_lat: this.state.selectedDestination.latitude,
+            destination_lon: this.state.selectedDestination.longitude,
+            departure_time: this.timeStringToFloat(this.state.from),
+            time_budget: this.timeStringToFloat(this.state.to) - this.timeStringToFloat(this.state.from),
+            city_id: this.props.navigation.getParam('cityId')
+        }
+        axiosGet('/generate/pbdfs', data)
+            .then(res => {
+                this.props.navigation.navigate("ViewSchedule", { schedule: res.data.data })
+            })
+            .catch(err => {
+                alert("something went wrong")
+            })
+    }
+
     render() {
         return (
             <>
@@ -96,7 +123,7 @@ export default class GenerateScheduleInput extends Component {
                         <RippleIcon iconName="ios-arrow-back" onPress={() => this.props.navigation.goBack()} />
                     </Left>
                     <Body>
-                        <Title>Generate Schedule - Mumbai</Title>
+                        <Title>Generate Schedule - {this.props.navigation.getParam('cityName')}</Title>
                     </Body>
                 </Header>
 
@@ -189,7 +216,7 @@ export default class GenerateScheduleInput extends Component {
                 </View>
 
                 <View style={styles.inputWrapper}>
-                    <Button block style={{ marginVertical: 20, height: 60 }} onPress={this.handleLogin}>
+                    <Button block style={{ marginVertical: 20, height: 60 }} onPress={this.generateSchedule}>
                         <Text style={{ fontSize: 18 }}>PLAN MY TRIP</Text>
                     </Button>
                 </View>

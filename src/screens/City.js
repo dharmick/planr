@@ -146,7 +146,9 @@ export default class City extends Component {
                             <Text style={{ color: "#444", fontSize: 14, marginHorizontal: 20 }}>
                                 {this.state.cityDetails.description}
                             </Text>
-                            <Button iconLeft block style={{ marginTop: 20, marginHorizontal: 20, marginBottom: 10 }}>
+                            <Button iconLeft block
+                                style={{ marginTop: 20, marginHorizontal: 20, marginBottom: 10 }}
+                                onPress={() => this.props.navigation.navigate('GenerateScheduleInput', { cityId: this.state.cityId, cityName: this.state.cityDetails.name })}>
                                 <Icon name="map-marker-path" type="MaterialCommunityIcons" />
                                 <Text>Generate Schedule</Text>
                             </Button>
@@ -201,20 +203,20 @@ export default class City extends Component {
 
                         <Text style={{ fontSize: 18, marginHorizontal: 20, marginBottom: 5 }}>Places to visit</Text>
 
-                        <View style={{ flex: 1, flexDirection: 'row', flexWrap: 'wrap', paddingBottom: 30 }}>
-                            {
-                                this.state.cityDetails.pois.map((item, index) => (
-                                    <TouchableOpacity onPress={() => this.onPoISelect(item)}>
-                                        <View key={index} style={{ width: '100%' }}>
-                                            <View style={{ margin: 10, borderColor: colors.LIGHT_SILVER, borderWidth: 1, borderRadius: 10, overflow: "hidden" }}>
-                                                <Image source={{ uri: item.image }} style={{ width: '100%', height: 150 }} />
-                                                <Text numberOfLines={1} style={{ padding: 10 }}>{item.name}</Text>
-                                            </View>
+                        {/* <View style={{ flex: 1, flexDirection: 'row', flexWrap: 'wrap', paddingBottom: 30 }}> */}
+                        {
+                            this.state.cityDetails.pois.map((item, index) => (
+                                <TouchableOpacity key={index} onPress={() => this.onPoISelect(item)}>
+                                    <View style={{ width: '100%' }}>
+                                        <View style={{ margin: 10, borderColor: colors.LIGHT_SILVER, borderWidth: 1, borderRadius: 10, overflow: "hidden" }}>
+                                            <Image source={{ uri: item.image }} style={{ width: '100%', height: 150 }} />
+                                            <Text numberOfLines={1} style={{ padding: 10 }}>{item.name}</Text>
                                         </View>
-                                    </TouchableOpacity>
-                                ))
-                            }
-                        </View>
+                                    </View>
+                                </TouchableOpacity>
+                            ))
+                        }
+                        {/* </View> */}
 
 
                     </ScrollView>

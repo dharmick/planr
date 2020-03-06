@@ -51,7 +51,7 @@ class Profile extends Component {
                         <Text></Text>
                     </Separator>
                     <ListItem icon
-                        onPress={() => 
+                        onPress={() =>
                             this.props.navigation.navigate('ChangePassword')
                         }>
                         <Left>
@@ -65,7 +65,7 @@ class Profile extends Component {
                     </ListItem>
                     <ListItem icon
                         onPress={() => {
-                            AsyncStorage.removeItem('userToken')
+                            AsyncStorage.clear()
                                 .then(() => {
                                     this.props.navigation.navigate('Auth')
                                 })

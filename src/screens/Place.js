@@ -5,13 +5,16 @@ import { colors } from '../config/colors';
 import Separator from '../components/Separator';
 import { axiosGet } from '../../axios';
 import Loader from '../components/Loader';
+import StarRating from 'react-native-star-rating';
 
 export default class Place extends Component {
     constructor(props) {
         super(props);
         this.state = {
             poiId: this.props.navigation.getParam('id'),
+            cityId: this.props.navigation.getParam('cityId'),
             isLoaded: false,
+            starCount: 3.5,
             poiDetails: {
                 name: "Bandra Worli Sea Link",
                 description: "The Bandra–Worli Sea Link (officially known as Rajiv Gandhi Sea Link) is a cable-stayed bridge with pre-stressed concrete-steel viaducts on either side that links Bandra in the Western Suburbs of Mumbai with Worli in South Mumbai. The bridge is a part of the proposed Western Freeway that will link the Western Suburbs to Nariman Point in Mumbai's main business district.",
@@ -69,6 +72,49 @@ export default class Place extends Component {
                     })
                 }
             })
+
+        axiosGet('/getRatings', data)
+            .then(res => {
+                if (res.data.success) {
+                    this.setState({
+                        starCount: res.data.rating
+                    })
+                } else {
+                    Toast.show({
+                        text: res.data.message,
+                        duration: 5000,
+                        type: 'danger',
+                        buttonText: 'okay'
+                    })
+                }
+            })
+    }
+
+    onStarRatingPress(rating) {
+        this.setState({
+          starCount: rating
+        });
+
+        const params = {
+            city_id: this.state.cityId,
+            poi_id: this.state.poiId,
+            rating: rating
+        }
+
+        axiosGet('/user-ratings', params)
+            .then(res => {
+                if (res.data.success) {
+                } 
+                else {
+                    Toast.show({
+                        text: res.data.message,
+                        duration: 5000,
+                        type: 'danger',
+                        buttonText: 'okay'
+                    })
+                }
+        })
+
     }
 
     render() {
@@ -90,7 +136,7 @@ export default class Place extends Component {
 
                 <ScrollView>
                     
-                    <Image style={{ width: '100%', height: 200 }} source={{ uri: this.state.poiDetails.image }} />
+                    <Image style={{ width: '100%', height: 200, }} source={{ uri: this.state.poiDetails.image }} />
 
                      {/* ==============
                         ABOUT
@@ -102,8 +148,8 @@ export default class Place extends Component {
                                 {this.state.poiDetails.description}
                             </Text>
                             <Text></Text>
-                            <Text style={{ fontSize: 14, marginHorizontal: 20, marginBottom: 10 }}>Opening Time: {this.state.poiDetails.opening_time}</Text>
-                            <Text style={{ fontSize: 14, marginHorizontal: 20, marginBottom: 10, marginTop: -10 }}>Closing Time: {this.state.poiDetails.closing_time}</Text>
+                            <Text style={{ fontSize: 14, marginHorizontal: 20, marginBottom: 10 }}>Opening Time: {this.state.poiDetails.opening_time}:00 hrs</Text>
+                            <Text style={{ fontSize: 14, marginHorizontal: 20, marginBottom: 10, marginTop: -10 }}>Closing Time:  {this.state.poiDetails.closing_time}:00 hrs</Text>
                             <Text style={{ fontSize: 14, marginHorizontal: 20, marginBottom: 10, marginTop: -10 }}>Time to Spend: {this.state.poiDetails.time_to_spend} hrs</Text>
                         </View>
 
@@ -114,7 +160,7 @@ export default class Place extends Component {
                     ============== */}
 
                         <Grid >
-                            <Text style={{ fontSize: 18, marginHorizontal: 20 }}> Ratings</Text>
+                            <Text style={{ fontSize: 18, marginHorizontal: 10 }}> Ratings</Text>
                             <Text></Text>
                             <Row>
                                 <Col size={1} style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -130,7 +176,7 @@ export default class Place extends Component {
                                                 <View style={{ flex: 1, flexDirection: 'row' }}>
                                                     {
                                                         [...Array(item.rating)].map((val, ind) => (
-                                                            <Icon name='ios-star' key={ind} style={{ color: colors.YELLOW, fontSize: 16 }} />
+                                                            <Icon name='ios-star' key={ind} style={{ color: 'gold', fontSize: 16 }} />
                                                         ))
                                                     }
                                                     <Text style={{ fontSize: 13, color: colors.SILVER, marginLeft: 5 }}>{item.count}</Text>
@@ -147,7 +193,23 @@ export default class Place extends Component {
                             <Text></Text>
                         </Grid>
 
-                        {/* <Separator /> */}
+                        <Separator />
+                        <Text style={{ fontSize: 18, marginHorizontal: 10, }}>Your Ratings</Text>
+                        <View style={{ marginLeft: 13, marginRight: 20, marginBottom: 10, marginTop: 10 }}>
+                            <StarRating
+                                disabled={false}
+                                starSize = {35}
+                                maxStars={5}
+                                emptyStar={'ios-star-outline'}
+                                fullStar={'ios-star'}
+                                halfStar={'ios-star-half'}
+                                iconSet={'Ionicons'}
+                                fullStarColor = {'gold'}
+                                halfStarEnabled	= {false}
+                                rating={this.state.starCount}
+                                selectedStar={(rating) => this.onStarRatingPress(rating)}
+                            />
+                        </View>
 
                 </ScrollView>
             </> :

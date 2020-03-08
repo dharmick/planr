@@ -42,7 +42,7 @@ export default class GenerateScheduleInput extends Component {
                 'query': this.state.destination
             },
             headers: {
-                'Authorization': 'bearerb6534e1c-455f-4ef6-a834-3577c159b0c5'
+                'Authorization': 'bearer74d9bc7b-4ca5-42f7-b8e4-f9130361ee30'
             }
         })
             .then(res => {
@@ -61,7 +61,7 @@ export default class GenerateScheduleInput extends Component {
                 // 'location': this.state.userLocation.coords.latitude + ',' + this.state.userLocation.coords.longitude
             },
             headers: {
-                'Authorization': 'bearerb6534e1c-455f-4ef6-a834-3577c159b0c5'
+                'Authorization': 'bearer74d9bc7b-4ca5-42f7-b8e4-f9130361ee30'
             }
         })
             .then(res => {

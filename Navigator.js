@@ -27,6 +27,9 @@ import Loader from './src/components/Loader';
 import ViewSchedule from './src/screens/ViewSchedule';
 
 
+// =============
+// HOME STACK
+// =============
 
 const HomeStack = createStackNavigator({
     HomePage: {
@@ -52,6 +55,24 @@ const HomeStack = createStackNavigator({
     initialRouteName: 'HomePage'
 });
 
+HomeStack.navigationOptions = ({ navigation }) => {
+    let tabBarVisible = true;
+    for (let i = 0; i < navigation.state.routes.length; i++) {
+        if (navigation.state.routes[i].routeName == "SearchCity") {
+            tabBarVisible = false;
+        }
+    }
+    return {
+        tabBarVisible
+    };
+};
+
+
+
+// =============
+// USER STACK
+// =============
+
 const UserStack = createStackNavigator({
     Profile: {
         screen: Profile,
@@ -66,16 +87,35 @@ const UserStack = createStackNavigator({
     headerMode: 'none'
 });
 
+
+// =============
+// TRIP STACK
+// =============
 const TripStack = createStackNavigator({
     CurrentTrip: {
         screen: CurrentTrip,
-        navigationOptions: {
-            title: 'Mumbai'
-        }
     }
+}, {
+    headerMode: 'none',
 })
 
+TripStack.navigationOptions = ({ navigation }) => {
+    let tabBarVisible = true;
+    for (let i = 0; i < navigation.state.routes.length; i++) {
+        if (navigation.state.routes[i].routeName == "CurrentTrip") {
+            tabBarVisible = false;
+        }
+    }
+    return {
+        tabBarVisible
+    };
+};
 
+
+
+// =====================
+// LOGGED IN BOTTOM NAV
+// =====================
 
 const LoggedInStack = createBottomTabNavigator(
     {
@@ -131,6 +171,11 @@ const LoggedInStack = createBottomTabNavigator(
     }
 );
 
+
+
+// =============
+// NOT LOGGED IN STACK
+// =============
 const NotLoggedInStack = createStackNavigator({
     Login: {
         screen: Login,
@@ -152,6 +197,11 @@ const NotLoggedInStack = createStackNavigator({
 });
 
 
+
+
+// =============
+// ROOT SWITCH
+// =============
 export const RootStack = createAppContainer(createSwitchNavigator(
     {
         AuthLoading: AuthLoadingScreen,

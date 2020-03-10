@@ -33,7 +33,7 @@ class ResetPassword extends Component {
         axiosPost('/reset-password', data, false)
             .then(res => {
                 alert(res.data.message)
-                if (res.data.message == "Passwords did not match. Enter again!") {
+                if (res.data.message == 'Password did not match. Enter again!') {
                     try {
                         this.props.navigation.navigate('ResetPassword');
                     }

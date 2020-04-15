@@ -43,7 +43,7 @@ class Login extends Component {
                     alert("Something went wrong. " + error)
                 }
             }, err => {
-                alert(err)
+
             })
     }
 

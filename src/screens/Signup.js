@@ -36,7 +36,6 @@ class Signup extends Component {
 
         axiosPost('/signup', data, false)
             .then(res => {
-                console.log(res)
                 Toast.show({
                     text: "Signed in as " + res.data.email,
                     duration: 5000,
@@ -51,7 +50,7 @@ class Signup extends Component {
                     alert("Something went wrong. " + error)
                 }
             }, err => {
-                alert(err)
+
             })
     }
 

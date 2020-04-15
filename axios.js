@@ -4,7 +4,7 @@ import { Toast } from 'native-base';
 import NavigationService from './NavigationService';
 
 
-const BASE_URL = 'https://b12bb059.ngrok.io';
+const BASE_URL = ' https://50a715db.ngrok.io';
 // const BASE_URL = 'https://planr-api-dev.herokuapp.com';
 
 const axios_instance = axios.create({
@@ -32,7 +32,7 @@ axios_instance.interceptors.response.use(function (response) {
         })
     } else {
         Toast.show({
-            text: "Something went wrong" + error.response.status,
+            text: error.response.data.message,
             duration: 5000,
             type: 'danger',
             buttonText: 'okay'

@@ -6,6 +6,7 @@ import { StyleSheet, FlatList, TouchableOpacity } from 'react-native'
 import RippleIcon from '../components/RippleIcon';
 import axios from 'axios';
 import { axiosGet } from '../../axios';
+import Constants from 'expo-constants';
 // import * as Location from 'expo-location';
 // import * as Permissions from 'expo-permissions';
 
@@ -27,50 +28,64 @@ export default class GenerateScheduleInput extends Component {
         }
     }
 
-    async componentDidMount() {
-        // Location.requestPermissionsAsync().then(async () => {
-        //     let userLocation = await Location.getCurrentPositionAsync({});
-        //     this.setState({ userLocation });
-        // })
+    componentDidMount() {
 
     }
 
-    destinationChangeHandler = (text) => {
-        this.setState({ destination: text })
-        axios.get('https://atlas.mapmyindia.com/api/places/search/json', {
-            params: {
-                'query': this.state.destination
-            },
-            headers: {
-                'Authorization': 'bearer74d9bc7b-4ca5-42f7-b8e4-f9130361ee30'
+
+    // function which gets the access token first and then gets suggestions.
+    // access token api is called every time because it is anyway using cache.
+    // so need to store access token locally.
+    // query -> text for autocomplete
+    // suggestionsKey -> sourceSuggestions or destinationSuggestions
+    getSuggestions = (query, suggestionsKey) => {
+        const params = new URLSearchParams();
+        params.append("grant_type", "client_credentials")
+        params.append("client_id", Constants.manifest.extra.mapMyIndia_client_id)
+        params.append("client_secret", Constants.manifest.extra.mapMyIndia_client_secret)
+        axios.post('https://outpost.mapmyindia.com/api/security/oauth/token', params, {
+            "headers": {
+                "Content-Type": "application/x-www-form-urlencoded"
             }
         })
             .then(res => {
-                this.setState({ destinationSuggestions: res.data.suggestedLocations })
+                axios.get('https://atlas.mapmyindia.com/api/places/search/json', {
+                    params: {
+                        'query': query
+                    },
+                    headers: {
+                        'Authorization': 'bearer' + res.data.access_token
+                    }
+                })
+                    .then(res => {
+                        this.setState({ [suggestionsKey]: res.data.suggestedLocations })
+                    })
+                    .catch(err => {
+                        alert('could not get suggestions. ' + JSON.stringify(err.response.data))
+                    })
             })
             .catch(err => {
-                alert('something went wrong')
+                alert("could not get access token. " + JSON.stringify(err.response.data))
             })
     }
 
-    sourceChangeHandler = (text) => {
-        this.setState({ source: text })
-        axios.get('https://atlas.mapmyindia.com/api/places/search/json', {
-            params: {
-                'query': this.state.source,
-                // 'location': this.state.userLocation.coords.latitude + ',' + this.state.userLocation.coords.longitude
-            },
-            headers: {
-                'Authorization': 'bearer74d9bc7b-4ca5-42f7-b8e4-f9130361ee30'
-            }
-        })
-            .then(res => {
-                this.setState({ sourceSuggestions: res.data.suggestedLocations })
-            })
-            .catch(err => {
-                alert('something went wrong')
-            })
+
+    timeout = null;
+
+    // function which updates text and also calls getSuggestions if user stops
+    // typing for 300ms.
+    // textKey -> source or destination
+    // text -> what the user is typing
+    // suggestionsKey -> sourceSuggestions or destinationSuggestions
+    autocompleteChangeHandler = (textKey, text, suggestionsKey) => {
+        this.setState({ [textKey]: text })
+
+        clearTimeout(this.timeout)
+        this.timeout = setTimeout(() => {
+            this.getSuggestions(this.state[textKey], suggestionsKey)
+        }, 300)
     }
+
 
     sourceSelectHandler = (item) => {
         this.setState({
@@ -137,7 +152,7 @@ export default class GenerateScheduleInput extends Component {
                             value={this.state.source}
                             placeholderTextColor={colors.SILVER}
                             style={{ fontSize: 22, fontWeight: 'bold', color: '#777', height: 60, borderWidth: 2, borderColor: colors.SILVER }}
-                            onChangeText={(text) => this.sourceChangeHandler(text)} />
+                            onChangeText={(text) => this.autocompleteChangeHandler("source", text, "sourceSuggestions")} />
                     </Item>
                     <FlatList
                         keyExtractor={item => item.eLoc}
@@ -161,7 +176,7 @@ export default class GenerateScheduleInput extends Component {
                             value={this.state.destination}
                             placeholderTextColor={colors.SILVER}
                             style={{ fontSize: 22, fontWeight: 'bold', color: '#777', height: 60, borderWidth: 2, borderColor: colors.SILVER }}
-                            onChangeText={(text) => this.destinationChangeHandler(text)} />
+                            onChangeText={(text) => this.autocompleteChangeHandler("destination", text, "destinationSuggestions")} />
                     </Item>
                     <FlatList
                         keyExtractor={item => item.eLoc}

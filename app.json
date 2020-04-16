@@ -31,6 +31,10 @@
     "androidStatusBar": {
       "backgroundColor": "#000000",
       "barStyle": "light-content"
+    },
+    "extra": {
+      "mapMyIndia_client_id": "nu2qLwK5RWIlnw9GGMDfy2MysEcQ0xa1f12uHEQT4JLPeIBKM8aJ1fLJoD4SLxfX_cu-tqUp5agwh2LiXc03rg==",
+      "mapMyIndia_client_secret": "NzlbFTxfAqciX1_qUpLbTY7VscTQFRaXr1WsKqQJvuI75eBvY-m9K1R6wKaWUPKd2yagTALk-gYRX1RJvwr2QlLwVWalwDD3"
     }
   }
 }

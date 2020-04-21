@@ -3,6 +3,7 @@ import { StyleSheet, View, Alert, AsyncStorage, StatusBar } from 'react-native';
 import { Button, Text, Grid, Row, Container, Content, Header, Item, Label, Input, Toast } from 'native-base';
 import { colors } from '../config/colors';
 import { axiosPost } from '../../axios'
+import Loader from '../components/Loader';
 
 
 class Login extends Component {
@@ -10,7 +11,8 @@ class Login extends Component {
         super(props);
         this.state = {
             email: '',
-            password: ''
+            password: '',
+            isLoading: false,
         }
     }
     componentDidMount() {
@@ -22,6 +24,8 @@ class Login extends Component {
             Alert.alert("OOPS!!", "All fields are mandatory");
             return;
         }
+
+        this.setState({ isLoading: true })
         const data = {
             email: email,
             password: password
@@ -40,10 +44,11 @@ class Login extends Component {
                             this.props.navigation.navigate('Home');
                         })
                 } catch (error) {
+                    this.setState({ isLoading: false })
                     alert("Something went wrong. " + error)
                 }
             }, err => {
-
+                this.setState({ isLoading: false })
             })
     }
 
@@ -55,46 +60,52 @@ class Login extends Component {
 
     render() {
         return (
-            <Container>
-                <Grid>
-                    <Row size={2}>
-                        <View style={styles.header}>
-                            <Text style={styles.headerText}>Login</Text>
-                        </View>
-                    </Row>
-                    <Row size={8} style={{ backgroundColor: colors.LIGHT_SILVER }}>
-                        <View style={styles.login_wrapper}>
-                            <Item regular style={styles.input}>
-                                <Input
-                                    placeholder='Email'
-                                    value={this.state.email}
-                                    keyboardType="email-address"
-                                    autoCorrect={false}
-                                    autoCapitalize="none"
-                                    placeholderTextColor={colors.SILVER}
-                                    onChangeText={(text) => this.inputChangeHandler(text, 'email')} />
-                            </Item>
-                            <Item regular style={styles.input}>
-                                <Input
-                                    placeholder='Password'
-                                    value={this.state.password}
-                                    secureTextEntry={true}
-                                    placeholderTextColor={colors.SILVER}
-                                    onChangeText={(text) => this.inputChangeHandler(text, 'password')} />
-                            </Item>
-                            <Button block style={styles.loginButton} onPress={this.handleLogin}>
-                                <Text>TAKE ME IN</Text>
-                            </Button>
-                            <Text style={styles.link} onPress={() => this.props.navigation.navigate('Signup')}>
-                                Create an Account now
+            <>
+                {
+                    this.state.isLoading &&
+                    <Loader />
+                }
+                <Container>
+                    <Grid>
+                        <Row size={2}>
+                            <View style={styles.header}>
+                                <Text style={styles.headerText}>Login</Text>
+                            </View>
+                        </Row>
+                        <Row size={8} style={{ backgroundColor: colors.LIGHT_SILVER }}>
+                            <View style={styles.login_wrapper}>
+                                <Item regular style={styles.input}>
+                                    <Input
+                                        placeholder='Email'
+                                        value={this.state.email}
+                                        keyboardType="email-address"
+                                        autoCorrect={false}
+                                        autoCapitalize="none"
+                                        placeholderTextColor={colors.SILVER}
+                                        onChangeText={(text) => this.inputChangeHandler(text, 'email')} />
+                                </Item>
+                                <Item regular style={styles.input}>
+                                    <Input
+                                        placeholder='Password'
+                                        value={this.state.password}
+                                        secureTextEntry={true}
+                                        placeholderTextColor={colors.SILVER}
+                                        onChangeText={(text) => this.inputChangeHandler(text, 'password')} />
+                                </Item>
+                                <Button block style={styles.loginButton} onPress={this.handleLogin}>
+                                    <Text>TAKE ME IN</Text>
+                                </Button>
+                                <Text style={styles.link} onPress={() => this.props.navigation.navigate('Signup')}>
+                                    Create an Account now
                             </Text>
-                            <Text style={styles.link} onPress={() => this.props.navigation.navigate('Forgot')}>
-                                Forgot Password
+                                <Text style={styles.link} onPress={() => this.props.navigation.navigate('Forgot')}>
+                                    Forgot Password
                             </Text>
-                        </View>
-                    </Row>
-                </Grid>
-            </Container>
+                            </View>
+                        </Row>
+                    </Grid>
+                </Container>
+            </>
         )
     }
 }
@@ -132,6 +143,7 @@ const styles = StyleSheet.create({
     loginButton: {
         width: '100%',
         marginVertical: 30,
+        backgroundColor: colors.PRIMARY
     },
     input: {
         marginVertical: 10,

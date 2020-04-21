@@ -51,55 +51,51 @@ export default class SearchCity extends Component {
 
     render() {
         return (
-            <>
-                <Header searchBar rounded>
-                    <Item>
-                        <RippleIcon iconName="ios-arrow-back" onPress={() => this.props.navigation.goBack()} />
-                        <Input
-                            autoFocus
-                            placeholder="Search, Explore, Wander"
-                            onChangeText={this.handleSearchTextChange}
-                            value={this.state.searchText}
-                        />
-                    </Item>
-                </Header>
 
-                {
-                    this.state.isLoadingCities ?
-                        <Loader />
-                        :
-                        <FlatList
-                            keyExtractor={item => item.id.toString()}
-                            data={this.state.filteredCities}
-                            renderItem={({ item, index, separators }) => (
-                                <TouchableOpacity onPress={() => this.onCitySelect(item)}>
-                                    <View style={{ paddingVertical: 20, paddingHorizontal: 10 }}>
-                                        <Text>{item.name}</Text>
-                                    </View>
-                                </TouchableOpacity>
-                            )}
-                            ListEmptyComponent={() => (
-                                <View style={{ paddingVertical: 100, alignItems: 'center' }}>
-                                    {
-                                        this.state.searchText ?
-                                            <>
-                                                <Text style={{ fontSize: 20, color: colors.SILVER }}>OOPS!</Text>
-                                                <Text style={{ fontSize: 16, color: colors.SILVER }}>Nothing found.</Text>
-                                            </>
-                                            :
-                                            <>
-                                                <Text style={{ fontSize: 20, color: colors.SILVER }}>Try Mumbai :)</Text>
-                                                <Text style={{ fontSize: 16, color: colors.SILVER }}>You won't regret. Promise.</Text>
-                                            </>
-                                    }
+            this.state.isLoadingCities ?
+                <Loader />
+                :
+                <>
+                    <Header searchBar rounded>
+                        <Item>
+                            <RippleIcon iconName="ios-arrow-back" onPress={() => this.props.navigation.goBack()} />
+                            <Input
+                                autoFocus
+                                placeholder="Search, Explore, Wander"
+                                onChangeText={this.handleSearchTextChange}
+                                value={this.state.searchText}
+                            />
+                        </Item>
+                    </Header>
+                    <FlatList
+                        keyExtractor={item => item.id.toString()}
+                        data={this.state.filteredCities}
+                        renderItem={({ item, index, separators }) => (
+                            <TouchableOpacity onPress={() => this.onCitySelect(item)}>
+                                <View style={{ paddingVertical: 20, paddingHorizontal: 10 }}>
+                                    <Text>{item.name}</Text>
                                 </View>
-                            )}
-                        />
-                }
+                            </TouchableOpacity>
+                        )}
+                        ListEmptyComponent={() => (
+                            <View style={{ paddingVertical: 100, alignItems: 'center' }}>
+                                {
+                                    this.state.searchText ?
+                                        <>
+                                            <Text style={{ fontSize: 20, color: colors.SILVER }}>OOPS!</Text>
+                                            <Text style={{ fontSize: 16, color: colors.SILVER }}>Nothing found.</Text>
+                                        </>
+                                        :
+                                        <>
+                                            <Text style={{ fontSize: 20, color: colors.SILVER }}>Try Mumbai :)</Text>
+                                            <Text style={{ fontSize: 16, color: colors.SILVER }}>You won't regret. Promise.</Text>
+                                        </>
+                                }
+                            </View>
+                        )}
+                    />
+                </>
 
-
-
-            </>
         )
     }
 }

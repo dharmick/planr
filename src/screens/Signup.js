@@ -3,15 +3,17 @@ import { StyleSheet, View, KeyboardAvoidingView, Alert, AsyncStorage } from 'rea
 import { Button, Text, Grid, Row, Container, Content, Header, Form, Item, Label, Input, Toast } from 'native-base';
 import { colors } from '../config/colors';
 import { axiosPost } from '../../axios'
+import Loader from '../components/Loader';
 
 
 class Signup extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            name: '',
-            email: '',
-            password: ''
+            name: 'dfd',
+            email: 'user@gmail.com',
+            password: 'dfd',
+            isLoading: false,
         }
     }
     componentDidMount() { }
@@ -28,6 +30,8 @@ class Signup extends Component {
             Alert.alert("OOPS!!", "All fields are mandatory");
             return;
         }
+
+        this.setState({ isLoading: true })
         const data = {
             name: name,
             email: email,
@@ -47,62 +51,68 @@ class Signup extends Component {
                             this.props.navigation.navigate('Home');
                         })
                 } catch (error) {
+                    this.setState({ isLoading: false })
                     alert("Something went wrong. " + error)
                 }
             }, err => {
-
+                this.setState({ isLoading: false })
             })
     }
 
     render() {
         return (
-            <Container>
-                <Grid>
-                    <Row size={2}>
-                        <View style={styles.header}>
-                            <Text style={styles.headerText}>Signup</Text>
-                        </View>
-                    </Row>
-                    <Row size={9} style={{ backgroundColor: colors.LIGHT_SILVER }}>
-                        <View style={styles.login_wrapper}>
-                            {/* <KeyboardAvoidingView style={{ width: '100%' }} behavior="padding" enabled keyboardVerticalOffset={300}> */}
-                            <Item regular style={styles.input}>
-                                <Input
-                                    placeholder='Name'
-                                    value={this.state.name}
-                                    placeholderTextColor={colors.SILVER}
-                                    onChangeText={(text) => this.inputChangeHandler(text, 'name')} />
-                            </Item>
-                            <Item regular style={styles.input}>
-                                <Input
-                                    placeholder='Email'
-                                    value={this.state.email}
-                                    keyboardType="email-address"
-                                    autoCorrect={false}
-                                    autoCapitalize="none"
-                                    placeholderTextColor={colors.SILVER}
-                                    onChangeText={(text) => this.inputChangeHandler(text, 'email')} />
-                            </Item>
-                            <Item regular style={styles.input}>
-                                <Input
-                                    placeholder='Password'
-                                    value={this.state.password}
-                                    secureTextEntry={true}
-                                    placeholderTextColor={colors.SILVER}
-                                    onChangeText={(text) => this.inputChangeHandler(text, 'password')} />
-                            </Item>
-                            {/* </KeyboardAvoidingView> */}
-                            <Button block style={styles.loginButton} onPress={this.submitHandler}>
-                                <Text>Create Account</Text>
-                            </Button>
-                            <Text style={styles.link} onPress={() => this.props.navigation.navigate('Login')}>
-                                Already have an account? Login here
+            <>
+                {
+                    this.state.isLoading &&
+                    <Loader />
+                }
+                <Container>
+                    <Grid>
+                        <Row size={2}>
+                            <View style={styles.header}>
+                                <Text style={styles.headerText}>Signup</Text>
+                            </View>
+                        </Row>
+                        <Row size={9} style={{ backgroundColor: colors.LIGHT_SILVER }}>
+                            <View style={styles.login_wrapper}>
+                                {/* <KeyboardAvoidingView style={{ width: '100%' }} behavior="padding" enabled keyboardVerticalOffset={300}> */}
+                                <Item regular style={styles.input}>
+                                    <Input
+                                        placeholder='Name'
+                                        value={this.state.name}
+                                        placeholderTextColor={colors.SILVER}
+                                        onChangeText={(text) => this.inputChangeHandler(text, 'name')} />
+                                </Item>
+                                <Item regular style={styles.input}>
+                                    <Input
+                                        placeholder='Email'
+                                        value={this.state.email}
+                                        keyboardType="email-address"
+                                        autoCorrect={false}
+                                        autoCapitalize="none"
+                                        placeholderTextColor={colors.SILVER}
+                                        onChangeText={(text) => this.inputChangeHandler(text, 'email')} />
+                                </Item>
+                                <Item regular style={styles.input}>
+                                    <Input
+                                        placeholder='Password'
+                                        value={this.state.password}
+                                        secureTextEntry={true}
+                                        placeholderTextColor={colors.SILVER}
+                                        onChangeText={(text) => this.inputChangeHandler(text, 'password')} />
+                                </Item>
+                                {/* </KeyboardAvoidingView> */}
+                                <Button block style={styles.loginButton} onPress={this.submitHandler}>
+                                    <Text>Create Account</Text>
+                                </Button>
+                                <Text style={styles.link} onPress={() => this.props.navigation.navigate('Login')}>
+                                    Already have an account? Login here
                             </Text>
-                        </View>
-                    </Row>
-                </Grid>
-
-            </Container>
+                            </View>
+                        </Row>
+                    </Grid>
+                </Container>
+            </>
         )
     }
 }
@@ -139,6 +149,7 @@ const styles = StyleSheet.create({
     loginButton: {
         width: '100%',
         marginVertical: 30,
+        backgroundColor: colors.PRIMARY
     },
     input: {
         marginVertical: 10,

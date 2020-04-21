@@ -25,6 +25,7 @@ import GenerateScheduleInput from './src/screens/GenerateScheduleInput';
 
 import Loader from './src/components/Loader';
 import ViewSchedule from './src/screens/ViewSchedule';
+import Initial from './src/screens/Initial';
 
 
 // =============
@@ -177,6 +178,9 @@ const LoggedInStack = createBottomTabNavigator(
 // NOT LOGGED IN STACK
 // =============
 const NotLoggedInStack = createStackNavigator({
+    Initial: {
+        screen: Initial
+    },
     Login: {
         screen: Login,
     },

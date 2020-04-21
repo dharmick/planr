@@ -66,44 +66,68 @@ class Login extends Component {
                     <Loader />
                 }
                 <Container>
-                    <Grid>
-                        <Row size={2}>
-                            <View style={styles.header}>
-                                <Text style={styles.headerText}>Login</Text>
-                            </View>
-                        </Row>
-                        <Row size={8} style={{ backgroundColor: colors.LIGHT_SILVER }}>
-                            <View style={styles.login_wrapper}>
-                                <Item regular style={styles.input}>
-                                    <Input
-                                        placeholder='Email'
-                                        value={this.state.email}
-                                        keyboardType="email-address"
-                                        autoCorrect={false}
-                                        autoCapitalize="none"
-                                        placeholderTextColor={colors.SILVER}
-                                        onChangeText={(text) => this.inputChangeHandler(text, 'email')} />
-                                </Item>
-                                <Item regular style={styles.input}>
-                                    <Input
-                                        placeholder='Password'
-                                        value={this.state.password}
-                                        secureTextEntry={true}
-                                        placeholderTextColor={colors.SILVER}
-                                        onChangeText={(text) => this.inputChangeHandler(text, 'password')} />
-                                </Item>
-                                <Button block style={styles.loginButton} onPress={this.handleLogin}>
-                                    <Text>TAKE ME IN</Text>
-                                </Button>
-                                <Text style={styles.link} onPress={() => this.props.navigation.navigate('Signup')}>
-                                    Create an Account now
+
+
+                    <View style={styles.header}>
+                        <Text style={styles.headerText}>Login</Text>
+                    </View>
+
+
+                    <View style={{ backgroundColor: colors.PRIMARY, flex: 1 }}>
+                        <View style={styles.login_wrapper}>
+
+
+                            <Item regular style={styles.input}>
+                                <Input
+                                    placeholder='Email'
+                                    value={this.state.email}
+                                    keyboardType="email-address"
+                                    autoCorrect={false}
+                                    autoCapitalize="none"
+                                    style={styles.inputText}
+                                    placeholderTextColor={colors.SILVER}
+                                    onChangeText={(text) => this.inputChangeHandler(text, 'email')} />
+                            </Item>
+
+
+                            <Item regular style={styles.input}>
+                                <Input
+                                    placeholder='Password'
+                                    value={this.state.password}
+                                    secureTextEntry={true}
+                                    placeholderTextColor={colors.SILVER}
+                                    style={styles.inputText}
+                                    onChangeText={(text) => this.inputChangeHandler(text, 'password')} />
+                            </Item>
+
+
+                            <Text style={styles.link} onPress={() => this.props.navigation.navigate('Forgot')}>
+                                Forgot Password?
                             </Text>
-                                <Text style={styles.link} onPress={() => this.props.navigation.navigate('Forgot')}>
-                                    Forgot Password
-                            </Text>
+
+
+                            <Button block style={styles.loginButton} onPress={this.handleLogin}>
+                                <Text>LOGIN</Text>
+                            </Button>
+
+
+                            <View style={styles.horizontalLineWrapper}>
+                                <View style={styles.horizontalLine} />
+                                <Text style={{ textAlign: 'center', color: colors.SILVER, fontSize: 20 }}>or</Text>
+                                <View style={styles.horizontalLine} />
                             </View>
-                        </Row>
-                    </Grid>
+
+
+                            <Button block style={styles.signupButton} onPress={() => this.props.navigation.navigate('Signup')}>
+                                <Text style={{ color: 'black' }}>SIGN UP</Text>
+                            </Button>
+
+
+                        </View>
+                    </View>
+
+                    {/* </Row> */}
+                    {/* </Grid> */}
                 </Container>
             </>
         )
@@ -111,25 +135,22 @@ class Login extends Component {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'red'
-    },
     login_wrapper: {
         backgroundColor: colors.WHITE,
-        borderTopRightRadius: 80,
-        borderTopLeftRadius: 80,
+        borderTopRightRadius: 60,
+        borderTopLeftRadius: 60,
         flex: 1,
+        // elevation: 20,
         alignItems: 'center',
-        justifyContent: 'center',
+        // justifyContent: 'center',
         paddingHorizontal: 20,
+        paddingTop: 40
 
     },
     header: {
-        backgroundColor: colors.LIGHT_SILVER,
-        flex: 1,
+        backgroundColor: colors.PRIMARY,
+        // flex: 1,
+        height: 130,
         alignItems: 'center',
         justifyContent: 'center',
     },
@@ -137,7 +158,7 @@ const styles = StyleSheet.create({
         fontSize: 50,
         fontFamily: 'kalam-bold',
         color: colors.SILVER,
-        marginTop: 20,
+        marginTop: 30,
         // opacity: 0.3
     },
     loginButton: {
@@ -145,13 +166,36 @@ const styles = StyleSheet.create({
         marginVertical: 30,
         backgroundColor: colors.PRIMARY
     },
+    signupButton: {
+        width: '100%',
+        marginVertical: 30,
+        backgroundColor: colors.WHITE,
+    },
     input: {
         marginVertical: 10,
-        borderColor: colors.SILVER
+        borderColor: '#f1f1f1',
+        backgroundColor: '#f8f8f8',
+    },
+    inputText: {
+        color: colors.GREY,
+        fontSize: 20
     },
     link: {
         textDecorationColor: 'black',
-        textDecorationLine: 'underline'
+        textDecorationLine: 'underline',
+        width: '100%',
+        textAlign: 'right'
+    },
+    horizontalLineWrapper: {
+        width: '100%',
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        alignItems: 'center'
+    },
+    horizontalLine: {
+        borderBottomWidth: 1,
+        borderBottomColor: colors.SILVER,
+        width: '40%'
     }
 })
 export default Login;

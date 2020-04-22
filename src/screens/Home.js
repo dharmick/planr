@@ -93,7 +93,7 @@ class Home extends Component {
                         <Text style={styles.greetingText}>Where would you like to go today?</Text>
                     </View>
 
-                    <LinearGradient colors={[colors.PRIMARY, '#2D0F64']}
+                    <LinearGradient colors={[colors.PRIMARY, '#fc8b92']}
                         start={[0, 0]} end={[1, 1]} style={styles.nearMe}>
                         <View style={styles.nearMeHeader}>
                             <Text style={styles.nearMeHeaderText} >Near me</Text>
@@ -188,7 +188,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
     nearMe: {
-        elevation: 10,
+        elevation: 5,
         marginVertical: 50,
         marginHorizontal: 20,
         borderRadius: 20,
@@ -261,7 +261,7 @@ const styles = StyleSheet.create({
     },
     trendingListView: {
         fontSize: 16,
-        color: colors.SECONDARY
+        color: colors.BLUE
     }
 })
 export default Home;

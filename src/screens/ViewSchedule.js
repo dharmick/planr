@@ -71,7 +71,7 @@ export default class ViewSchedule extends Component {
                                 <Marker
                                     key={index}
                                     coordinate={{ latitude: item.latitude, longitude: item.longitude }}
-                                    pinColor={colors.SECONDARY}
+                                    pinColor={colors.BLUE}
                                 />
                             )
                         })
@@ -81,7 +81,7 @@ export default class ViewSchedule extends Component {
                         coordinates={
                             this.state.markers
                         }
-                        strokeColor={colors.SECONDARY}
+                        strokeColor={colors.BLUE}
                         strokeWidth={6}
                     />
                 </MapView>
@@ -141,7 +141,7 @@ const styles = StyleSheet.create({
         borderRadius: 4,
         padding: 15,
         borderBottomWidth: 5,
-        borderBottomColor: colors.LIGHT_PRIMARY
+        borderBottomColor: colors.YELLOW
     },
     cardsWrapper: {
         position: 'absolute',

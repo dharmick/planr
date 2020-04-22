@@ -13,7 +13,7 @@
     "orientation": "portrait",
     "icon": "./assets/planr-logo.png",
     "splash": {
-      "image": "./assets/planr-logo.png",
+      "image": "./assets/splash.png",
       "backgroundColor": "#ffffff"
     },
     "updates": {

@@ -26,6 +26,7 @@ import GenerateScheduleInput from './src/screens/GenerateScheduleInput';
 import Loader from './src/components/Loader';
 import ViewSchedule from './src/screens/ViewSchedule';
 import Initial from './src/screens/Initial';
+import Nearby from './src/screens/Nearby';
 
 
 // =============
@@ -50,6 +51,9 @@ const HomeStack = createStackNavigator({
     },
     ViewSchedule: {
         screen: ViewSchedule
+    },
+    Nearby: {
+        screen: Nearby
     }
 }, {
     headerMode: 'none',
@@ -60,6 +64,8 @@ HomeStack.navigationOptions = ({ navigation }) => {
     let tabBarVisible = true;
     for (let i = 0; i < navigation.state.routes.length; i++) {
         if (navigation.state.routes[i].routeName == "SearchCity") {
+            tabBarVisible = false;
+        } else if (navigation.state.routes[i].routeName == "Nearby") {
             tabBarVisible = false;
         }
     }

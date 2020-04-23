@@ -98,30 +98,54 @@ class Home extends Component {
                         <View style={styles.nearMeHeader}>
                             <Text style={styles.nearMeHeaderText} >Near me</Text>
                         </View>
-                        <View style={styles.nearMeItem}>
+
+                        <TouchableOpacity
+                            style={styles.nearMeItem}
+                            onPress={() => this.props.navigation.navigate('Nearby',
+                                { title: 'ATMs', keywords: 'FINATM' })}>
                             <Icon style={styles.nearMeItemIcon} name="local-atm" type="MaterialIcons" />
                             <Text style={styles.nearMeItemText}>ATM</Text>
-                        </View>
-                        <View style={styles.nearMeItem}>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity
+                            style={styles.nearMeItem}
+                            onPress={() => this.props.navigation.navigate('Nearby',
+                                { title: 'Petrol Pumps', keywords: 'TRNPMP' })}>
                             <Icon style={styles.nearMeItemIcon} name="gas-pump" type="FontAwesome5" />
                             <Text style={styles.nearMeItemText}>Petrol Pump</Text>
-                        </View>
-                        <View style={styles.nearMeItem}>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity
+                            style={styles.nearMeItem}
+                            onPress={() => this.props.navigation.navigate('Nearby',
+                                { title: 'Medicals', keywords: 'MDS24H;HLTMDS' })}>
                             <Icon style={styles.nearMeItemIcon} name="clinic-medical" type="FontAwesome5" />
                             <Text style={styles.nearMeItemText}>Medical</Text>
-                        </View>
-                        <View style={styles.nearMeItem}>
-                            <Icon style={styles.nearMeItemIcon} name="food" type="MaterialCommunityIcons" />
-                            <Text style={styles.nearMeItemText}>Food</Text>
-                        </View>
-                        <View style={styles.nearMeItem}>
-                            <Icon style={styles.nearMeItemIcon} name="hotel" type="FontAwesome" />
-                            <Text style={styles.nearMeItemText}>Hotels</Text>
-                        </View>
-                        <View style={styles.nearMeItem}>
-                            <Icon style={styles.nearMeItemIcon} name="theater" type="MaterialCommunityIcons" />
-                            <Text style={styles.nearMeItemText}>Theatres</Text>
-                        </View>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity
+                            style={styles.nearMeItem}
+                            onPress={() => this.props.navigation.navigate('Nearby',
+                                { title: 'Fast food', keywords: 'FODFFD;FODPLZ' })}>
+                            <Icon style={styles.nearMeItemIcon} name="pizza-slice" type="FontAwesome5" />
+                            <Text style={styles.nearMeItemText}>Fast food</Text>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity
+                            style={styles.nearMeItem}
+                            onPress={() => this.props.navigation.navigate('Nearby',
+                                { title: 'Malls and stores', keywords: 'SHPMAL;SHPDST' })}>
+                            <Icon style={styles.nearMeItemIcon} name="shopping-cart" type="FontAwesome5" />
+                            <Text style={styles.nearMeItemText}>Malls &amp; stores </Text>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity
+                            style={styles.nearMeItem}
+                            onPress={() => this.props.navigation.navigate('Nearby',
+                                { title: 'Lunch / Dinner', keywords: 'FODIND' })}>
+                            <Icon style={styles.nearMeItemIcon} name="rice" type="MaterialCommunityIcons" />
+                            <Text style={styles.nearMeItemText}>Lunch / Dinner</Text>
+                        </TouchableOpacity>
                     </LinearGradient>
 
                     <View style={styles.trendingList}>

@@ -54,7 +54,7 @@ export default class GenerateScheduleInput extends Component {
                         'query': query
                     },
                     headers: {
-                        'Authorization': 'bearer' + res.data.access_token
+                        'Authorization': res.data.token_type + res.data.access_token
                     }
                 })
                     .then(res => {

@@ -1,13 +1,14 @@
 import React, { Component } from 'react'
 import { StyleSheet, View, ScrollView, FlatList } from 'react-native'
-import { Text, Icon, Header, Left, Body, Title } from 'native-base'
+import { Text, Icon, Header, Left, Body, Title, Toast } from 'native-base'
 import { colors } from '../config/colors';
 import Constants from 'expo-constants';
 import axios from 'axios';
 import * as Location from 'expo-location';
+import Loader from '../components/Loader';
 
 
-export default class CurrentTrip extends Component {
+export default class Nearby extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -33,20 +34,31 @@ export default class CurrentTrip extends Component {
                 // },
             ],
             nearest: [],
-            coords: ""
+            coords: "",
+            isLoading: true,
         }
     }
 
-    getCurrentLocation = () => {
-        Location.getCurrentPositionAsync()
+    getCurrentLocation = async () => {
+
+        Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.Highest })
             .then(res => {
                 this.setState({
                     coords: res.coords.latitude + "," + res.coords.longitude
                 }, this.getNearBy())
             })
             .catch(err => {
-                alert("error in getting location: " + JSON.stringify(err))
+                this.props.navigation.goBack();
+                Toast.show({
+                    text: err.code === "E_LOCATION_SETTINGS_UNSATISFIED" ? "Please enable location service" : err.code,
+                    duration: 4000,
+                    type: 'danger',
+                    buttonText: 'okay'
+                })
+
             })
+
+
     }
 
     getNearBy = () => {
@@ -62,11 +74,11 @@ export default class CurrentTrip extends Component {
             .then(res => {
                 axios.get('https://atlas.mapmyindia.com/api/places/nearby/json', {
                     params: {
-                        'keywords': 'coffee;beer',
+                        'keywords': this.props.navigation.getParam('keywords'),
                         'refLocation': this.state.coords
                     },
                     headers: {
-                        'Authorization': 'bearer' + res.data.access_token
+                        'Authorization': res.data.token_type + res.data.access_token
                     }
                 })
                     .then(res => {
@@ -75,15 +87,16 @@ export default class CurrentTrip extends Component {
 
                         this.setState({
                             suggestedLocations,
-                            nearest
+                            nearest,
+                            isLoading: false,
                         })
                     })
                     .catch(err => {
-                        alert('could not get suggestions. ' + JSON.stringify(err.response.data))
+                        alert('could not get suggestions. ' + JSON.stringify(err))
                     })
             })
             .catch(err => {
-                alert("could not get access token. " + JSON.stringify(err.response.data))
+                alert("could not get access token. " + JSON.stringify(err))
             })
 
     }
@@ -93,52 +106,53 @@ export default class CurrentTrip extends Component {
     }
     render() {
         return (
-            <>
+            this.state.isLoading ? <Loader /> :
+                <>
 
-                <Header>
-                    <Left>
-                        <Icon name='ios-arrow-back' onPress={() => this.props.navigation.goBack()} />
-                    </Left>
-                    <Body>
-                        <Title>ATM</Title>
-                    </Body>
-                </Header>
+                    <Header>
+                        <Left>
+                            <Icon name='ios-arrow-back' onPress={() => this.props.navigation.goBack()} />
+                        </Left>
+                        <Body>
+                            <Title>{this.props.navigation.getParam('title')}</Title>
+                        </Body>
+                    </Header>
 
 
-                <ScrollView>
-                    {
-                        <>
-                            <Text style={styles.sectionTitle}>Nearest</Text>
-                            <View style={[styles.cardWrapper, styles.nearestCardWrapper]}>
-                                <View style={styles.cardHeader}>
-                                    <Text style={styles.placeName}>{this.state.nearest.placeName}</Text>
-                                    <Text style={styles.distance}>{this.state.nearest.distance} m</Text>
-                                </View>
-                                <Text style={styles.placeAddress}>{this.state.nearest.placeAddress}</Text>
-                            </View>
-                        </>
-                    }
-                    {
-                        <>
-                            <Text style={styles.sectionTitle}>Other results</Text>
-                            <FlatList
-                                keyExtractor={item => item.eLoc}
-                                data={this.state.suggestedLocations}
-                                renderItem={({ item, index, separators }) => (
-                                    <View style={styles.cardWrapper}>
-                                        <View style={styles.cardHeader}>
-                                            <Text style={styles.placeName}>{item.placeName}</Text>
-                                            <Text style={styles.distance}>{item.distance} m</Text>
-                                        </View>
-                                        <Text style={styles.placeAddress}>{item.placeAddress}</Text>
+                    <ScrollView>
+                        {
+                            <>
+                                <Text style={styles.sectionTitle}>Nearest</Text>
+                                <View style={[styles.cardWrapper, styles.nearestCardWrapper]}>
+                                    <View style={styles.cardHeader}>
+                                        <Text style={styles.placeName}>{this.state.nearest.placeName}</Text>
+                                        <Text style={styles.distance}>{this.state.nearest.distance} m</Text>
                                     </View>
-                                )}
-                            />
-                        </>
-                    }
-                </ScrollView>
+                                    <Text style={styles.placeAddress}>{this.state.nearest.placeAddress}</Text>
+                                </View>
+                            </>
+                        }
+                        {
+                            <>
+                                <Text style={styles.sectionTitle}>Other results</Text>
+                                <FlatList
+                                    keyExtractor={item => item.eLoc}
+                                    data={this.state.suggestedLocations}
+                                    renderItem={({ item, index, separators }) => (
+                                        <View style={styles.cardWrapper}>
+                                            <View style={styles.cardHeader}>
+                                                <Text style={styles.placeName}>{item.placeName}</Text>
+                                                <Text style={styles.distance}>{item.distance} m</Text>
+                                            </View>
+                                            <Text style={styles.placeAddress}>{item.placeAddress}</Text>
+                                        </View>
+                                    )}
+                                />
+                            </>
+                        }
+                    </ScrollView>
 
-            </>
+                </>
         )
     }
 }

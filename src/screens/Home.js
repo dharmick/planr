@@ -5,6 +5,7 @@ import { colors } from '../config/colors';
 import { LinearGradient } from 'expo-linear-gradient';
 import { metrics } from '../config/metrics';
 import RippleIcon from '../components/RippleIcon';
+import { commonStyles } from '../assets/CommonStyles';
 
 
 
@@ -52,6 +53,38 @@ class Home extends Component {
                     },
                 ]
             ],
+            nearBy: [
+                {
+                    title: 'ATM',
+                    image: 'https://res.cloudinary.com/planr/image/upload/v1587735527/icons/atm_wiuw1s.png',
+                    keywords: 'FINATM'
+                },
+                {
+                    title: 'Gas station',
+                    image: 'https://res.cloudinary.com/planr/image/upload/v1587735527/icons/gas-station_biycmb.png',
+                    keywords: 'TRNPMP'
+                },
+                {
+                    title: 'Medicals',
+                    image: 'https://res.cloudinary.com/planr/image/upload/v1587735502/icons/medicine_wsaueh.png',
+                    keywords: 'MDS24H;HLTMDS'
+                },
+                {
+                    title: 'Shopping',
+                    image: 'https://res.cloudinary.com/planr/image/upload/v1587735527/icons/shopping-basket_hteyro.png',
+                    keywords: 'SHPMAL;SHPDST'
+                },
+                {
+                    title: 'Fast food',
+                    image: 'https://res.cloudinary.com/planr/image/upload/v1587735527/icons/pizza_afgltu.png',
+                    keywords: 'FODFFD;FODPLZ'
+                },
+                {
+                    title: 'Meals',
+                    image: 'https://res.cloudinary.com/planr/image/upload/v1587735527/icons/serving-dish_ovbylf.png',
+                    keywords: 'FODIND'
+                }
+            ]
         }
     }
 
@@ -88,70 +121,43 @@ class Home extends Component {
                 </Header>
 
                 <ScrollView>
-                    <View style={styles.greeting}>
-                        <Text style={styles.greetingName}>Hey, {this.state.userName}!</Text>
-                        <Text style={styles.greetingText}>Where would you like to go today?</Text>
+
+                    {/*
+                    =================
+                    near me section
+                    =================
+                    */}
+
+                    <View style={commonStyles.section}>
+                        <Text style={commonStyles.sectionHeader}>Find near you</Text>
+                        <View style={styles.nearMe}>
+                            {
+                                this.state.nearBy.map((item, index) => (
+                                    <TouchableOpacity
+                                        key={index}
+                                        style={styles.nearMeItem}
+                                        onPress={() => this.props.navigation.navigate('Nearby',
+                                            { title: item.title, keywords: item.keywords })}>
+                                        <Image source={{ uri: item.image }} style={{ width: 50, height: 50 }} />
+                                        <Text style={styles.nearMeItemText}>{item.title}</Text>
+                                    </TouchableOpacity>
+                                ))
+                            }
+                        </View>
                     </View>
 
-                    <LinearGradient colors={[colors.PRIMARY, '#fc8b92']}
-                        start={[0, 0]} end={[1, 1]} style={styles.nearMe}>
-                        <View style={styles.nearMeHeader}>
-                            <Text style={styles.nearMeHeaderText} >Near me</Text>
-                        </View>
 
-                        <TouchableOpacity
-                            style={styles.nearMeItem}
-                            onPress={() => this.props.navigation.navigate('Nearby',
-                                { title: 'ATMs', keywords: 'FINATM' })}>
-                            <Icon style={styles.nearMeItemIcon} name="local-atm" type="MaterialIcons" />
-                            <Text style={styles.nearMeItemText}>ATM</Text>
-                        </TouchableOpacity>
+                    {/*
+                    =================
+                    trending section
+                    =================
+                    */}
 
-                        <TouchableOpacity
-                            style={styles.nearMeItem}
-                            onPress={() => this.props.navigation.navigate('Nearby',
-                                { title: 'Petrol Pumps', keywords: 'TRNPMP' })}>
-                            <Icon style={styles.nearMeItemIcon} name="gas-pump" type="FontAwesome5" />
-                            <Text style={styles.nearMeItemText}>Petrol Pump</Text>
-                        </TouchableOpacity>
+                    <View style={commonStyles.section}>
 
-                        <TouchableOpacity
-                            style={styles.nearMeItem}
-                            onPress={() => this.props.navigation.navigate('Nearby',
-                                { title: 'Medicals', keywords: 'MDS24H;HLTMDS' })}>
-                            <Icon style={styles.nearMeItemIcon} name="clinic-medical" type="FontAwesome5" />
-                            <Text style={styles.nearMeItemText}>Medical</Text>
-                        </TouchableOpacity>
-
-                        <TouchableOpacity
-                            style={styles.nearMeItem}
-                            onPress={() => this.props.navigation.navigate('Nearby',
-                                { title: 'Fast food', keywords: 'FODFFD;FODPLZ' })}>
-                            <Icon style={styles.nearMeItemIcon} name="pizza-slice" type="FontAwesome5" />
-                            <Text style={styles.nearMeItemText}>Fast food</Text>
-                        </TouchableOpacity>
-
-                        <TouchableOpacity
-                            style={styles.nearMeItem}
-                            onPress={() => this.props.navigation.navigate('Nearby',
-                                { title: 'Malls and stores', keywords: 'SHPMAL;SHPDST' })}>
-                            <Icon style={styles.nearMeItemIcon} name="shopping-cart" type="FontAwesome5" />
-                            <Text style={styles.nearMeItemText}>Malls &amp; stores </Text>
-                        </TouchableOpacity>
-
-                        <TouchableOpacity
-                            style={styles.nearMeItem}
-                            onPress={() => this.props.navigation.navigate('Nearby',
-                                { title: 'Lunch / Dinner', keywords: 'FODIND' })}>
-                            <Icon style={styles.nearMeItemIcon} name="rice" type="MaterialCommunityIcons" />
-                            <Text style={styles.nearMeItemText}>Lunch / Dinner</Text>
-                        </TouchableOpacity>
-                    </LinearGradient>
-
-                    <View style={styles.trendingList}>
-                        <View style={styles.trendingListHeader}>
-                            <Text style={styles.trendingListTitle}>Trending Places</Text>
-                            <Text style={styles.trendingListView}>View all</Text>
+                        <View style={commonStyles.sectionInlineHeaderWrapper}>
+                            <Text style={commonStyles.sectionHeader}>Trending Cities</Text>
+                            <Text style={[commonStyles.sectionHeader, { color: colors.BLUE }]}>View all</Text>
                         </View>
 
                         <ScrollView horizontal={true}>
@@ -167,7 +173,7 @@ class Home extends Component {
                                                     <ImageBackground
                                                         source={{ uri: item1.image }}
                                                         imageStyle={{ borderRadius: 4 }}
-                                                        style={styles.trendingListItem}>
+                                                        style={{ width: '100%', height: '100%' }}>
                                                         <View style={styles.trendingListItemTextWrapper}>
                                                             <Text style={styles.trendingListItemText}>{item1.name}</Text>
                                                         </View>
@@ -180,6 +186,11 @@ class Home extends Component {
                             }
                         </ScrollView>
                     </View>
+
+
+
+
+
                 </ScrollView>
 
             </>
@@ -188,76 +199,31 @@ class Home extends Component {
 }
 
 const styles = StyleSheet.create({
-    greeting: {
-        paddingTop: 50,
-        backgroundColor: '#fff'
-    },
-    greetingName: {
-        textAlign: 'center',
-        fontSize: 25,
-        color: colors.GREY,
-        fontFamily: 'kalam'
-        // fontWeight: 'bold'
-    },
-    greetingText: {
-        textAlign: 'center',
-        fontSize: 12,
-        color: colors.SILVER
-    },
-    searchBox: {
-        width: 250,
-        alignSelf: 'center',
-        marginTop: 30,
-        borderColor: colors.GREY,
-        textAlign: 'center',
-    },
+
+    // near me
     nearMe: {
-        elevation: 5,
-        marginVertical: 50,
-        marginHorizontal: 20,
-        borderRadius: 20,
-        overflow: 'hidden',
-        backgroundColor: colors.PRIMARY,
         display: 'flex',
         flexDirection: 'row',
         flexWrap: 'wrap'
     },
     nearMeItem: {
         width: '33.33%',
-        height: 100,
-        display: 'flex',
-        justifyContent: 'center',
+        paddingVertical: 20,
         alignItems: 'center',
     },
-    nearMeHeader: {
-        width: '100%',
-        paddingHorizontal: 25,
-        paddingTop: 20,
-    },
-    nearMeHeaderText: {
-        color: '#ddd',
-        fontSize: 15,
-        fontFamily: 'kalam'
-    },
     nearMeItemText: {
-        color: '#ddd',
-        fontSize: 14
+        color: colors.GREY,
+        fontFamily: 'opensans-bold',
+        fontSize: 14,
+        marginTop: 10
     },
-    nearMeItemIcon: {
-        color: '#ddd',
-        fontSize: 30
-    },
-    trendingList: {
-        // backgroundColor: 'red',
-    },
+
+
+    // trending
     trendingListItemWrapper: {
         width: 150,
         height: 120,
         margin: 10,
-    },
-    trendingListItem: {
-        width: '100%',
-        height: '100%',
     },
     trendingListItemTextWrapper: {
         backgroundColor: 'rgba(0,0,0,.3)',
@@ -272,20 +238,5 @@ const styles = StyleSheet.create({
         fontFamily: 'kalam-bold',
 
     },
-    trendingListHeader: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        paddingHorizontal: 10,
-    },
-    trendingListTitle: {
-        fontSize: 18,
-        letterSpacing: .4,
-        fontFamily: 'kalam',
-
-    },
-    trendingListView: {
-        fontSize: 16,
-        color: colors.BLUE
-    }
 })
 export default Home;

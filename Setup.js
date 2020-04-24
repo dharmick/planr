@@ -21,6 +21,9 @@ class Setup extends Component {
             'Roboto_medium': require("./src/assets/fonts/Roboto-Medium.ttf"),
             'kalam': require("./src/assets/fonts/Kalam-Regular.ttf"),
             'kalam-bold': require("./src/assets/fonts/Kalam-Bold.ttf"),
+            'opensans': require("./src/assets/fonts/OpenSans-Regular.ttf"),
+            'opensans-bold': require("./src/assets/fonts/OpenSans-Bold.ttf"),
+            'opensans-extrabold': require("./src/assets/fonts/OpenSans-ExtraBold.ttf")
         });
         this.setState({ fontLoaded: true });
     }

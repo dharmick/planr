@@ -388,7 +388,7 @@ export default (variables /* : * */ = variable) => {
       alignItems: 'flex-end',
       flexDirection: 'row',
       justifyContent: 'center',
-      marginRight: 0
+      marginRight: 10
     },
 
     backgroundColor: variables.toolbarDefaultBg,

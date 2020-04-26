@@ -1,190 +1,327 @@
 import React, { Component } from 'react'
-import { StyleSheet, View, ScrollView, FlatList } from 'react-native'
-import { Text, Icon, Header, Left, Body, Title } from 'native-base'
+import { StyleSheet, ScrollView, Dimensions } from 'react-native'
+import MapView, { Marker, Polyline } from 'react-native-maps';
+import { Header, Body, Title, Text, View, Left, Right, Icon, Button, Toast } from 'native-base';
 import { colors } from '../config/colors';
-import Constants from 'expo-constants';
-import axios from 'axios';
-import * as Location from 'expo-location';
+import * as FileSystem from 'expo-file-system';
+import * as MediaLibrary from 'expo-media-library';
+import * as Print from 'expo-print';
 
 
-export default class CurrentTrip extends Component {
+
+export default class ViewSchedule extends Component {
+
     constructor(props) {
         super(props);
         this.state = {
-            suggestedLocations: [
-                // {
-                //     "distance": 91,
-                //     "eLoc": "K8U77U",
-                //     "email": "",
-                //     "entryLatitude": 28.631989,
-                //     "entryLongitude": 77.217886,
-                //     "keywords": [
-                //         "FODCOF",
-                //         "759"
-                //     ],
-                //     "landlineNo": "+911141562923",
-                //     "latitude": 28.632215,
-                //     "longitude": 77.217792,
-                //     "mobileNo": "",
-                //     "orderIndex": 1,
-                //     "placeAddress": "Block A, Hamilton House, Inner Circle, Connaught Place",
-                //     "placeName": "Starbucks",
-                //     "type": "POI"
-                // },
+            // schedule: this.props.navigation.getParam('schedule'),
+            schedule: [
+                {
+                    "latitude": 19.2121320000001,
+                    "longitude": 73.0983140000001,
+                    "place_id": "-1",
+                    "place_name": "Source",
+                    "starting_time": 11,
+                    "type": "at_poi"
+                },
+                {
+                    "starting_time": 11,
+                    "time_to_travel": 1.7553888888888889,
+                    "travel_mode": "car",
+                    "type": "between_poi"
+                },
+                {
+                    "latitude": 18.949193,
+                    "longitude": 72.798893,
+                    "place_id": "136",
+                    "place_name": "Babu Amichand Panalal Jain Temple",
+                    "starting_time": 12.75538888888889,
+                    "time_to_spend": 1,
+                    "type": "at_poi"
+                },
+                {
+                    "starting_time": 13.75538888888889,
+                    "time_to_travel": 0.5239722222222222,
+                    "travel_mode": "car",
+                    "type": "between_poi"
+                },
+                {
+                    "latitude": 19.0361,
+                    "longitude": 72.8172,
+                    "place_id": "96",
+                    "place_name": "Bandra Worli Sea Link",
+                    "starting_time": 14.279361111111111,
+                    "time_to_spend": 0.5,
+                    "type": "at_poi"
+                },
+                {
+                    "starting_time": 14.779361111111111,
+                    "time_to_travel": 0.23708333333333334,
+                    "travel_mode": "car",
+                    "type": "between_poi"
+                },
+                {
+                    "latitude": 19.0168,
+                    "longitude": 72.8302,
+                    "place_id": "92",
+                    "place_name": "Siddhivinayak Temple",
+                    "starting_time": 15.016444444444444,
+                    "time_to_spend": 2,
+                    "type": "at_poi"
+                },
+                {
+                    "starting_time": 17.016444444444446,
+                    "time_to_travel": 0.9651111111111111,
+                    "travel_mode": "car",
+                    "type": "between_poi"
+                },
+                {
+                    "latitude": 19.176059,
+                    "longitude": 72.9444,
+                    "place_id": "-2",
+                    "place_name": "Destination",
+                    "starting_time": 17.981555555555556,
+                    "type": "at_poi"
+                }
             ],
-            nearest: [],
-            coords: ""
+            markers: []
         }
     }
 
-    getCurrentLocation = () => {
-        Location.getCurrentPositionAsync()
-            .then(res => {
-                this.setState({
-                    coords: res.coords.latitude + "," + res.coords.longitude
-                }, this.getNearBy())
-            })
-            .catch(err => {
-                alert("error in getting location: " + JSON.stringify(err))
-            })
+    componentWillMount() {
+        this.index = 0;
+        this.state.markers = this.state.schedule.filter(item => item.type === "at_poi")
     }
 
-    getNearBy = () => {
-        const params = new URLSearchParams();
-        params.append("grant_type", "client_credentials")
-        params.append("client_id", Constants.manifest.extra.mapMyIndia_client_id)
-        params.append("client_secret", Constants.manifest.extra.mapMyIndia_client_secret)
-        axios.post('https://outpost.mapmyindia.com/api/security/oauth/token', params, {
-            "headers": {
-                "Content-Type": "application/x-www-form-urlencoded"
-            }
+
+    handleScroll = (event) => {
+        let value = event.nativeEvent.contentOffset.x;
+        let index = Math.floor(value / (card_width + 20) + 0.3);
+        if (index >= this.state.markers.length)
+            index = this.state.markers.length - 1
+        if (index <= 0)
+            index = 0
+
+        if (this.index !== index) {
+            this.index = index;
+            const { latitude, longitude } = this.state.markers[index];
+            this.map.animateToRegion(
+                {
+                    latitude,
+                    longitude,
+                    latitudeDelta: 0.0922,
+                    longitudeDelta: 0.0421
+                }, 350
+            )
+
+        }
+    }
+
+    downloadSchedule = async () => {
+
+        // using expo-print to generate pdf from html. This file will be in cacheDirectory
+        const { uri } = await Print.printToFileAsync({
+            html: `<h1>this is h1</h1><h2>this is h2 different</h2>`,
         })
-            .then(res => {
-                axios.get('https://atlas.mapmyindia.com/api/places/nearby/json', {
-                    params: {
-                        'keywords': 'coffee;beer',
-                        'refLocation': this.state.coords
-                    },
-                    headers: {
-                        'Authorization': 'bearer' + res.data.access_token
-                    }
-                })
-                    .then(res => {
-                        let suggestedLocations = res.data.suggestedLocations
-                        const nearest = suggestedLocations.shift()
 
-                        this.setState({
-                            suggestedLocations,
-                            nearest
-                        })
-                    })
-                    .catch(err => {
-                        alert('could not get suggestions. ' + JSON.stringify(err.response.data))
-                    })
+        // renaming the file using expo-file-system
+        let currentdate = new Date();
+        let newFileName = "Planr_schedule: " + currentdate.getDate() + "-"
+            + (currentdate.getMonth() + 1) + "-"
+            + currentdate.getFullYear() + " @ "
+            + currentdate.getHours() + ":"
+            + currentdate.getMinutes() + ":"
+            + currentdate.getSeconds()
+            + ".pdf"
+        let uriArray = uri.split("/");
+        let nameToChange = uriArray[uriArray.length - 1];
+        let renamedURI = uri.replace(
+            nameToChange, newFileName
+        );
+        await FileSystem.moveAsync({
+            from: uri,
+            to: renamedURI
+        })
+
+        // moving file to 'Download' folder using expo-media-library because cacheDirectory cannot be seen in file explorer
+        const { status } = await MediaLibrary.requestPermissionsAsync();
+        if (status === "granted") {
+            const asset = await MediaLibrary.createAssetAsync(renamedURI);
+            await MediaLibrary.createAlbumAsync("Download", asset, false);  // false parameter will make sure the file is moved and not copied
+            Toast.show({
+                text: "File saved in 'Download' folder",
+                duration: 4000,
+                type: 'success',
+                buttonText: 'okay'
             })
-            .catch(err => {
-                alert("could not get access token. " + JSON.stringify(err.response.data))
+        } else {
+            Toast.show({
+                text: "Could not download file. Permission denied.",
+                duration: 4000,
+                type: 'danger',
+                buttonText: 'okay'
             })
+        }
 
     }
 
-    componentDidMount() {
-        this.getCurrentLocation()
-    }
     render() {
         return (
             <>
-
                 <Header>
                     <Left>
                         <Icon name='ios-arrow-back' onPress={() => this.props.navigation.goBack()} />
                     </Left>
                     <Body>
-                        <Title>ATM</Title>
+                        <Title>Schedule</Title>
                     </Body>
+                    <Right>
+                        <Button transparent onPress={this.downloadSchedule}>
+                            <Icon name='download' />
+                        </Button>
+                        <Button transparent>
+                            <Icon name='share' />
+                        </Button>
+
+                        {/* below button is added as a hack for alignment issue in header. It will not be seen in the UI */}
+                        <Button transparent>
+                            <Icon name='search' />
+                        </Button>
+
+                    </Right>
                 </Header>
 
 
-                <ScrollView>
+                {/*
+                =================
+                Background map with markers and lines
+                =================
+                */}
+
+
+                <MapView
+                    ref={map => this.map = map}
+                    initialRegion={{
+                        latitude: this.state.markers[0].latitude,
+                        longitude: this.state.markers[0].longitude,
+                        latitudeDelta: 0.0922,
+                        longitudeDelta: 0.0421,
+                    }}
+                    moveOnMarkerPress={false}
+                    style={styles.mapview}
+                >
                     {
-                        <>
-                            <Text style={styles.sectionTitle}>Nearest</Text>
-                            <View style={[styles.cardWrapper, styles.nearestCardWrapper]}>
-                                <View style={styles.cardHeader}>
-                                    <Text style={styles.placeName}>{this.state.nearest.placeName}</Text>
-                                    <Text style={styles.distance}>{this.state.nearest.distance} m</Text>
-                                </View>
-                                <Text style={styles.placeAddress}>{this.state.nearest.placeAddress}</Text>
-                            </View>
-                        </>
+                        this.state.markers.map((item, index) => {
+                            return (
+                                <Marker
+                                    key={index}
+                                    coordinate={{ latitude: item.latitude, longitude: item.longitude }}
+                                    pinColor={colors.BLUE}
+                                />
+                            )
+                        })
                     }
+
+                    <Polyline
+                        coordinates={
+                            this.state.markers
+                        }
+                        strokeColor={colors.BLUE}
+                        strokeWidth={6}
+                    />
+                </MapView>
+
+                {/*
+                =================
+                Bottom scrolling section
+                =================
+                */}
+
+                <ScrollView
+                    horizontal
+                    snapToInterval={card_width + 20}
+                    decelerationRate={.9}
+                    scrollEventThrottle={1}
+                    style={styles.cardsWrapper}
+                    contentContainerStyle={styles.endPadding}
+                    onScroll={this.handleScroll}
+                >
                     {
-                        <>
-                            <Text style={styles.sectionTitle}>Other results</Text>
-                            <FlatList
-                                keyExtractor={item => item.eLoc}
-                                data={this.state.suggestedLocations}
-                                renderItem={({ item, index, separators }) => (
-                                    <View style={styles.cardWrapper}>
-                                        <View style={styles.cardHeader}>
-                                            <Text style={styles.placeName}>{item.placeName}</Text>
-                                            <Text style={styles.distance}>{item.distance} m</Text>
-                                        </View>
-                                        <Text style={styles.placeAddress}>{item.placeAddress}</Text>
-                                    </View>
-                                )}
-                            />
-                        </>
+                        this.state.markers.map((marker, index) => (
+                            <View key={index} style={styles.card}>
+                                <Text style={styles.cardHeading}>{index + 1}. {marker.place_name}</Text>
+
+                                {
+                                    marker.average_rating &&
+                                    <Text style={styles.starWrapper}>
+                                        {marker.average_rating}
+                                        <Icon name="ios-star" style={styles.star} />
+                                    </Text>
+                                }
+                                <Text style={styles.cardTextLight}>
+                                    Starting Time: {marker.starting_time}
+                                </Text>
+                                {
+                                    marker.time_to_spend &&
+                                    <Text style={styles.cardTextLight}>
+                                        Time to spend: {marker.time_to_spend}
+                                    </Text>
+                                }
+                            </View>
+                        ))
                     }
                 </ScrollView>
-
             </>
         )
     }
 }
 
+const { width, height } = Dimensions.get("window");
+const card_height = height / 4;
+const card_width = width * 0.7;
+
 const styles = StyleSheet.create({
-    sectionTitle: {
-        fontSize: 16,
-        textAlign: 'center',
-        color: colors.SILVER,
-        marginTop: 40
+    mapview: {
+        flex: 1
     },
-    cardWrapper: {
-        padding: 15,
-        borderWidth: 1,
-        borderColor: colors.SILVER,
-        borderTopWidth: 5,
-        borderTopColor: colors.GREEN,
-        borderRadius: 4,
-        marginVertical: 20,
-        width: '90%',
-        marginHorizontal: '5%',
+    card: {
+        width: card_width,
+        height: card_height,
         backgroundColor: colors.WHITE,
-        elevation: 3,
+        marginHorizontal: 10,
+        borderRadius: 4,
+        padding: 15,
+        borderBottomWidth: 5,
+        borderBottomColor: colors.YELLOW
     },
-    nearestCardWrapper: {
-        backgroundColor: colors.GREEN,
-        elevation: 10,
+    cardsWrapper: {
+        position: 'absolute',
+        bottom: 20,
+        left: 0,
+        paddingLeft: (width - card_width - 20) / 2
     },
-    cardHeader: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'flex-start'
+    endPadding: {
+        paddingRight: (width - card_width - 20)
     },
-    placeName: {
-        fontSize: 20,
-        color: colors.GREY,
-        width: '70%',
+    cardHeading: {
+        fontSize: 22,
+        color: '#444',
+        fontFamily: 'kalam-bold',
+        lineHeight: 28,
     },
-    distance: {
-        fontSize: 20,
-        fontWeight: 'bold',
-        color: colors.BLUE
-    },
-    placeAddress: {
+    cardTextLight: {
         fontSize: 16,
-        color: colors.LIGHT_GREY,
-        marginTop: 10
+        color: '#999'
+    },
+    star: {
+        color: colors.YELLOW,
+        fontSize: 20,
+    },
+    starWrapper: {
+        position: 'absolute',
+        bottom: 10,
+        right: 10,
+        fontSize: 18,
+        color: colors.SILVER
     }
 })

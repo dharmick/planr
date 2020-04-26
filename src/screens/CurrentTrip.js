@@ -6,6 +6,7 @@ import { colors } from '../config/colors';
 import * as FileSystem from 'expo-file-system';
 import * as MediaLibrary from 'expo-media-library';
 import * as Print from 'expo-print';
+import * as Sharing from 'expo-sharing';
 
 
 
@@ -117,16 +118,36 @@ export default class ViewSchedule extends Component {
         }
     }
 
-    downloadSchedule = async () => {
+    generatePdf = async () => {
+        let htmlContent = `
+        <h1>Schedule</h1>
+        <table>
+            <tr>
+                <th>Sr.no</th>
+                <th>Place name</th>
+                <th>Reaching time</th>
+                <th>Leaving time</th>
+            </tr>
+
+        ${this.state.markers.map((item, index) => {
+            return `<tr>
+                <td>${index + 1}</td>
+                <td>${item.place_name}</td>
+                <td>${item.starting_time}</td>
+                <td>${item.starting_time + item.time_to_spend}</td>
+            </tr>`
+        }).join("")}
+
+        </table>`
 
         // using expo-print to generate pdf from html. This file will be in cacheDirectory
         const { uri } = await Print.printToFileAsync({
-            html: `<h1>this is h1</h1><h2>this is h2 different</h2>`,
+            html: htmlContent,
         })
 
         // renaming the file using expo-file-system
         let currentdate = new Date();
-        let newFileName = "Planr_schedule: " + currentdate.getDate() + "-"
+        let newFileName = "Planr schedule: " + currentdate.getDate() + "-"
             + (currentdate.getMonth() + 1) + "-"
             + currentdate.getFullYear() + " @ "
             + currentdate.getHours() + ":"
@@ -143,13 +164,22 @@ export default class ViewSchedule extends Component {
             to: renamedURI
         })
 
-        // moving file to 'Download' folder using expo-media-library because cacheDirectory cannot be seen in file explorer
+        return renamedURI
+    }
+
+
+
+    downloadSchedule = async () => {
+
+        const URI = await this.generatePdf()
+
+        // moving file to internal storage using expo-media-library because cacheDirectory cannot be seen in file explorer
         const { status } = await MediaLibrary.requestPermissionsAsync();
         if (status === "granted") {
-            const asset = await MediaLibrary.createAssetAsync(renamedURI);
-            await MediaLibrary.createAlbumAsync("Download", asset, false);  // false parameter will make sure the file is moved and not copied
+            const asset = await MediaLibrary.createAssetAsync(URI);
+            await MediaLibrary.createAlbumAsync("Planr/Schedules", asset, false);  // false parameter will make sure the file is moved and not copied
             Toast.show({
-                text: "File saved in 'Download' folder",
+                text: "File saved successfully",
                 duration: 4000,
                 type: 'success',
                 buttonText: 'okay'
@@ -165,6 +195,16 @@ export default class ViewSchedule extends Component {
 
     }
 
+
+    shareSchedule = async () => {
+        const URI = await this.generatePdf();
+        Sharing.shareAsync(URI, {
+            mimeType: 'application/pdf',
+            dialogTitle: 'Share with your group'
+        })
+    }
+
+
     render() {
         return (
             <>
@@ -177,10 +217,10 @@ export default class ViewSchedule extends Component {
                     </Body>
                     <Right>
                         <Button transparent onPress={this.downloadSchedule}>
-                            <Icon name='download' />
+                            <Icon name='download' type="AntDesign" />
                         </Button>
-                        <Button transparent>
-                            <Icon name='share' />
+                        <Button transparent onPress={this.shareSchedule}>
+                            <Icon name='share' type="MaterialCommunityIcons" />
                         </Button>
 
                         {/* below button is added as a hack for alignment issue in header. It will not be seen in the UI */}

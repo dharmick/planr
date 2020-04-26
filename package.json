@@ -30,7 +30,8 @@
     "react-navigation-tabs": "~2.6.0",
     "expo-file-system": "~7.0.0",
     "expo-media-library": "~7.0.0",
-    "expo-print": "~7.0.0"
+    "expo-print": "~7.0.0",
+    "expo-sharing": "~7.0.0"
   },
   "devDependencies": {
     "babel-preset-expo": "~7.1.0"

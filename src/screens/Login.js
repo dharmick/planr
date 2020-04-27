@@ -63,9 +63,12 @@ class Login extends Component {
             <>
                 {
                     this.state.isLoading &&
-                    <Loader />
+                    <Loader color="#FFFFFF" />
                 }
                 <Container>
+
+                    <Header androidStatusBarColor={colors.PRIMARY} style={{ display: 'none' }} />
+
 
 
                     <View style={styles.header}>

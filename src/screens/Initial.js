@@ -13,13 +13,14 @@ export default class Initial extends Component {
                 <View style={{ backgroundColor: 'rgba(255,255,255,.9)', flex: 1, justifyContent: 'space-around', alignItems: 'center' }}>
 
                     <View>
-                        <Text style={styles.headerText}>planR</Text>
+                        <Image source={require('../../assets/planr-logo.png')} style={styles.planrLogo} />
+
                     </View>
 
 
                     <Image source={require('../assets/images/travel-vector-human.png')} style={styles.humanVector} />
 
-                    <Text style={styles.headerSubText}>Personalised tour itinerary generation and recommendations</Text>
+                    <Text style={styles.headerSubText}>Tour planning and recommendations</Text>
 
 
                     <Button block style={styles.button} onPress={() => this.props.navigation.navigate('Signup')}>
@@ -43,12 +44,10 @@ export default class Initial extends Component {
 }
 
 const styles = StyleSheet.create({
-    headerText: {
-        fontFamily: 'kalam-bold',
-        marginTop: 30,
-        fontSize: 50,
-        color: colors.GREY,
-        textAlign: 'center',
+    planrLogo: {
+        width: 160,
+        height: 55,
+        marginTop: 30
     },
     headerSubText: {
         fontSize: 20,

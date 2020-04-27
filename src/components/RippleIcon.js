@@ -9,7 +9,7 @@ const RippleIcon = (props) => {
             <TouchableNativeFeedback onPress={props.onPress}
                 background={TouchableNativeFeedback.Ripple('#777', true)}>
                 <View style={{ width: 42, height: 42, backgroundColor: 'transparent', justifyContent: 'center', alignItems: 'center', alignSelf: 'center' }} >
-                    <Icon name={props.iconName} />
+                    <Icon name={props.iconName} style={props.style} type={props.type} />
                 </View>
             </TouchableNativeFeedback>
         </View>

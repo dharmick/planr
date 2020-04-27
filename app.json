@@ -11,7 +11,7 @@
     ],
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/planr-logo.png",
+    "icon": "./assets/planr-logo-square.png",
     "splash": {
       "image": "./assets/splash.png",
       "backgroundColor": "#ffffff"
@@ -29,8 +29,8 @@
       "package": "com.planr.planr"
     },
     "androidStatusBar": {
-      "backgroundColor": "#000000",
-      "barStyle": "light-content"
+      "backgroundColor": "#FFFFFF",
+      "barStyle": "dark-content"
     },
     "extra": {
       "mapMyIndia_client_id": "nu2qLwK5RWIlnw9GGMDfy2MysEcQ0xa1f12uHEQT4JLPeIBKM8aJ1fLJoD4SLxfX_cu-tqUp5agwh2LiXc03rg==",

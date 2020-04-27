@@ -108,15 +108,12 @@ class Home extends Component {
         return (
             <>
 
-                <Header>
-                    <Left>
-                        <Image source={require('../../assets/planr-logo.png')} style={{ height: 35, width: 35 }} />
-                    </Left>
+                <Header androidStatusBarColor="#FFFFFF" iosBarStyle="dark-content">
                     <Body>
-                        <Title>Home</Title>
+                        <Image source={require('../../assets/planr-logo.png')} style={{ height: 28, width: 80, marginLeft: 20 }} />
                     </Body>
                     <Right>
-                        <RippleIcon iconName="search" onPress={this.handleSearch} />
+                        <RippleIcon iconName="ios-search" onPress={this.handleSearch} style={{ color: colors.LIGHT_GREY }} />
                     </Right>
                 </Header>
 

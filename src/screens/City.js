@@ -124,29 +124,33 @@ export default class City extends Component {
         this.smallAnimatedIcon = ref
     }
 
+    handleChangeWishlist = () => {
+        axiosPost('/wishlist', {
+            city_id: this.state.cityId,
+            value: this.state.isWishlisted
+        }, true)
+            .then(res => {
+                if (res.data.success) {
+                }
+                else {
+                    Toast.show({
+                        text: res.data.message,
+                        duration: 5000,
+                        type: 'danger',
+                        buttonText: 'okay'
+                    })
+                    this.setState({ isWishlisted: !this.state.isWishlisted })
+                }
+            }, err => {
+                alert("something went wrong")
+            })
+    }
+
     handleOnPressLike = () => {
 
         this.smallAnimatedIcon.bounceIn()
-        this.setState(prevState => ({ isWishlisted: !prevState.isWishlisted }))
-        
-        axiosPost('/wishlist', {
-            city_id: this.state.cityId,
-            value: !this.state.isWishlisted
-        }, true)
-        .then(res => {
-            if (res.data.success) {
-            } 
-            else {
-                Toast.show({
-                    text: res.data.message,
-                    duration: 5000,
-                    type: 'danger',
-                    buttonText: 'okay'
-                })
-            }
-        }, err => {
-            this.setState({ isLoading: false })
-        })
+        this.setState({ isWishlisted: !this.state.isWishlisted }, this.handleChangeWishlist)
+
     }
 
     render() {
@@ -174,14 +178,16 @@ export default class City extends Component {
                                     ref={this.handleSmallAnimatedIconRef}
                                     name={isWishlisted ? 'heart' : 'ios-heart-empty'}
                                     style={styles.icon}
-                                    style={{color: (() => {
-                                        if (isWishlisted) {
-                                            return colors.heartColor;
-                                        }
-                                        else {
-                                            return colors.BLACK;
-                                        }
-                                    })()  }}
+                                    style={{
+                                        color: (() => {
+                                            if (isWishlisted) {
+                                                return colors.heartColor;
+                                            }
+                                            else {
+                                                return colors.BLACK;
+                                            }
+                                        })()
+                                    }}
                                 />
                             </TouchableOpacity>
                         </Right>

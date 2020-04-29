@@ -99,7 +99,7 @@ export default class Place extends Component {
 
     onStarRatingPress(rating) {
         this.setState({
-          starCount: rating
+            starCount: rating
         });
 
         const params = {
@@ -111,7 +111,7 @@ export default class Place extends Component {
         axiosGet('/user-ratings', params)
             .then(res => {
                 if (res.data.success) {
-                } 
+                }
                 else {
                     Toast.show({
                         text: res.data.message,
@@ -120,37 +120,41 @@ export default class Place extends Component {
                         buttonText: 'okay'
                     })
                 }
-        })
+            })
 
     }
-    
+
     handleSmallAnimatedIconRef = (ref) => {
         this.smallAnimatedIcon = ref
+    }
+
+    handleChangeWishlist = () => {
+        axiosPost('/wishlist', {
+            poi_id: this.state.poiId,
+            value: this.state.isWishlisted
+        }, true)
+            .then(res => {
+                if (res.data.success) {
+                }
+                else {
+                    Toast.show({
+                        text: res.data.message,
+                        duration: 5000,
+                        type: 'danger',
+                        buttonText: 'okay'
+                    })
+                    this.setState({ isWishlisted: !this.state.isWishlisted })
+                }
+            }, err => {
+                alert("something went wrong")
+            })
     }
 
     handleOnPressLike = () => {
 
         this.smallAnimatedIcon.bounceIn()
-        this.setState(prevState => ({ isWishlisted: !prevState.isWishlisted }))
-        
-        axiosPost('/wishlist', {
-            poi_id: this.state.poiId,
-            value: !this.state.isWishlisted
-        }, true)
-        .then(res => {
-            if (res.data.success) {
-            } 
-            else {
-                Toast.show({
-                    text: res.data.message,
-                    duration: 5000,
-                    type: 'danger',
-                    buttonText: 'okay'
-                })
-            }
-        }, err => {
-            this.setState({ isLoading: false })
-        })
+        this.setState({ isWishlisted: !this.state.isWishlisted }, this.handleChangeWishlist)
+
     }
 
 
@@ -162,42 +166,44 @@ export default class Place extends Component {
         return (
 
             this.state.isLoaded ?
-            <>
-                <Header>
-                    <Left>
-                        <Icon name='ios-arrow-back' onPress={() => this.props.navigation.goBack()} />
-                    </Left>
-                    <Body>
-                        <Title>{this.state.poiDetails.name}</Title>
-                    </Body>
-                    <Right>
-                        {/* <Icon name="ios-heart-empty" onPress={this.handleSearch} /> */}
-                        <TouchableOpacity
-                            activeOpacity={1}
-                            onPress={this.handleOnPressLike}
-                        >
-                            <AnimatedIcon
-                                ref={this.handleSmallAnimatedIconRef}
-                                name={isWishlisted ? 'heart' : 'ios-heart-empty'}
-                                style={styles.icon}
-                                style={{color: (() => {
-                                    if (isWishlisted) {
-                                        return colors.heartColor;
-                                    }
-                                    else {
-                                        return colors.BLACK;
-                                    }
-                                })()  }}
-                            />
-                        </TouchableOpacity>
-                    </Right>
-                </Header>
+                <>
+                    <Header>
+                        <Left>
+                            <Icon name='ios-arrow-back' onPress={() => this.props.navigation.goBack()} />
+                        </Left>
+                        <Body>
+                            <Title>{this.state.poiDetails.name}</Title>
+                        </Body>
+                        <Right>
+                            {/* <Icon name="ios-heart-empty" onPress={this.handleSearch} /> */}
+                            <TouchableOpacity
+                                activeOpacity={1}
+                                onPress={this.handleOnPressLike}
+                            >
+                                <AnimatedIcon
+                                    ref={this.handleSmallAnimatedIconRef}
+                                    name={isWishlisted ? 'heart' : 'ios-heart-empty'}
+                                    style={styles.icon}
+                                    style={{
+                                        color: (() => {
+                                            if (isWishlisted) {
+                                                return colors.heartColor;
+                                            }
+                                            else {
+                                                return colors.BLACK;
+                                            }
+                                        })()
+                                    }}
+                                />
+                            </TouchableOpacity>
+                        </Right>
+                    </Header>
 
-                <ScrollView>
-                    
-                    <Image style={{ width: '100%', height: 200, }} source={{ uri: this.state.poiDetails.image }} />
+                    <ScrollView>
 
-                     {/* ==============
+                        <Image style={{ width: '100%', height: 200, }} source={{ uri: this.state.poiDetails.image }} />
+
+                        {/* ==============
                         ABOUT
                     ============== */}
 
@@ -257,22 +263,22 @@ export default class Place extends Component {
                         <View style={{ marginLeft: 13, marginRight: 20, marginBottom: 10, marginTop: 10 }}>
                             <StarRating
                                 disabled={false}
-                                starSize = {35}
+                                starSize={35}
                                 maxStars={5}
                                 emptyStar={'ios-star-outline'}
                                 fullStar={'ios-star'}
                                 halfStar={'ios-star-half'}
                                 iconSet={'Ionicons'}
-                                fullStarColor = {'gold'}
-                                halfStarEnabled	= {false}
+                                fullStarColor={'gold'}
+                                halfStarEnabled={false}
                                 rating={this.state.starCount}
                                 selectedStar={(rating) => this.onStarRatingPress(rating)}
                             />
                         </View>
 
-                </ScrollView>
-            </> :
-            <Loader />
+                    </ScrollView>
+                </> :
+                <Loader />
         );
     }
 }

@@ -122,7 +122,11 @@ export default class GenerateScheduleInput extends Component {
         }
         axiosGet('/generate/pbdfs', data)
             .then(res => {
-                this.props.navigation.navigate("ViewSchedule", { schedule: res.data.data })
+                this.props.navigation.navigate("ViewSchedule", {
+                    schedule: res.data.data,
+                    sourceName: this.state.source,
+                    destinationName: this.state.destination
+                })
             })
             .catch(err => {
                 alert("something went wrong")

@@ -36,9 +36,11 @@ export default class ViewSchedule extends Component {
                     "longitude": 72.798893,
                     "place_id": "136",
                     "place_name": "Babu Amichand Panalal Jain Temple",
-                    "starting_time": 12.75538888888889,
-                    "time_to_spend": 1,
-                    "type": "at_poi"
+                    "starting_time": '12.75',
+                    "ending_time": '13.23',
+                    "type": "at_poi",
+                    "average_rating": 4.5,
+                    "percent_match": 90,
                 },
                 {
                     "starting_time": 13.75538888888889,
@@ -52,8 +54,10 @@ export default class ViewSchedule extends Component {
                     "place_id": "96",
                     "place_name": "Bandra Worli Sea Link",
                     "starting_time": 14.279361111111111,
-                    "time_to_spend": 0.5,
-                    "type": "at_poi"
+                    "ending_time": '13.23',
+                    "type": "at_poi",
+                    "average_rating": 4.5,
+                    "percent_match": 90,
                 },
                 {
                     "starting_time": 14.779361111111111,
@@ -67,8 +71,10 @@ export default class ViewSchedule extends Component {
                     "place_id": "92",
                     "place_name": "Siddhivinayak Temple",
                     "starting_time": 15.016444444444444,
-                    "time_to_spend": 2,
-                    "type": "at_poi"
+                    "ending_time": '13.23',
+                    "type": "at_poi",
+                    "average_rating": 4.5,
+                    "percent_match": 90,
                 },
                 {
                     "starting_time": 17.016444444444446,
@@ -208,7 +214,7 @@ export default class ViewSchedule extends Component {
     render() {
         return (
             <>
-                <Header>
+                <Header androidStatusBarColor="#FFFFFF" iosBarStyle="dark-content">
                     <Left>
                         <Icon name='ios-arrow-back' onPress={() => this.props.navigation.goBack()} />
                     </Left>
@@ -289,24 +295,22 @@ export default class ViewSchedule extends Component {
                     {
                         this.state.markers.map((marker, index) => (
                             <View key={index} style={styles.card}>
-                                <Text style={styles.cardHeading}>{index + 1}. {marker.place_name}</Text>
+                                <Text style={styles.cardHeading}>{marker.place_name}</Text>
+                                {
+                                    marker.percent_match &&
+                                    <Text style={styles.percentMatch}>{marker.percent_match}% match</Text>
+                                }
 
                                 {
                                     marker.average_rating &&
                                     <Text style={styles.starWrapper}>
-                                        {marker.average_rating}
+                                        {marker.average_rating}{' '}
                                         <Icon name="ios-star" style={styles.star} />
                                     </Text>
                                 }
-                                <Text style={styles.cardTextLight}>
-                                    Starting Time: {marker.starting_time}
+                                <Text style={styles.timeText}>
+                                    {marker.starting_time}{marker.ending_time && ' - ' + marker.ending_time}
                                 </Text>
-                                {
-                                    marker.time_to_spend &&
-                                    <Text style={styles.cardTextLight}>
-                                        Time to spend: {marker.time_to_spend}
-                                    </Text>
-                                }
                             </View>
                         ))
                     }
@@ -331,8 +335,7 @@ const styles = StyleSheet.create({
         marginHorizontal: 10,
         borderRadius: 4,
         padding: 15,
-        borderBottomWidth: 5,
-        borderBottomColor: colors.YELLOW
+        elevation: 5,
     },
     cardsWrapper: {
         position: 'absolute',
@@ -344,10 +347,9 @@ const styles = StyleSheet.create({
         paddingRight: (width - card_width - 20)
     },
     cardHeading: {
-        fontSize: 22,
-        color: '#444',
-        fontFamily: 'kalam-bold',
-        lineHeight: 28,
+        fontSize: 20,
+        color: colors.GREY,
+        fontFamily: 'opensans-extrabold',
     },
     cardTextLight: {
         fontSize: 16,
@@ -355,13 +357,30 @@ const styles = StyleSheet.create({
     },
     star: {
         color: colors.YELLOW,
-        fontSize: 20,
+        fontSize: 16,
     },
     starWrapper: {
         position: 'absolute',
-        bottom: 10,
-        right: 10,
-        fontSize: 18,
-        color: colors.SILVER
+        bottom: 13,
+        right: 15,
+        fontSize: 14,
+        fontFamily: 'opensans',
+        color: '#FFFFFF',
+        backgroundColor: colors.PRIMARY,
+        padding: 5,
+        borderRadius: 4,
+    },
+    percentMatch: {
+        color: '#77DD00',
+        fontFamily: 'opensans-bold',
+        fontSize: 14,
+    },
+    timeText: {
+        color: colors.LIGHT_GREY,
+        fontFamily: 'opensans',
+        fontSize: 16,
+        bottom: 15,
+        left: 15,
+        position: 'absolute'
     }
 })

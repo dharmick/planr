@@ -1,9 +1,13 @@
 import React, { Component } from 'react'
 import { StyleSheet, ScrollView, Dimensions } from 'react-native'
 import MapView, { Marker, Polyline } from 'react-native-maps';
-import { Header, Body, Title, Text, View } from 'native-base';
+import { Header, Body, Title, Text, View, Left, Right, Icon, Button, Toast } from 'native-base';
 import { colors } from '../config/colors';
-import { Icon } from 'native-base';
+import * as FileSystem from 'expo-file-system';
+import * as MediaLibrary from 'expo-media-library';
+import * as Print from 'expo-print';
+import * as Sharing from 'expo-sharing';
+
 
 
 export default class ViewSchedule extends Component {
@@ -12,6 +16,83 @@ export default class ViewSchedule extends Component {
         super(props);
         this.state = {
             schedule: this.props.navigation.getParam('schedule'),
+            sourceName: this.props.navigation.getParam('sourceName'),
+            destinationName: this.props.navigation.getParam('destinationName'),
+            // schedule: [
+            //     {
+            //         "latitude": 19.2121320000001,
+            //         "longitude": 73.0983140000001,
+            //         "place_id": "-1",
+            //         "place_name": "Source",
+            //         "starting_time": 11,
+            //         "type": "at_poi"
+            //     },
+            //     {
+            //         "starting_time": 11,
+            //         "time_to_travel": 1.7553888888888889,
+            //         "travel_mode": "car",
+            //         "type": "between_poi"
+            //     },
+            //     {
+            //         "latitude": 18.949193,
+            //         "longitude": 72.798893,
+            //         "place_id": "136",
+            //         "place_name": "Babu Amichand Panalal Jain Temple",
+            //         "starting_time": '12.75',
+            //         "ending_time": '13.23',
+            //         "type": "at_poi",
+            //         "average_rating": 4.5,
+            //         "percent_match": 90,
+            //     },
+            //     {
+            //         "starting_time": 13.75538888888889,
+            //         "time_to_travel": 0.5239722222222222,
+            //         "travel_mode": "car",
+            //         "type": "between_poi"
+            //     },
+            //     {
+            //         "latitude": 19.0361,
+            //         "longitude": 72.8172,
+            //         "place_id": "96",
+            //         "place_name": "Bandra Worli Sea Link",
+            //         "starting_time": 14.279361111111111,
+            //         "ending_time": '13.23',
+            //         "type": "at_poi",
+            //         "average_rating": 4.5,
+            //         "percent_match": 90,
+            //     },
+            //     {
+            //         "starting_time": 14.779361111111111,
+            //         "time_to_travel": 0.23708333333333334,
+            //         "travel_mode": "car",
+            //         "type": "between_poi"
+            //     },
+            //     {
+            //         "latitude": 19.0168,
+            //         "longitude": 72.8302,
+            //         "place_id": "92",
+            //         "place_name": "Siddhivinayak Temple",
+            //         "starting_time": 15.016444444444444,
+            //         "ending_time": '13.23',
+            //         "type": "at_poi",
+            //         "average_rating": 4.5,
+            //         "percent_match": 90,
+            //     },
+            //     {
+            //         "starting_time": 17.016444444444446,
+            //         "time_to_travel": 0.9651111111111111,
+            //         "travel_mode": "car",
+            //         "type": "between_poi"
+            //     },
+            //     {
+            //         "latitude": 19.176059,
+            //         "longitude": 72.9444,
+            //         "place_id": "-2",
+            //         "place_name": "Destination",
+            //         "starting_time": 17.981555555555556,
+            //         "type": "at_poi"
+            //     }
+            // ],
             markers: []
         }
     }
@@ -45,14 +126,126 @@ export default class ViewSchedule extends Component {
         }
     }
 
+    generatePdf = async () => {
+        let htmlContent = `
+        <h1>Schedule</h1>
+        <table>
+            <tr>
+                <th>Sr.no</th>
+                <th>Place name</th>
+                <th>Reaching time</th>
+                <th>Leaving time</th>
+            </tr>
+
+        ${this.state.markers.map((item, index) => {
+            return `<tr>
+                <td>${index + 1}</td>
+                <td>${item.place_name}</td>
+                <td>${item.starting_time}</td>
+                <td>${item.starting_time + item.time_to_spend}</td>
+            </tr>`
+        }).join("")}
+
+        </table>`
+
+        // using expo-print to generate pdf from html. This file will be in cacheDirectory
+        const { uri } = await Print.printToFileAsync({
+            html: htmlContent,
+        })
+
+        // renaming the file using expo-file-system
+        let currentdate = new Date();
+        let newFileName = "Planr schedule: " + currentdate.getDate() + "-"
+            + (currentdate.getMonth() + 1) + "-"
+            + currentdate.getFullYear() + " @ "
+            + currentdate.getHours() + ":"
+            + currentdate.getMinutes() + ":"
+            + currentdate.getSeconds()
+            + ".pdf"
+        let uriArray = uri.split("/");
+        let nameToChange = uriArray[uriArray.length - 1];
+        let renamedURI = uri.replace(
+            nameToChange, newFileName
+        );
+        await FileSystem.moveAsync({
+            from: uri,
+            to: renamedURI
+        })
+
+        return renamedURI
+    }
+
+
+
+    downloadSchedule = async () => {
+
+        const URI = await this.generatePdf()
+
+        // moving file to internal storage using expo-media-library because cacheDirectory cannot be seen in file explorer
+        const { status } = await MediaLibrary.requestPermissionsAsync();
+        if (status === "granted") {
+            const asset = await MediaLibrary.createAssetAsync(URI);
+            await MediaLibrary.createAlbumAsync("Planr/Schedules", asset, false);  // false parameter will make sure the file is moved and not copied
+            Toast.show({
+                text: "File saved successfully",
+                duration: 4000,
+                type: 'success',
+                buttonText: 'okay'
+            })
+        } else {
+            Toast.show({
+                text: "Could not download file. Permission denied.",
+                duration: 4000,
+                type: 'danger',
+                buttonText: 'okay'
+            })
+        }
+
+    }
+
+
+    shareSchedule = async () => {
+        const URI = await this.generatePdf();
+        Sharing.shareAsync(URI, {
+            mimeType: 'application/pdf',
+            dialogTitle: 'Share with your group'
+        })
+    }
+
+
     render() {
         return (
             <>
-                <Header noLeft>
+                <Header androidStatusBarColor="#FFFFFF" iosBarStyle="dark-content">
+                    <Left>
+                        <Icon name='ios-arrow-back' onPress={() => this.props.navigation.goBack()} />
+                    </Left>
                     <Body>
-                        <Title>Heading</Title>
+                        <Title>Schedule</Title>
                     </Body>
+                    <Right>
+                        <Button transparent onPress={this.downloadSchedule}>
+                            <Icon name='download' type="AntDesign" />
+                        </Button>
+                        <Button transparent onPress={this.shareSchedule}>
+                            <Icon name='share' type="MaterialCommunityIcons" />
+                        </Button>
+
+                        {/* below button is added as a hack for alignment issue in header. It will not be seen in the UI */}
+                        <Button transparent>
+                            <Icon name='search' />
+                        </Button>
+
+                    </Right>
                 </Header>
+
+
+                {/*
+                =================
+                Background map with markers and lines
+                =================
+                */}
+
 
                 <MapView
                     ref={map => this.map = map}
@@ -86,6 +279,12 @@ export default class ViewSchedule extends Component {
                     />
                 </MapView>
 
+                {/*
+                =================
+                Bottom scrolling section
+                =================
+                */}
+
                 <ScrollView
                     horizontal
                     snapToInterval={card_width + 20}
@@ -98,24 +297,42 @@ export default class ViewSchedule extends Component {
                     {
                         this.state.markers.map((marker, index) => (
                             <View key={index} style={styles.card}>
-                                <Text style={styles.cardHeading}>{index + 1}. {marker.place_name}</Text>
+
+                                <Text style={styles.cardHeading}>
+                                    {
+                                        marker.place_id === "-1" ?
+                                            this.state.sourceName :
+                                            marker.place_id === "-2" ?
+                                                this.state.destinationName :
+                                                marker.place_name
+                                    }
+                                </Text>
+
+
+                                {
+                                    marker.place_id === "-1" ?
+                                        <Text style={styles.cardSubHeading}>Starting point of your journey</Text> :
+                                        marker.place_id === "-2" ?
+                                            <Text style={styles.cardSubHeading}>Destination</Text> :
+                                            null
+                                }
+
+
+                                {
+                                    marker.percent_match &&
+                                    <Text style={styles.percentMatch}>{marker.percent_match}% match</Text>
+                                }
 
                                 {
                                     marker.average_rating &&
                                     <Text style={styles.starWrapper}>
-                                        {marker.average_rating}
+                                        {marker.average_rating}{' '}
                                         <Icon name="ios-star" style={styles.star} />
                                     </Text>
                                 }
-                                <Text style={styles.cardTextLight}>
-                                    Starting Time: {marker.starting_time}
+                                <Text style={styles.timeText}>
+                                    {marker.starting_time}{marker.ending_time && ' - ' + marker.ending_time}
                                 </Text>
-                                {
-                                    marker.time_to_spend &&
-                                    <Text style={styles.cardTextLight}>
-                                        Time to spend: {marker.time_to_spend}
-                                    </Text>
-                                }
                             </View>
                         ))
                     }
@@ -125,8 +342,8 @@ export default class ViewSchedule extends Component {
     }
 }
 
-const { width, height } = Dimensions.get("window");
-const card_height = height / 4;
+const { width } = Dimensions.get("window");
+const card_height = 140;
 const card_width = width * 0.7;
 
 const styles = StyleSheet.create({
@@ -140,8 +357,7 @@ const styles = StyleSheet.create({
         marginHorizontal: 10,
         borderRadius: 4,
         padding: 15,
-        borderBottomWidth: 5,
-        borderBottomColor: colors.YELLOW
+        elevation: 5,
     },
     cardsWrapper: {
         position: 'absolute',
@@ -153,10 +369,14 @@ const styles = StyleSheet.create({
         paddingRight: (width - card_width - 20)
     },
     cardHeading: {
-        fontSize: 22,
-        color: '#444',
-        fontFamily: 'kalam-bold',
-        lineHeight: 28,
+        fontSize: 20,
+        color: colors.GREY,
+        fontFamily: 'opensans-extrabold',
+    },
+    cardSubHeading: {
+        fontSize: 14,
+        color: colors.GREY,
+        fontFamily: 'opensans'
     },
     cardTextLight: {
         fontSize: 16,
@@ -164,13 +384,30 @@ const styles = StyleSheet.create({
     },
     star: {
         color: colors.YELLOW,
-        fontSize: 20,
+        fontSize: 16,
     },
     starWrapper: {
         position: 'absolute',
-        bottom: 10,
-        right: 10,
-        fontSize: 18,
-        color: colors.SILVER
+        bottom: 13,
+        right: 15,
+        fontSize: 14,
+        fontFamily: 'opensans',
+        color: '#FFFFFF',
+        backgroundColor: colors.PRIMARY,
+        padding: 5,
+        borderRadius: 4,
+    },
+    percentMatch: {
+        color: '#77DD00',
+        fontFamily: 'opensans-bold',
+        fontSize: 14,
+    },
+    timeText: {
+        color: colors.LIGHT_GREY,
+        fontFamily: 'opensans',
+        fontSize: 16,
+        bottom: 15,
+        left: 15,
+        position: 'absolute'
     }
 })

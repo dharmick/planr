@@ -1,11 +1,15 @@
 import React, { Component, Fragment } from 'react'
-import { StyleSheet, View, Image, ScrollView } from 'react-native'
-import { Header, Left, Body, Right, Title, Icon, Text, Grid, Row, Col, H1, Button, Toast } from 'native-base';
+import { StyleSheet, View, Image, ScrollView, TouchableOpacity } from 'react-native'
+import { Header, Left, Body, Right, Title, Text, Grid, Icon, Row, Col, H1, Button, Toast } from 'native-base';
 import { colors } from '../config/colors';
 import Separator from '../components/Separator';
-import { axiosGet } from '../../axios';
+import { axiosGet, axiosPost } from '../../axios';
 import Loader from '../components/Loader';
 import StarRating from 'react-native-star-rating';
+import * as Animatable from 'react-native-animatable';
+// import Icon from 'react-native-vector-icons/AntDesign'
+
+const AnimatedIcon = Animatable.createAnimatableComponent(Icon)
 
 export default class Place extends Component {
     constructor(props) {
@@ -14,6 +18,7 @@ export default class Place extends Component {
             poiId: this.props.navigation.getParam('id'),
             cityId: this.props.navigation.getParam('cityId'),
             isLoaded: false,
+            isWishlisted: false,
             starCount: 3.5,
             poiDetails: {
                 name: "Bandra Worli Sea Link",
@@ -50,6 +55,7 @@ export default class Place extends Component {
                 },
             }
         }
+
     }
 
     componentDidMount() {
@@ -61,6 +67,7 @@ export default class Place extends Component {
                 if (res.data.success) {
                     this.setState({
                         poiDetails: res.data.data,
+                        isWishlisted: res.data.data.isWishlisted,
                         isLoaded: true
                     })
                 } else {
@@ -116,8 +123,42 @@ export default class Place extends Component {
         })
 
     }
+    
+    handleSmallAnimatedIconRef = (ref) => {
+        this.smallAnimatedIcon = ref
+    }
+
+    handleOnPressLike = () => {
+
+        this.smallAnimatedIcon.bounceIn()
+        this.setState(prevState => ({ isWishlisted: !prevState.isWishlisted }))
+        
+        axiosPost('/wishlist', {
+            poi_id: this.state.poiId,
+            value: !this.state.isWishlisted
+        }, true)
+        .then(res => {
+            if (res.data.success) {
+            } 
+            else {
+                Toast.show({
+                    text: res.data.message,
+                    duration: 5000,
+                    type: 'danger',
+                    buttonText: 'okay'
+                })
+            }
+        }, err => {
+            this.setState({ isLoading: false })
+        })
+    }
+
+
 
     render() {
+
+        const { isWishlisted } = this.state
+
         return (
 
             this.state.isLoaded ?
@@ -130,7 +171,25 @@ export default class Place extends Component {
                         <Title>{this.state.poiDetails.name}</Title>
                     </Body>
                     <Right>
-                        <Icon name="ios-heart-empty" onPress={this.handleSearch} />
+                        {/* <Icon name="ios-heart-empty" onPress={this.handleSearch} /> */}
+                        <TouchableOpacity
+                            activeOpacity={1}
+                            onPress={this.handleOnPressLike}
+                        >
+                            <AnimatedIcon
+                                ref={this.handleSmallAnimatedIconRef}
+                                name={isWishlisted ? 'heart' : 'ios-heart-empty'}
+                                style={styles.icon}
+                                style={{color: (() => {
+                                    if (isWishlisted) {
+                                        return colors.heartColor;
+                                    }
+                                    else {
+                                        return colors.BLACK;
+                                    }
+                                })()  }}
+                            />
+                        </TouchableOpacity>
                     </Right>
                 </Header>
 
@@ -218,4 +277,10 @@ export default class Place extends Component {
     }
 }
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+    icon: {
+        paddingHorizontal: 10,
+        justifyContent: 'center',
+        alignItems: 'center'
+    }
+})

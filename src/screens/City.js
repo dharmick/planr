@@ -3,10 +3,12 @@ import { StyleSheet, View, Image, ScrollView } from 'react-native'
 import { Header, Left, Body, Right, Title, Icon, Text, Grid, Row, Col, H1, Button, Toast } from 'native-base';
 import { colors } from '../config/colors';
 import Separator from '../components/Separator';
-import { axiosGet } from '../../axios';
+import { axiosGet, axiosPost } from '../../axios';
 import Loader from '../components/Loader';
-import { TouchableHighlight } from 'react-native-gesture-handler';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import * as Animatable from 'react-native-animatable';
+
+const AnimatedIcon = Animatable.createAnimatableComponent(Icon)
 
 export default class City extends Component {
     constructor(props) {
@@ -14,6 +16,7 @@ export default class City extends Component {
         this.state = {
             cityId: this.props.navigation.getParam('id'),
             isLoaded: false,
+            isWishlisted: false,
             cityDetails: {
                 name: "Mumbai",
                 description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis vero veritatis obcaecati vel corrupti, ducimus necessitatibus consequuntur eum reiciendis deleniti maxime architecto dolor? Veritatis in vitae, ratione dolor quidem quia!",
@@ -102,6 +105,7 @@ export default class City extends Component {
                 if (res.data.success) {
                     this.setState({
                         cityDetails: res.data.data,
+                        isWishlisted: res.data.data.isWishlisted,
                         isLoaded: true
                     })
                 } else {
@@ -116,7 +120,39 @@ export default class City extends Component {
             })
     }
 
+    handleSmallAnimatedIconRef = (ref) => {
+        this.smallAnimatedIcon = ref
+    }
+
+    handleOnPressLike = () => {
+
+        this.smallAnimatedIcon.bounceIn()
+        this.setState(prevState => ({ isWishlisted: !prevState.isWishlisted }))
+        
+        axiosPost('/wishlist', {
+            city_id: this.state.cityId,
+            value: !this.state.isWishlisted
+        }, true)
+        .then(res => {
+            if (res.data.success) {
+            } 
+            else {
+                Toast.show({
+                    text: res.data.message,
+                    duration: 5000,
+                    type: 'danger',
+                    buttonText: 'okay'
+                })
+            }
+        }, err => {
+            this.setState({ isLoading: false })
+        })
+    }
+
     render() {
+
+        const { isWishlisted } = this.state
+
         return (
 
             this.state.isLoaded ?
@@ -129,7 +165,25 @@ export default class City extends Component {
                             <Title>{this.state.cityDetails.name}</Title>
                         </Body>
                         <Right>
-                            <Icon name="ios-heart-empty" onPress={this.handleSearch} />
+                            {/* <Icon name="ios-heart-empty" onPress={this.handleSearch} /> */}
+                            <TouchableOpacity
+                                activeOpacity={1}
+                                onPress={this.handleOnPressLike}
+                            >
+                                <AnimatedIcon
+                                    ref={this.handleSmallAnimatedIconRef}
+                                    name={isWishlisted ? 'heart' : 'ios-heart-empty'}
+                                    style={styles.icon}
+                                    style={{color: (() => {
+                                        if (isWishlisted) {
+                                            return colors.heartColor;
+                                        }
+                                        else {
+                                            return colors.BLACK;
+                                        }
+                                    })()  }}
+                                />
+                            </TouchableOpacity>
                         </Right>
                     </Header>
 

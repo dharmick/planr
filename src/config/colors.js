@@ -13,5 +13,7 @@ export const colors = {
     LIGHT_GREY: '#7E7E7E',
     SILVER: '#CFCFCF',
     LIGHT_SILVER: '#F0F0F0',
+    heartColor: '#e92f3c',
+    textPrimary: '#515151',
 
 }

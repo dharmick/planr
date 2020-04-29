@@ -5,6 +5,7 @@ import NavigationService from './NavigationService';
 
 
 const BASE_URL = 'https://b52a2a45.ngrok.io';
+
 // const BASE_URL = 'https://planr-api-dev.herokuapp.com';
 
 const axios_instance = axios.create({

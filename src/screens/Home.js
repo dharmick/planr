@@ -16,42 +16,37 @@ class Home extends Component {
             userName: '',
             searchText: '',
             trendingPlaces: [
-                [
-                    {
-                        id: 1,
-                        name: "Mumbai",
-                        image: "https://images.livemint.com/img/2019/10/30/600x338/mumba--621x414_1572414902335.jpg"
-                    },
-                    {
-                        id: 2,
-                        name: "Bengaluru",
-                        image: "https://miro.medium.com/max/674/1*ZcpIjbV0m4o8bIrxVK06Tw.jpeg"
-                    },
-                ],
-                [
-                    {
-                        id: 3,
-                        name: "Hyderabad",
-                        image: "https://www.globalgovernmentforum.com/wp-content/uploads/2019/08/Kashmir-Pictures_flickr_RESIZED-620x414.jpg"
-                    },
-                    {
-                        id: 1,
-                        name: "Mumbai",
-                        image: "https://images.livemint.com/img/2019/10/30/600x338/mumba--621x414_1572414902335.jpg"
-                    },
-                ],
-                [
-                    {
-                        id: 2,
-                        name: "Bengaluru",
-                        image: "https://miro.medium.com/max/674/1*ZcpIjbV0m4o8bIrxVK06Tw.jpeg"
-                    },
-                    {
-                        id: 3,
-                        name: "Hyderabad",
-                        image: "https://www.globalgovernmentforum.com/wp-content/uploads/2019/08/Kashmir-Pictures_flickr_RESIZED-620x414.jpg"
-                    },
-                ]
+
+                {
+                    id: 1,
+                    name: "Bangalore",
+                    image: "https://res.cloudinary.com/planr/image/upload/v1588143110/font_images/bangalore-font-image_zmhsmb.png"
+                },
+                {
+                    id: 2,
+                    name: "Goa",
+                    image: "https://res.cloudinary.com/planr/image/upload/v1588147729/font_images/goa-font-image_xshlvn.png"
+                },
+                {
+                    id: 3,
+                    name: "Mumbai",
+                    image: "https://res.cloudinary.com/planr/image/upload/v1588147729/font_images/mumbai-font-image_xwlhtf"
+                },
+                {
+                    id: 4,
+                    name: "Bangalore",
+                    image: "https://res.cloudinary.com/planr/image/upload/v1588143110/font_images/bangalore-font-image_zmhsmb.png"
+                },
+                {
+                    id: 5,
+                    name: "Goa",
+                    image: "https://res.cloudinary.com/planr/image/upload/v1588147729/font_images/goa-font-image_xshlvn.png"
+                },
+                {
+                    id: 6,
+                    name: "Mumbai",
+                    image: "https://res.cloudinary.com/planr/image/upload/v1588147729/font_images/mumbai-font-image_xwlhtf"
+                },
             ],
             nearBy: [
                 {
@@ -95,6 +90,10 @@ class Home extends Component {
         this.props.navigation.navigate('SearchCity');
     }
 
+    trendingSelectHandle = (city) => {
+        alert(`${city.name} selected`)
+    }
+
 
 
     componentDidMount() {
@@ -124,6 +123,7 @@ class Home extends Component {
                     near me section
                     =================
                     */}
+
 
                     <View style={commonStyles.section}>
                         <Text style={commonStyles.sectionHeader}>Find near you</Text>
@@ -158,29 +158,18 @@ class Home extends Component {
                             <Text style={[commonStyles.sectionHeader, { color: colors.BLUE }]}>View all</Text>
                         </View>
 
-                        <ScrollView horizontal={true}>
+                        <ScrollView
+                            horizontal={true}
+                        >
                             {
                                 this.state.trendingPlaces.map((item, index) => (
-                                    <View key={index}>
-                                        {
-                                            item.map((item1, index1) => (
-                                                <TouchableOpacity
-                                                    activeOpacity={0.9}
-                                                    style={styles.trendingListItemWrapper}
-                                                    onPress={() => this.props.navigation.navigate('City', { id: item1.id })}
-                                                    key={index1}>
-                                                    <ImageBackground
-                                                        source={{ uri: item1.image }}
-                                                        imageStyle={{ borderRadius: 4 }}
-                                                        style={{ width: '100%', height: '100%' }}>
-                                                        <View style={styles.trendingListItemTextWrapper}>
-                                                            <Text style={styles.trendingListItemText}>{item1.name}</Text>
-                                                        </View>
-                                                    </ImageBackground>
-                                                </TouchableOpacity>
-                                            ))
-                                        }
-                                    </View>
+                                    <TouchableOpacity
+                                        activeOpacity={0.9}
+                                        key={index}
+                                        style={styles.trendingItemWrapper}
+                                        onPress={() => this.trendingSelectHandle(item)}>
+                                        <Image source={{ uri: item.image }} style={{ width: 120, height: 120 }} />
+                                    </TouchableOpacity>
                                 ))
                             }
                         </ScrollView>
@@ -280,23 +269,11 @@ const styles = StyleSheet.create({
 
 
     // trending
-    trendingListItemWrapper: {
+    trendingItemWrapper: {
+        height: 150,
         width: 150,
-        height: 120,
-        margin: 10,
-    },
-    trendingListItemTextWrapper: {
-        backgroundColor: 'rgba(0,0,0,.3)',
-        flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        borderRadius: 4
-    },
-    trendingListItemText: {
-        color: 'white',
-        fontSize: 22,
-        fontFamily: 'kalam-bold',
-
     },
 
     // browse more

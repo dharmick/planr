@@ -16,6 +16,7 @@ import Home from './src/screens/Home';
 import SearchCity from './src/screens/SearchCity';
 import City from './src/screens/City';
 import Place from './src/screens/Place';
+import Wishlist from './src/screens/Wishlist';
 
 import Profile from './src/screens/Profile';
 import AuthLoadingScreen from './AuthLoadingScreen';
@@ -89,7 +90,10 @@ const UserStack = createStackNavigator({
     },
     ChangePassword: {
         screen: ChangePassword
-    }
+    },
+    Wishlist: {
+        screen: Wishlist
+    },
 }, {
     headerMode: 'none'
 });

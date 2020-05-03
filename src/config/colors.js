@@ -4,7 +4,7 @@ export const colors = {
 
     PRIMARY: '#ff5964',
     BLUE: '#79addc',
-    YELLOW: '#ffee93',
+    YELLOW: '#FFDF00',
     GREEN: '#23f0c7',
     ORANGE: '#f39c6b',
     NAVY_BLUE: '#38235C',
@@ -13,6 +13,7 @@ export const colors = {
     LIGHT_GREY: '#7E7E7E',
     SILVER: '#CFCFCF',
     LIGHT_SILVER: '#F0F0F0',
-    heartColor: '#e92f3c'
+    heartColor: '#e92f3c',
+    WISHLIST: '#79ADCA'
 
 }

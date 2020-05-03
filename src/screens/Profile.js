@@ -26,7 +26,10 @@ class Profile extends Component {
                             <Text>ON</Text>
                         </Right>
                     </ListItem>
-                    <ListItem icon>
+                    <ListItem icon
+                        onPress={() =>
+                            this.props.navigation.navigate('Wishlist')
+                    }>
                         <Left>
                             <Button style={{ backgroundColor: "#db2c8c" }}>
                                 <Icon name="heart" type="FontAwesome5" />

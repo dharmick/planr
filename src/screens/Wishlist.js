@@ -77,6 +77,10 @@ export default class Wishlist extends Component {
         this.props.navigation.navigate('Place', { id: place.id, cityId: place.city_id })
     }
 
+    onCitySelect = (city) => {
+        this.props.navigation.navigate('City', {id:city.id})
+    }
+
     handleSmallAnimatedIconRef = (ref) => {
         this.smallAnimatedIcon = ref
     }
@@ -84,7 +88,7 @@ export default class Wishlist extends Component {
     handleOnPressLike = () => {
 
         this.smallAnimatedIcon.bounceIn()
-        console.log(this.state.isWishlisted)
+        // console.log(this.state.isWishlisted)
         this.setState({ isWishlisted: !this.state.isWishlisted })
 
     }
@@ -174,11 +178,11 @@ export default class Wishlist extends Component {
                                                             <Text style={styles.cardHeading}>{item.name}</Text>
                                                             <Text style={styles.cardSubHeading}>City of India</Text>
                                                         </View>
-                                                        {/* <View>
+                                                        <View>
                                                             <Text style={styles.starWrapper}> {item.rating}
                                                                 {' '}<Icon name="ios-star" style={styles.star} />
                                                             </Text>
-                                                        </View> */}
+                                                        </View>
                                                     </View>
                                                     <TouchableOpacity
                                                                 activeOpacity={1}
@@ -207,7 +211,6 @@ export default class Wishlist extends Component {
                                 ))
                             }
                         </ScrollView>
-                        <Text>You Clicked on Cities!!</Text>
                     </Tab>
                 </Tabs>
             </> :

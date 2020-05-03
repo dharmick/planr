@@ -4,7 +4,7 @@ export const colors = {
 
     PRIMARY: '#ff5964',
     BLUE: '#79addc',
-    YELLOW: '#FFDF00',
+    YELLOW: '#FFD000',
     GREEN: '#23f0c7',
     ORANGE: '#f39c6b',
     NAVY_BLUE: '#38235C',

@@ -41,6 +41,7 @@ export default class Nearby extends Component {
 
     getCurrentLocation = async () => {
 
+        Location.requestPermissionsAsync();
         Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.Highest })
             .then(res => {
                 this.setState({

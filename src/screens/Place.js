@@ -241,7 +241,7 @@ export default class Place extends Component {
                                                 <View style={{ flex: 1, flexDirection: 'row' }}>
                                                     {
                                                         [...Array(item.rating)].map((val, ind) => (
-                                                            <Icon name='ios-star' key={ind} style={{ color: 'gold', fontSize: 16 }} />
+                                                            <Icon name='ios-star' key={ind} style={{ color: colors.YELLOW, fontSize: 16 }} />
                                                         ))
                                                     }
                                                     <Text style={{ fontSize: 13, color: colors.SILVER, marginLeft: 5 }}>{item.count}</Text>
@@ -269,7 +269,7 @@ export default class Place extends Component {
                                 fullStar={'ios-star'}
                                 halfStar={'ios-star-half'}
                                 iconSet={'Ionicons'}
-                                fullStarColor={'gold'}
+                                fullStarColor={colors.YELLOW}
                                 halfStarEnabled={false}
                                 rating={this.state.starCount}
                                 selectedStar={(rating) => this.onStarRatingPress(rating)}

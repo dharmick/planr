@@ -6,6 +6,7 @@ import Separator from '../components/Separator';
 import { axiosGet, axiosPost } from '../../axios';
 import Loader from '../components/Loader';
 import * as Animatable from 'react-native-animatable';
+import update from 'react-addons-update';
 
 const AnimatedIcon = Animatable.createAnimatableComponent(Icon)
 
@@ -15,8 +16,6 @@ export default class Wishlist extends Component {
 
         this.state = {
             isLoaded: false,
-            isPlaces: true,
-            isWishlisted: true,
             cities: [
                 {
                   "description": "Bengaluru (also called Bangalore) is the capital of India's southern Karnataka state. The center of India's high-tech industry, the city is also known for its parks and nightlife. By Cubbon Park, Vidhana Soudha is a Neo-Dravidian legislative building. Former royal residences include 19th-century Bangalore Palace, modeled after Englandтs Windsor Castle, and Tipu Sultana's Summer Palace, an 18th-century teak structure.",
@@ -85,17 +84,22 @@ export default class Wishlist extends Component {
         this.smallAnimatedIcon = ref
     }
 
-    handleOnPressLike = () => {
+    handleOnPressCity = (item, index) => {
 
         this.smallAnimatedIcon.bounceIn()
-        // console.log(this.state.isWishlisted)
-        this.setState({ isWishlisted: !this.state.isWishlisted })
+        this.setState({
+            cities: update(this.state.cities, {[index]: {isWishlisted: {$set: !this.state.cities[index].isWishlisted}}})
+        })
+    }
 
+    handleOnPressPlaces = (item, index) => {
+        this.smallAnimatedIcon.bounceIn()
+        this.setState({
+            pois: update(this.state.pois, {[index]: {isWishlisted: {$set: !this.state.pois[index].isWishlisted}}})
+        })
     }
 
     render() {
-
-        const {isWishlisted} = this.state
 
         return (
 
@@ -134,15 +138,15 @@ export default class Wishlist extends Component {
                                                     </View>
                                                     <TouchableOpacity
                                                                 activeOpacity={1}
-                                                                onPress={this.handleOnPressLike}
+                                                                onPress={() => this.handleOnPressPlaces(item, index)}
                                                             >
                                                                 <AnimatedIcon
                                                                     ref={this.handleSmallAnimatedIconRef}
-                                                                    name={isWishlisted ? 'heart' : 'ios-heart-empty'}
+                                                                    name={item.isWishlisted ? 'heart' : 'ios-heart-empty'}
                                                                     style={styles.icon}
                                                                     style={{
                                                                         color: (() => {
-                                                                            if (isWishlisted) {
+                                                                            if (item.isWishlisted) {
                                                                                 return colors.heartColor;
                                                                             }
                                                                             else {
@@ -186,15 +190,15 @@ export default class Wishlist extends Component {
                                                     </View>
                                                     <TouchableOpacity
                                                                 activeOpacity={1}
-                                                                onPress={this.handleOnPressLike}
+                                                                onPress={() => this.handleOnPressCity(item, index)}
                                                             >
                                                                 <AnimatedIcon
                                                                     ref={this.handleSmallAnimatedIconRef}
-                                                                    name={isWishlisted ? 'heart' : 'ios-heart-empty'}
+                                                                    name={item.isWishlisted ? 'heart' : 'ios-heart-empty'}
                                                                     style={styles.icon}
                                                                     style={{
                                                                         color: (() => {
-                                                                            if (isWishlisted) {
+                                                                            if (item.isWishlisted) {
                                                                                 return colors.heartColor;
                                                                             }
                                                                             else {
@@ -266,7 +270,7 @@ const styles = StyleSheet.create({
         color: '#999'
     },
     star: {
-        color: colors.YELLOW,
+        color: 'gold',
         fontSize: 16,
     },
     starWrapper: {

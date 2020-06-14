@@ -207,7 +207,7 @@ export default class City extends Component {
                                 {this.state.cityDetails.description}
                             </Text>
                             <Button iconLeft block
-                                style={{ marginTop: 20, marginHorizontal: 20, marginBottom: 10 }}
+                                style={{ marginTop: 20, marginHorizontal: 20, marginBottom: 10, backgroundColor: colors.PRIMARY }}
                                 onPress={() => this.props.navigation.navigate('GenerateScheduleInput', { cityId: this.state.cityId, cityName: this.state.cityDetails.name })}>
                                 <Icon name="map-marker-path" type="MaterialCommunityIcons" />
                                 <Text>Generate Schedule</Text>

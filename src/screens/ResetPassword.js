@@ -134,6 +134,7 @@ const styles = StyleSheet.create({
     loginButton: {
         width: '100%',
         marginVertical: 30,
+        backgroundColor: colors.PRIMARY
     },
     input: {
         marginVertical: 10,

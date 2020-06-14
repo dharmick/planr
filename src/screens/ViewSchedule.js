@@ -142,7 +142,7 @@ export default class ViewSchedule extends Component {
                 <td>${index + 1}</td>
                 <td>${item.place_name}</td>
                 <td>${item.starting_time}</td>
-                <td>${item.starting_time + item.time_to_spend}</td>
+                <td>${item.ending_time}</td>
             </tr>`
         }).join("")}
 

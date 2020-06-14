@@ -235,7 +235,7 @@ export default class GenerateScheduleInput extends Component {
                 </View>
 
                 <View style={styles.inputWrapper}>
-                    <Button block style={{ marginVertical: 20, height: 60 }} onPress={this.generateSchedule}>
+                    <Button block style={{ marginVertical: 20, height: 60, backgroundColor: colors.PRIMARY }} onPress={this.generateSchedule}>
                         <Text style={{ fontSize: 18 }}>PLAN MY TRIP</Text>
                     </Button>
                 </View>

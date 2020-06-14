@@ -69,9 +69,10 @@ class Forgot extends Component {
                             <Button block style={styles.loginButton} onPress={this.handleForgot}>
                                 <Text>Send Email</Text>
                             </Button>
-                            <Text style={styles.link} onPress={() => this.props.navigation.navigate('Login')}>
-                                Go to Login Page
-                            </Text>
+                            <Button block style={styles.cancelButton} onPress={() => this.props.navigation.navigate('Login')}>
+                                <Text style={{ color: 'black' }}>CANCEL</Text>
+                            </Button>
+                            
                         </View>
                     </Row>
                 </Grid>
@@ -113,6 +114,11 @@ const styles = StyleSheet.create({
     loginButton: {
         width: '100%',
         marginVertical: 30,
+        backgroundColor: colors.PRIMARY
+    },
+    cancelButton: {
+        width: '100%',
+        backgroundColor: colors.WHITE,
     },
     input: {
         marginVertical: 10,

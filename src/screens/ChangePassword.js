@@ -72,7 +72,7 @@ class ChangePassword extends Component {
                         <View style={styles.login_wrapper}>
                             <Item regular style={styles.input}>
                                 <Input
-                                    placeholder='Password'
+                                    placeholder='Old Password'
                                     value={this.state.password}
                                     secureTextEntry={true}
                                     placeholderTextColor={colors.SILVER}
@@ -88,7 +88,7 @@ class ChangePassword extends Component {
                             </Item>
                             <Item regular style={styles.input}>
                                 <Input
-                                    placeholder='Confirm Password'
+                                    placeholder='Confirm New Password'
                                     value={this.state.confirmpassword}
                                     secureTextEntry={true}
                                     placeholderTextColor={colors.SILVER}
@@ -97,9 +97,10 @@ class ChangePassword extends Component {
                             <Button block style={styles.loginButton} onPress={this.handleChangePassword}>
                                 <Text>Change Password</Text>
                             </Button>
-                            <Text style={styles.link} onPress={() => this.props.navigation.navigate('Profile')}>
-                                Go Back
-                            </Text>
+                            <Button block style={styles.cancelButton} onPress={() => this.props.navigation.navigate('Profile')}>
+                                <Text style={{ color: 'black' }}>CANCEL</Text>
+                            </Button>
+                            
                         </View>
                     </Row>
                 </Grid>
@@ -141,6 +142,11 @@ const styles = StyleSheet.create({
     loginButton: {
         width: '100%',
         marginVertical: 30,
+        backgroundColor: colors.PRIMARY
+    },
+    cancelButton: {
+        width: '100%',
+        backgroundColor: colors.WHITE,
     },
     input: {
         marginVertical: 10,

@@ -19,7 +19,7 @@ export default class SearchCity extends Component {
     }
 
     componentDidMount() {
-        axiosGet('/getAllCities')
+        axiosGet('/getAllCitiesPois')
             .then(res => {
                 this.setState({
                     cities: res.data.data,
@@ -33,6 +33,10 @@ export default class SearchCity extends Component {
 
     onCitySelect = (city) => {
         this.props.navigation.navigate('City', { id: city.id })
+    }
+
+    onPoISelect = (place) => {
+        this.props.navigation.navigate('Place', { id: place.id, cityId: place.city_id})
     }
 
     handleSearchTextChange = (text) => {
@@ -71,7 +75,8 @@ export default class SearchCity extends Component {
                         keyExtractor={item => item.id.toString()}
                         data={this.state.filteredCities}
                         renderItem={({ item, index, separators }) => (
-                            <TouchableOpacity onPress={() => this.onCitySelect(item)}>
+
+                            <TouchableOpacity onPress={item.isCity ? () => this.onCitySelect(item) : () => this.onPoISelect(item) }>
                                 <View style={{ paddingVertical: 20, paddingHorizontal: 10 }}>
                                     <Text>{item.name}</Text>
                                 </View>

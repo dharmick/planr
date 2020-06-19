@@ -2,14 +2,16 @@ import React, { Component } from 'react';
 import { StyleSheet, View, Alert, AsyncStorage, StatusBar } from 'react-native';
 import { Button, Text, Grid, Row, Container, Content, Header, Item, Label, Input } from 'native-base';
 import { colors } from '../config/colors';
-import { axiosPost } from '../../axios'
+import { axiosPost } from '../../axios';
+import Loader from '../components/Loader';
 
 
 class Forgot extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            email: ''
+            email: '',
+            isLoading: false
         }
     }
     componentDidMount() {
@@ -21,6 +23,8 @@ class Forgot extends Component {
             Alert.alert("OOPS!!", "All fields are mandatory");
             return;
         }
+
+        this.setState({ isLoading: true })
         const data = {
             email: email
         }
@@ -47,36 +51,42 @@ class Forgot extends Component {
 
     render() {
         return (
-            <Container>
-                <Grid>
-                    <Row size={2}>
-                        <View style={styles.header}>
-                            <Text style={styles.headerText}>Forgot Password</Text>
-                        </View>
-                    </Row>
-                    <Row size={8} style={{ backgroundColor: colors.LIGHT_SILVER }}>
-                        <View style={styles.login_wrapper}>
-                            <Item regular style={styles.input}>
-                                <Input
-                                    placeholder='Email'
-                                    value={this.state.email}
-                                    keyboardType="email-address"
-                                    autoCorrect={false}
-                                    autoCapitalize="none"
-                                    placeholderTextColor={colors.SILVER}
-                                    onChangeText={(text) => this.inputChangeHandler(text, 'email')} />
-                            </Item>
-                            <Button block style={styles.loginButton} onPress={this.handleForgot}>
-                                <Text>Send Email</Text>
-                            </Button>
-                            <Button block style={styles.cancelButton} onPress={() => this.props.navigation.navigate('Login')}>
-                                <Text style={{ color: 'black' }}>CANCEL</Text>
-                            </Button>
-                            
-                        </View>
-                    </Row>
-                </Grid>
-            </Container>
+            <>
+                {
+                    this.state.isLoading &&
+                    <Loader />
+                }
+                <Container>
+                    <Grid>
+                        <Row size={2}>
+                            <View style={styles.header}>
+                                <Text style={styles.headerText}>Forgot Password</Text>
+                            </View>
+                        </Row>
+                        <Row size={8} style={{ backgroundColor: colors.LIGHT_SILVER }}>
+                            <View style={styles.login_wrapper}>
+                                <Item regular style={styles.input}>
+                                    <Input
+                                        placeholder='Email'
+                                        value={this.state.email}
+                                        keyboardType="email-address"
+                                        autoCorrect={false}
+                                        autoCapitalize="none"
+                                        placeholderTextColor={colors.SILVER}
+                                        onChangeText={(text) => this.inputChangeHandler(text, 'email')} />
+                                </Item>
+                                <Button block style={styles.loginButton} onPress={this.handleForgot}>
+                                    <Text>Send Email</Text>
+                                </Button>
+                                <Button block style={styles.cancelButton} onPress={() => this.props.navigation.navigate('Login')}>
+                                    <Text style={{ color: 'black' }}>CANCEL</Text>
+                                </Button>
+                                
+                            </View>
+                        </Row>
+                    </Grid>
+                </Container>
+            </>
         )
     }
 }

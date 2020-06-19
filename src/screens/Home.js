@@ -184,14 +184,14 @@ class Home extends Component {
                             snapToInterval={280}
                             decelerationRate={.9}>
 
-                            <TouchableOpacity activeOpacity={0.9} style={styles.browseMoreItemWrapper}>
+                            <TouchableOpacity activeOpacity={0.9} style={styles.browseMoreItemWrapper} onPress={() => this.props.navigation.navigate('BrowsePlaces')}>
                                 <Text style={styles.browseMoreItemTextTitle}>All Places</Text>
                                 <Text style={styles.browseMoreItemText}>View all the places available with us</Text>
                                 <Text style={styles.browseMoreItemLink}>View now</Text>
                                 <Image source={require('../assets/images/map-illustration.png')} style={styles.browseMoreItemImage} />
                             </TouchableOpacity>
 
-                            <TouchableOpacity activeOpacity={0.9} style={[styles.browseMoreItemWrapper, { backgroundColor: colors.GREEN }]}>
+                            <TouchableOpacity activeOpacity={0.9} style={[styles.browseMoreItemWrapper, { backgroundColor: colors.GREEN }]} onPress={() => this.props.navigation.navigate('BrowseCities')}>
                                 <Text style={styles.browseMoreItemTextTitle}>All Cities</Text>
                                 <Text style={styles.browseMoreItemText}>View all the cities available with us</Text>
                                 <Text style={styles.browseMoreItemLink}>View now</Text>

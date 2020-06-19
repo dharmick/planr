@@ -2,11 +2,12 @@ import React, { Component } from 'react'
 import DatePicker from 'react-native-datepicker'
 import { Text, Item, Input, View, Header, Left, Icon, Body, Title, Button } from 'native-base'
 import { colors } from '../config/colors';
-import { StyleSheet, FlatList, TouchableOpacity } from 'react-native'
+import { StyleSheet, FlatList, TouchableOpacity, Alert } from 'react-native'
 import RippleIcon from '../components/RippleIcon';
 import axios from 'axios';
 import { axiosGet } from '../../axios';
 import Constants from 'expo-constants';
+import Loader from '../components/Loader';
 // import * as Location from 'expo-location';
 // import * as Permissions from 'expo-permissions';
 
@@ -24,7 +25,8 @@ export default class GenerateScheduleInput extends Component {
             destinationSuggestions: [],
             selectedSource: {},
             selectedDestination: {},
-            userLocation: {}
+            userLocation: {},
+            isLoading: false
         }
     }
 
@@ -111,6 +113,14 @@ export default class GenerateScheduleInput extends Component {
     }
 
     generateSchedule = () => {
+        
+        const { source, destination, from, to } = this.state;
+        if (!source || !destination || !from || !to ) {
+            Alert.alert("OOPS!!", "All fields are mandatory");
+            return;
+        }
+        
+        this.setState({ isLoading:true })
         const data = {
             source_lat: this.state.selectedSource.latitude,
             source_lon: this.state.selectedSource.longitude,
@@ -136,7 +146,10 @@ export default class GenerateScheduleInput extends Component {
     render() {
         return (
             <>
-
+                {
+                    this.state.isLoading &&
+                    <Loader />
+                }
                 <Header>
                     <Left>
                         <RippleIcon iconName="ios-arrow-back" onPress={() => this.props.navigation.goBack()} />

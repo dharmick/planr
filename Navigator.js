@@ -17,6 +17,8 @@ import SearchCity from './src/screens/SearchCity';
 import City from './src/screens/City';
 import Place from './src/screens/Place';
 import Wishlist from './src/screens/Wishlist';
+import BrowsePlaces from './src/screens/BrowsePlaces';
+import BrowseCities from './src/screens/BrowseCities';
 
 import Profile from './src/screens/Profile';
 import AuthLoadingScreen from './AuthLoadingScreen';
@@ -55,7 +57,13 @@ const HomeStack = createStackNavigator({
     },
     Nearby: {
         screen: Nearby
-    }
+    }, 
+    BrowsePlaces: {
+        screen: BrowsePlaces
+    },
+    BrowseCities: {
+        screen: BrowseCities
+    },
 }, {
     headerMode: 'none',
     initialRouteName: 'HomePage'

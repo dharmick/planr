@@ -2,11 +2,12 @@ import React, { Component } from 'react'
 import DatePicker from 'react-native-datepicker'
 import { Text, Item, Input, View, Header, Left, Icon, Body, Title, Button } from 'native-base'
 import { colors } from '../config/colors';
-import { StyleSheet, FlatList, TouchableOpacity } from 'react-native'
+import { StyleSheet, FlatList, TouchableOpacity, Alert } from 'react-native'
 import RippleIcon from '../components/RippleIcon';
 import axios from 'axios';
 import { axiosGet } from '../../axios';
 import Constants from 'expo-constants';
+import Loader from '../components/Loader';
 // import * as Location from 'expo-location';
 // import * as Permissions from 'expo-permissions';
 
@@ -24,7 +25,8 @@ export default class GenerateScheduleInput extends Component {
             destinationSuggestions: [],
             selectedSource: {},
             selectedDestination: {},
-            userLocation: {}
+            userLocation: {},
+            isLoading: false
         }
     }
 
@@ -111,6 +113,14 @@ export default class GenerateScheduleInput extends Component {
     }
 
     generateSchedule = () => {
+        
+        const { source, destination, from, to } = this.state;
+        if (!source || !destination || !from || !to ) {
+            Alert.alert("OOPS!!", "All fields are mandatory");
+            return;
+        }
+        
+        this.setState({ isLoading:true })
         const data = {
             source_lat: this.state.selectedSource.latitude,
             source_lon: this.state.selectedSource.longitude,
@@ -136,13 +146,16 @@ export default class GenerateScheduleInput extends Component {
     render() {
         return (
             <>
-
+                {
+                    this.state.isLoading &&
+                    <Loader />
+                }
                 <Header>
                     <Left>
                         <RippleIcon iconName="ios-arrow-back" onPress={() => this.props.navigation.goBack()} />
                     </Left>
                     <Body>
-                        <Title>Generate Schedule - {this.props.navigation.getParam('cityName')}</Title>
+                        <Title style={{ fontFamily: 'opensans-bold' }}>Generate Schedule - {this.props.navigation.getParam('cityName')}</Title>
                     </Body>
                 </Header>
 
@@ -152,10 +165,10 @@ export default class GenerateScheduleInput extends Component {
                     <Text style={styles.label}>Source</Text>
                     <Item regular>
                         <Input
-                            placeholder='e.g. your hotel or airport'
+                            placeholder='e.g. Your hotel or airport'
                             value={this.state.source}
                             placeholderTextColor={colors.SILVER}
-                            style={{ fontSize: 22, fontWeight: 'bold', color: '#777', height: 60, borderWidth: 2, borderColor: colors.SILVER }}
+                            style={{ fontSize: 22, fontFamily: 'opensans', color: '#777', height: 60, borderWidth: 2, borderColor: colors.SILVER }}
                             onChangeText={(text) => this.autocompleteChangeHandler("source", text, "sourceSuggestions")} />
                     </Item>
                     <FlatList
@@ -163,7 +176,7 @@ export default class GenerateScheduleInput extends Component {
                         data={this.state.sourceSuggestions}
                         renderItem={({ item, index, separators }) => (
                             <TouchableOpacity onPress={() => this.sourceSelectHandler(item)}>
-                                <View style={{ paddingVertical: 20, paddingHorizontal: 10 }}>
+                                <View style={{ paddingVertical: 20, paddingHorizontal: 10, fontFamily: 'opensans' }}>
                                     <Text>{item.placeName}</Text>
                                     <Text>{item.placeAddress}</Text>
                                 </View>
@@ -176,10 +189,10 @@ export default class GenerateScheduleInput extends Component {
                     <Text style={styles.label}>Destination</Text>
                     <Item regular>
                         <Input
-                            placeholder='e.g. your hotel or airport'
+                            placeholder='e.g. Your hotel or airport'
                             value={this.state.destination}
                             placeholderTextColor={colors.SILVER}
-                            style={{ fontSize: 22, fontWeight: 'bold', color: '#777', height: 60, borderWidth: 2, borderColor: colors.SILVER }}
+                            style={{ fontSize: 22, fontFamily: 'opensans', color: '#777', height: 60, borderWidth: 2, borderColor: colors.SILVER }}
                             onChangeText={(text) => this.autocompleteChangeHandler("destination", text, "destinationSuggestions")} />
                     </Item>
                     <FlatList
@@ -236,7 +249,7 @@ export default class GenerateScheduleInput extends Component {
 
                 <View style={styles.inputWrapper}>
                     <Button block style={{ marginVertical: 20, height: 60, backgroundColor: colors.PRIMARY }} onPress={this.generateSchedule}>
-                        <Text style={{ fontSize: 18 }}>PLAN MY TRIP</Text>
+                        <Text style={{ fontSize: 18, fontFamily: 'opensans-bold' }}>PLAN MY TRIP</Text>
                     </Button>
                 </View>
             </>
@@ -248,11 +261,12 @@ const styles = StyleSheet.create({
     inputWrapper: {
         width: '90%',
         alignSelf: 'center',
-        marginTop: 20
+        marginTop: 20,
     },
     label: {
         fontSize: 18,
-        color: '#777'
+        color: '#777',
+        fontFamily: 'opensans-bold'
     },
     dateTime: {
         width: '100%',

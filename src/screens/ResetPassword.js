@@ -3,7 +3,7 @@ import { StyleSheet, View, Alert, AsyncStorage, StatusBar } from 'react-native';
 import { Button, Text, Grid, Row, Container, Content, Header, Item, Label, Input } from 'native-base';
 import { colors } from '../config/colors';
 import { axiosPost } from '../../axios'
-
+import Loader from '../components/Loader';
 
 class ResetPassword extends Component {
     constructor(props) {
@@ -11,7 +11,8 @@ class ResetPassword extends Component {
         this.state = {
             email: this.props.navigation.getParam('email'),
             newpassword: '',
-            confirmpassword: ''
+            confirmpassword: '',
+            isLoading: false
         }
     }
     
@@ -24,6 +25,8 @@ class ResetPassword extends Component {
             Alert.alert("OOPS!!", "All fields are mandatory");
             return;
         }
+
+        this.setState({ isLoading: true })
         const data = {
             email: email,
             newpassword: newpassword,
@@ -62,41 +65,47 @@ class ResetPassword extends Component {
 
     render() {
         return (
-            <Container>
-                <Grid>
-                    <Row size={2}>
-                        <View style={styles.header}>
-                            <Text style={styles.headerText}>Reset Password</Text>
-                        </View>
-                    </Row>
-                    <Row size={8} style={{ backgroundColor: colors.LIGHT_SILVER }}>
-                        <View style={styles.login_wrapper}>
-                            <Item regular style={styles.input}>
-                                <Input
-                                    placeholder='New Password'
-                                    value={this.state.newpassword}
-                                    secureTextEntry={true}
-                                    placeholderTextColor={colors.SILVER}
-                                    onChangeText={(text) => this.inputChangeHandler(text, 'newpassword')} />
-                            </Item>
-                            <Item regular style={styles.input}>
-                                <Input
-                                    placeholder='Confirm Password'
-                                    value={this.state.confirmpassword}
-                                    secureTextEntry={true}
-                                    placeholderTextColor={colors.SILVER}
-                                    onChangeText={(text) => this.inputChangeHandler(text, 'confirmpassword')} />
-                            </Item>
-                            <Button block style={styles.loginButton} onPress={this.handleResetPassword}>
-                                <Text>Reset Password</Text>
-                            </Button>
-                            <Text style={styles.link} onPress={() => this.props.navigation.navigate('Login')}>
-                                Go to Login Page
-                            </Text>
-                        </View>
-                    </Row>
-                </Grid>
-            </Container>
+            <>
+                {
+                    this.state.isLoading &&
+                    <Loader />
+                }
+                <Container>
+                    <Grid>
+                        <Row size={2}>
+                            <View style={styles.header}>
+                                <Text style={styles.headerText}>Reset Password</Text>
+                            </View>
+                        </Row>
+                        <Row size={8} style={{ backgroundColor: colors.LIGHT_SILVER }}>
+                            <View style={styles.login_wrapper}>
+                                <Item regular style={styles.input}>
+                                    <Input
+                                        placeholder='New Password'
+                                        value={this.state.newpassword}
+                                        secureTextEntry={true}
+                                        placeholderTextColor={colors.SILVER}
+                                        onChangeText={(text) => this.inputChangeHandler(text, 'newpassword')} />
+                                </Item>
+                                <Item regular style={styles.input}>
+                                    <Input
+                                        placeholder='Confirm Password'
+                                        value={this.state.confirmpassword}
+                                        secureTextEntry={true}
+                                        placeholderTextColor={colors.SILVER}
+                                        onChangeText={(text) => this.inputChangeHandler(text, 'confirmpassword')} />
+                                </Item>
+                                <Button block style={styles.loginButton} onPress={this.handleResetPassword}>
+                                    <Text>Reset Password</Text>
+                                </Button>
+                                <Text style={styles.link} onPress={() => this.props.navigation.navigate('Login')}>
+                                    Go to Login Page
+                                </Text>
+                            </View>
+                        </Row>
+                    </Grid>
+                </Container>
+            </>
         )
     }
 }

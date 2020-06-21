@@ -172,7 +172,7 @@ export default class Place extends Component {
                             <Icon name='ios-arrow-back' onPress={() => this.props.navigation.goBack()} />
                         </Left>
                         <Body>
-                            <Title>{this.state.poiDetails.name}</Title>
+                            <Title style={{ fontFamily: 'opensans-bold' }}>{this.state.poiDetails.name}</Title>
                         </Body>
                         <Right>
                             {/* <Icon name="ios-heart-empty" onPress={this.handleSearch} /> */}
@@ -208,14 +208,14 @@ export default class Place extends Component {
                     ============== */}
 
                         <View style={{ paddingTop: 30 }}>
-                            <Text style={{ fontSize: 20, marginHorizontal: 20, marginBottom: 10 }}>About</Text>
-                            <Text style={{ color: "#444", fontSize: 14, marginHorizontal: 20 }}>
+                            <Text style={{ fontSize: 20, marginHorizontal: 20, marginBottom: 10, fontFamily: 'opensans-bold' }}>About</Text>
+                            <Text style={{ color: "#444", fontSize: 14, marginHorizontal: 20, fontFamily: 'opensans', textAlign: 'justify' }}>
                                 {this.state.poiDetails.description}
                             </Text>
                             <Text></Text>
-                            <Text style={{ fontSize: 14, marginHorizontal: 20, marginBottom: 10 }}>Opening Time: {this.state.poiDetails.opening_time}:00 hrs</Text>
-                            <Text style={{ fontSize: 14, marginHorizontal: 20, marginBottom: 10, marginTop: -10 }}>Closing Time:  {this.state.poiDetails.closing_time}:00 hrs</Text>
-                            <Text style={{ fontSize: 14, marginHorizontal: 20, marginBottom: 10, marginTop: -10 }}>Time to Spend: {this.state.poiDetails.time_to_spend} hrs</Text>
+                            <Text style={{ fontSize: 14, marginHorizontal: 20, marginBottom: 10, fontFamily: 'opensans' }}>Opening Time: {this.state.poiDetails.opening_time}:00 hrs</Text>
+                            <Text style={{ fontSize: 14, marginHorizontal: 20, marginBottom: 10, marginTop: -10, fontFamily: 'opensans' }}>Closing Time:  {this.state.poiDetails.closing_time}:00 hrs</Text>
+                            <Text style={{ fontSize: 14, marginHorizontal: 20, marginBottom: 10, marginTop: -10, fontFamily: 'opensans' }}>Time to Spend: {this.state.poiDetails.time_to_spend} hrs</Text>
                         </View>
 
                         <Separator />
@@ -225,14 +225,14 @@ export default class Place extends Component {
                     ============== */}
 
                         <Grid >
-                            <Text style={{ fontSize: 18, marginHorizontal: 10 }}> Ratings</Text>
+                            <Text style={{ fontSize: 18, marginHorizontal: 13, fontFamily: 'opensans-bold' }}> Ratings</Text>
                             <Text></Text>
                             <Row>
                                 <Col size={1} style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                                     <View style={{ width: 80, height: 80, justifyContent: 'center', alignItems: 'center', borderColor: colors.LIGHT_SILVER, borderWidth: 2, borderRadius: 50 }}>
-                                        <Text style={{ fontSize: 30, color: colors.GREY }}>{this.state.poiDetails.ratings.average}</Text>
+                                        <Text style={{ fontSize: 30, color: colors.GREY, fontFamily: 'opensans' }}>{this.state.poiDetails.ratings.average}</Text>
                                     </View>
-                                    <Text style={{ color: colors.GREY, fontSize: 13, fontWeight: 'bold' }}>Average rating</Text>
+                                    <Text style={{ color: colors.GREY, fontSize: 13, fontFamily: 'opensans-bold' }}>Average rating</Text>
                                 </Col>
                                 <Col size={2} >
                                     {
@@ -244,7 +244,7 @@ export default class Place extends Component {
                                                             <Icon name='ios-star' key={ind} style={{ color: colors.YELLOW, fontSize: 16 }} />
                                                         ))
                                                     }
-                                                    <Text style={{ fontSize: 13, color: colors.SILVER, marginLeft: 5 }}>{item.count}</Text>
+                                                    <Text style={{ fontSize: 13, color: colors.LIGHT_GREY, marginLeft: 5, fontFamily: 'opensans' }}>{item.count}</Text>
                                                 </View>
 
                                                 <View style={{ width: 200, height: 10, borderColor: colors.PRIMARY, borderWidth: 1, borderRadius: 10, marginBottom: 10 }}>
@@ -259,8 +259,8 @@ export default class Place extends Component {
                         </Grid>
 
                         <Separator />
-                        <Text style={{ fontSize: 18, marginHorizontal: 10, }}>Your Ratings</Text>
-                        <View style={{ marginLeft: 13, marginRight: 20, marginBottom: 10, marginTop: 10 }}>
+                        <Text style={{ fontSize: 18, marginHorizontal: 10, fontFamily: 'opensans-bold' }}>Your Ratings</Text>
+                        <View style={{ marginLeft: 13, marginRight: 20, marginBottom: 15, marginTop: 15 }}>
                             <StarRating
                                 disabled={false}
                                 starSize={35}

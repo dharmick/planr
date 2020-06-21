@@ -166,7 +166,7 @@ export default class City extends Component {
                             <Icon name='ios-arrow-back' onPress={() => this.props.navigation.goBack()} />
                         </Left>
                         <Body>
-                            <Title>{this.state.cityDetails.name}</Title>
+                            <Title style={{ fontFamily: 'opensans-bold' }}>{this.state.cityDetails.name}</Title>
                         </Body>
                         <Right>
                             {/* <Icon name="ios-heart-empty" onPress={this.handleSearch} /> */}
@@ -202,15 +202,15 @@ export default class City extends Component {
                     ============== */}
 
                         <View style={{ paddingTop: 30 }}>
-                            <Text style={{ fontSize: 18, marginHorizontal: 20, marginBottom: 10 }}>About</Text>
-                            <Text style={{ color: "#444", fontSize: 14, marginHorizontal: 20 }}>
+                            <Text style={{ fontSize: 18, marginHorizontal: 20, marginBottom: 10, fontFamily: 'opensans-bold' }}>About</Text>
+                            <Text style={{ color: "#444", fontSize: 14, marginHorizontal: 20, fontFamily: 'opensans', textAlign: 'justify' }}>
                                 {this.state.cityDetails.description}
                             </Text>
                             <Button iconLeft block
                                 style={{ marginTop: 20, marginHorizontal: 20, marginBottom: 10, backgroundColor: colors.PRIMARY }}
                                 onPress={() => this.props.navigation.navigate('GenerateScheduleInput', { cityId: this.state.cityId, cityName: this.state.cityDetails.name })}>
                                 <Icon name="map-marker-path" type="MaterialCommunityIcons" />
-                                <Text>Generate Schedule</Text>
+                                <Text style={{ fontFamily: 'opensans-bold' }}>Generate Schedule</Text>
                             </Button>
                         </View>
 
@@ -222,14 +222,14 @@ export default class City extends Component {
                     ============== */}
 
                         <Grid >
-                            <Text style={{ fontSize: 18, marginHorizontal: 20 }}> Ratings</Text>
+                            <Text style={{ fontSize: 18, marginHorizontal: 20, fontFamily: 'opensans-bold' }}> Ratings</Text>
                             <Text></Text>
                             <Row>
                                 <Col size={1} style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                                     <View style={{ width: 80, height: 80, justifyContent: 'center', alignItems: 'center', borderColor: colors.LIGHT_SILVER, borderWidth: 2, borderRadius: 50 }}>
-                                        <Text style={{ fontSize: 30, color: colors.GREY }}>{this.state.cityDetails.ratings.average}</Text>
+                                        <Text style={{ fontSize: 30, color: colors.GREY, fontFamily: 'opensans' }}>{this.state.cityDetails.ratings.average}</Text>
                                     </View>
-                                    <Text style={{ color: colors.GREY, fontSize: 13, fontWeight: 'bold' }}>Average rating</Text>
+                                    <Text style={{ color: colors.GREY, fontSize: 13, fontFamily: 'opensans-bold' }}>Average rating</Text>
                                 </Col>
                                 <Col size={2} >
                                     {
@@ -241,7 +241,7 @@ export default class City extends Component {
                                                             <Icon name='ios-star' key={ind} style={{ color: 'gold', fontSize: 16 }} />
                                                         ))
                                                     }
-                                                    <Text style={{ fontSize: 13, color: colors.SILVER, marginLeft: 5 }}>{item.count}</Text>
+                                                    <Text style={{ fontSize: 13, color: colors.LIGHT_GREY, marginLeft: 5, fontFamily: 'opensans' }}>{item.count}</Text>
                                                 </View>
 
                                                 <View style={{ width: 200, height: 10, borderColor: colors.PRIMARY, borderWidth: 1, borderRadius: 10, marginBottom: 10 }}>
@@ -261,7 +261,7 @@ export default class City extends Component {
                         POIS
                     ============== */}
 
-                        <Text style={{ fontSize: 18, marginHorizontal: 20, marginBottom: 5 }}>Places to visit</Text>
+                        <Text style={{ fontSize: 18, marginHorizontal: 20, marginBottom: 5, fontFamily: 'opensans-bold' }}>Places to visit</Text>
 
                         {/* <View style={{ flex: 1, flexDirection: 'row', flexWrap: 'wrap', paddingBottom: 30 }}> */}
                         {
@@ -270,7 +270,7 @@ export default class City extends Component {
                                     <View style={{ width: '100%' }}>
                                         <View style={{ margin: 10, borderColor: colors.LIGHT_SILVER, borderWidth: 1, borderRadius: 10, overflow: "hidden" }}>
                                             <Image source={{ uri: item.image }} style={{ width: '100%', height: 150 }} />
-                                            <Text numberOfLines={1} style={{ padding: 10 }}>{item.name}</Text>
+                                            <Text numberOfLines={1} style={{ padding: 10, fontFamily: 'opensans' }}>{item.name}</Text>
                                         </View>
                                     </View>
                                 </TouchableOpacity>

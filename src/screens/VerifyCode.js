@@ -3,14 +3,15 @@ import { StyleSheet, View, Alert, AsyncStorage, StatusBar } from 'react-native';
 import { Button, Text, Grid, Row, Container, Content, Header, Item, Label, Input } from 'native-base';
 import { colors } from '../config/colors';
 import { axiosPost } from '../../axios'
-
+import Loader from '../components/Loader';
 
 class VerifyCode extends Component {
     constructor(props) {
         super(props);
         this.state = {
             email: this.props.navigation.getParam('email'),
-            otp: ''
+            otp: '',
+            isLoading: false
         }
     }
     componentDidMount() {
@@ -22,6 +23,8 @@ class VerifyCode extends Component {
             Alert.alert("OOPS!!", "All fields are mandatory");
             return;
         }
+
+        this.setState({ isLoading: true })
         const data = {
             email: email,
             otp: otp
@@ -59,33 +62,39 @@ class VerifyCode extends Component {
 
     render() {
         return (
-            <Container>
-                <Grid>
-                    <Row size={2}>
-                        <View style={styles.header}>
-                            <Text style={styles.headerText}>Forgot Password</Text>
-                        </View>
-                    </Row>
-                    <Row size={8} style={{ backgroundColor: colors.LIGHT_SILVER }}>
-                        <View style={styles.login_wrapper}>
-                            <Item regular style={styles.input}>
-                                <Input
-                                    placeholder='Enter 6-Digit Code'
-                                    value={this.state.code}
-                                    keyboardType="numeric"
-                                    placeholderTextColor={colors.SILVER}
-                                    onChangeText={(text) => this.inputChangeHandler(text, 'otp')} />
-                            </Item>
-                            <Button block style={styles.loginButton} onPress={this.handleVerifyCode}>
-                                <Text>Verify Code</Text>
-                            </Button>
-                            <Text style={styles.link} onPress={() => this.props.navigation.navigate('Login')}>
-                                Go to Login Page
-                            </Text>
-                        </View>
-                    </Row>
-                </Grid>
-            </Container>
+            <>
+                {
+                    this.state.isLoading &&
+                    <Loader />
+                }
+                <Container>
+                    <Grid>
+                        <Row size={2}>
+                            <View style={styles.header}>
+                                <Text style={styles.headerText}>Forgot Password</Text>
+                            </View>
+                        </Row>
+                        <Row size={8} style={{ backgroundColor: colors.LIGHT_SILVER }}>
+                            <View style={styles.login_wrapper}>
+                                <Item regular style={styles.input}>
+                                    <Input
+                                        placeholder='Enter 6-Digit Code'
+                                        value={this.state.code}
+                                        keyboardType="numeric"
+                                        placeholderTextColor={colors.SILVER}
+                                        onChangeText={(text) => this.inputChangeHandler(text, 'otp')} />
+                                </Item>
+                                <Button block style={styles.loginButton} onPress={this.handleVerifyCode}>
+                                    <Text>Verify Code</Text>
+                                </Button>
+                                <Text style={styles.link} onPress={() => this.props.navigation.navigate('Login')}>
+                                    Go to Login Page
+                                </Text>
+                            </View>
+                        </Row>
+                    </Grid>
+                </Container>
+            </>
         )
     }
 }

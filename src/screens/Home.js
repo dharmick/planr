@@ -19,34 +19,29 @@ class Home extends Component {
 
                 {
                     id: 1,
-                    name: "Bangalore",
-                    image: "https://res.cloudinary.com/planr/image/upload/v1588143110/font_images/bangalore-font-image_zmhsmb.png"
+                    name: "Mumbai",
+                    image: "https://res.cloudinary.com/planr/image/upload/v1588147729/font_images/mumbai-font-image_xwlhtf"
                 },
                 {
                     id: 2,
-                    name: "Goa",
-                    image: "https://res.cloudinary.com/planr/image/upload/v1588147729/font_images/goa-font-image_xshlvn.png"
+                    name: "Bangalore",
+                    image: "https://res.cloudinary.com/planr/image/upload/v1588143110/font_images/bangalore-font-image_zmhsmb.png" 
                 },
                 {
-                    id: 3,
+                    id: 4,
+                    name: "Goa",
+                    image: "https://res.cloudinary.com/planr/image/upload/v1588147729/font_images/goa-font-image_xshlvn.png" 
+                },
+                {
+                    id: 1,
                     name: "Mumbai",
                     image: "https://res.cloudinary.com/planr/image/upload/v1588147729/font_images/mumbai-font-image_xwlhtf"
                 },
                 {
                     id: 4,
-                    name: "Bangalore",
-                    image: "https://res.cloudinary.com/planr/image/upload/v1588143110/font_images/bangalore-font-image_zmhsmb.png"
-                },
-                {
-                    id: 5,
                     name: "Goa",
                     image: "https://res.cloudinary.com/planr/image/upload/v1588147729/font_images/goa-font-image_xshlvn.png"
-                },
-                {
-                    id: 6,
-                    name: "Mumbai",
-                    image: "https://res.cloudinary.com/planr/image/upload/v1588147729/font_images/mumbai-font-image_xwlhtf"
-                },
+                }
             ],
             nearBy: [
                 {
@@ -91,7 +86,8 @@ class Home extends Component {
     }
 
     trendingSelectHandle = (city) => {
-        alert(`${city.name} selected`)
+        // alert(`${city.id} selected`)
+        this.props.navigation.navigate('City', { id: city.id })
     }
 
 
@@ -188,14 +184,14 @@ class Home extends Component {
                             snapToInterval={280}
                             decelerationRate={.9}>
 
-                            <TouchableOpacity activeOpacity={0.9} style={styles.browseMoreItemWrapper}>
+                            <TouchableOpacity activeOpacity={0.9} style={styles.browseMoreItemWrapper} onPress={() => this.props.navigation.navigate('BrowsePlaces')}>
                                 <Text style={styles.browseMoreItemTextTitle}>All Places</Text>
                                 <Text style={styles.browseMoreItemText}>View all the places available with us</Text>
                                 <Text style={styles.browseMoreItemLink}>View now</Text>
                                 <Image source={require('../assets/images/map-illustration.png')} style={styles.browseMoreItemImage} />
                             </TouchableOpacity>
 
-                            <TouchableOpacity activeOpacity={0.9} style={[styles.browseMoreItemWrapper, { backgroundColor: colors.GREEN }]}>
+                            <TouchableOpacity activeOpacity={0.9} style={[styles.browseMoreItemWrapper, { backgroundColor: colors.GREEN }]} onPress={() => this.props.navigation.navigate('BrowseCities')}>
                                 <Text style={styles.browseMoreItemTextTitle}>All Cities</Text>
                                 <Text style={styles.browseMoreItemText}>View all the cities available with us</Text>
                                 <Text style={styles.browseMoreItemLink}>View now</Text>

@@ -68,6 +68,7 @@ class Forgot extends Component {
                                 <Item regular style={styles.input}>
                                     <Input
                                         placeholder='Email'
+                                        style={styles.inputText}
                                         value={this.state.email}
                                         keyboardType="email-address"
                                         autoCorrect={false}
@@ -76,10 +77,10 @@ class Forgot extends Component {
                                         onChangeText={(text) => this.inputChangeHandler(text, 'email')} />
                                 </Item>
                                 <Button block style={styles.loginButton} onPress={this.handleForgot}>
-                                    <Text>Send Email</Text>
+                                    <Text style={{ fontFamily: 'opensans-bold', fontSize: 15 }}>Send Email</Text>
                                 </Button>
                                 <Button block style={styles.cancelButton} onPress={() => this.props.navigation.navigate('Login')}>
-                                    <Text style={{ color: 'black' }}>CANCEL</Text>
+                                    <Text style={{ color: 'black', fontFamily: 'opensans-bold', fontSize: 15 }}>CANCEL</Text>
                                 </Button>
                                 
                             </View>
@@ -133,6 +134,11 @@ const styles = StyleSheet.create({
     input: {
         marginVertical: 10,
         borderColor: colors.SILVER
+    },
+    inputText: {
+        color: colors.GREY,
+        fontSize: 17,
+        fontFamily: 'opensans'
     },
     link: {
         textDecorationColor: 'black',

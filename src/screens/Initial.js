@@ -20,19 +20,19 @@ export default class Initial extends Component {
 
                     <Image source={require('../assets/images/travel-vector-human.png')} style={styles.humanVector} />
 
-                    <Text style={styles.headerSubText}>Tour planning and recommendations</Text>
+                    <Text style={styles.headerSubText}>Tour Planning and Recommendations</Text>
 
 
                     <Button block style={styles.button} onPress={() => this.props.navigation.navigate('Signup')}>
-                        <Text>Create Account</Text>
+                        <Text style={{ fontFamily: 'opensans-bold' }}>Create Account</Text>
                     </Button>
 
 
                     <Button block style={styles.inverseButton} onPress={() => this.props.navigation.navigate('Login')}>
-                        <Text style={{ color: 'black' }}>Login</Text>
+                        <Text style={{ color: 'black', fontFamily: 'opensans-bold' }}>Login</Text>
                     </Button>
 
-                    <Text style={styles.creditText}>Crafted with <Icon style={{ fontSize: 13, color: colors.SILVER }} name="md-heart" type="Ionicons" /> in India</Text>
+                    <Text style={styles.creditText}>Crafted with <Icon style={{ fontSize: 13, color: colors.SILVER }} name="md-heart" type="Ionicons" style={{color: colors.heartColor, fontSize: 14}} /> in India</Text>
 
                 </View>
 
@@ -50,15 +50,16 @@ const styles = StyleSheet.create({
         marginTop: 30
     },
     headerSubText: {
-        fontSize: 20,
+        fontSize: 18,
         textAlign: 'center',
         color: "#888",
+        fontFamily: 'opensans'
         // fontWeight: 'bold'
     },
     button: {
         width: '90%',
         alignSelf: 'center',
-        backgroundColor: colors.PRIMARY
+        backgroundColor: colors.PRIMARY,
     },
     inverseButton: {
         width: '90%',
@@ -72,6 +73,7 @@ const styles = StyleSheet.create({
     creditText: {
         color: colors.SILVER,
         fontSize: 16,
-        backgroundColor: 'white'
+        backgroundColor: 'white',
+        fontFamily: 'opensans-bold'
     }
 })

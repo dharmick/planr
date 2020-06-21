@@ -115,7 +115,7 @@ export default class Nearby extends Component {
                             <Icon name='ios-arrow-back' onPress={() => this.props.navigation.goBack()} />
                         </Left>
                         <Body>
-                            <Title>{this.props.navigation.getParam('title')}</Title>
+                            <Title style={{ fontFamily: 'opensans-bold'}}>{this.props.navigation.getParam('title')}</Title>
                         </Body>
                     </Header>
 
@@ -163,7 +163,8 @@ const styles = StyleSheet.create({
         fontSize: 16,
         textAlign: 'center',
         color: colors.SILVER,
-        marginTop: 40
+        marginTop: 40,
+        fontFamily: 'opensans-bold'
     },
     cardWrapper: {
         padding: 15,
@@ -188,18 +189,20 @@ const styles = StyleSheet.create({
         alignItems: 'flex-start'
     },
     placeName: {
-        fontSize: 20,
+        fontSize: 19,
         color: colors.GREY,
         width: '70%',
+        fontFamily: 'opensans-bold'
     },
     distance: {
         fontSize: 20,
-        fontWeight: 'bold',
-        color: colors.BLUE
+        color: colors.BLUE,
+        fontFamily: 'opensans-bold'
     },
     placeAddress: {
         fontSize: 16,
         color: colors.LIGHT_GREY,
-        marginTop: 10
+        marginTop: 10,
+        fontFamily: 'opensans'
     }
 })

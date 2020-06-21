@@ -176,9 +176,9 @@ export default class GenerateScheduleInput extends Component {
                         data={this.state.sourceSuggestions}
                         renderItem={({ item, index, separators }) => (
                             <TouchableOpacity onPress={() => this.sourceSelectHandler(item)}>
-                                <View style={{ paddingVertical: 20, paddingHorizontal: 10, fontFamily: 'opensans' }}>
-                                    <Text>{item.placeName}</Text>
-                                    <Text>{item.placeAddress}</Text>
+                                <View style={{ paddingVertical: 20, paddingHorizontal: 10, }}>
+                                    <Text style={{  fontFamily: 'opensans' }}>{item.placeName}</Text>
+                                    <Text style={{  fontFamily: 'opensans' }}>{item.placeAddress}</Text>
                                 </View>
                             </TouchableOpacity>
                         )}
@@ -201,8 +201,8 @@ export default class GenerateScheduleInput extends Component {
                         renderItem={({ item, index, separators }) => (
                             <TouchableOpacity onPress={() => this.destinationSelectHandler(item)}>
                                 <View style={{ paddingVertical: 20, paddingHorizontal: 10 }}>
-                                    <Text>{item.placeName}</Text>
-                                    <Text>{item.placeAddress}</Text>
+                                    <Text style={{  fontFamily: 'opensans' }}>{item.placeName}</Text>
+                                    <Text style={{  fontFamily: 'opensans' }}>{item.placeAddress}</Text>
                                 </View>
                             </TouchableOpacity>
                         )}
@@ -241,7 +241,7 @@ export default class GenerateScheduleInput extends Component {
                         customStyles={{
                             dateInput: styles.dateTimeInput,
                             dateText: styles.dateTimeText,
-                            placeholderText: styles.dateTimePlaceholder
+                            placeholderText: styles.dateTimePlaceholder,
                         }}
                         onDateChange={(date) => { this.setState({ to: date }) }}
                     />
@@ -279,12 +279,12 @@ const styles = StyleSheet.create({
     },
     dateTimeText: {
         fontSize: 22,
-        fontWeight: 'bold',
+        fontFamily: 'opensans',
         color: '#777',
     },
     dateTimePlaceholder: {
         fontSize: 22,
-        fontWeight: 'bold',
         color: colors.SILVER,
+        fontFamily: 'opensans'
     }
 })

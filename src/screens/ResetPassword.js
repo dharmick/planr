@@ -82,6 +82,7 @@ class ResetPassword extends Component {
                                 <Item regular style={styles.input}>
                                     <Input
                                         placeholder='New Password'
+                                        style={styles.inputText}
                                         value={this.state.newpassword}
                                         secureTextEntry={true}
                                         placeholderTextColor={colors.SILVER}
@@ -90,13 +91,14 @@ class ResetPassword extends Component {
                                 <Item regular style={styles.input}>
                                     <Input
                                         placeholder='Confirm Password'
+                                        style={styles.inputText}
                                         value={this.state.confirmpassword}
                                         secureTextEntry={true}
                                         placeholderTextColor={colors.SILVER}
                                         onChangeText={(text) => this.inputChangeHandler(text, 'confirmpassword')} />
                                 </Item>
                                 <Button block style={styles.loginButton} onPress={this.handleResetPassword}>
-                                    <Text>Reset Password</Text>
+                                    <Text style={{ fontFamily: 'opensans-bold' }}>Reset Password</Text>
                                 </Button>
                                 <Text style={styles.link} onPress={() => this.props.navigation.navigate('Login')}>
                                     Go to Login Page
@@ -149,9 +151,15 @@ const styles = StyleSheet.create({
         marginVertical: 10,
         borderColor: colors.SILVER
     },
+    inputText: {
+        color: colors.GREY,
+        fontSize: 17,
+        fontFamily: 'opensans'
+    },
     link: {
         textDecorationColor: 'black',
-        textDecorationLine: 'underline'
+        textDecorationLine: 'underline',
+        fontFamily: 'opensans'
     }
 })
 export default ResetPassword;

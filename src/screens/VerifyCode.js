@@ -79,13 +79,14 @@ class VerifyCode extends Component {
                                 <Item regular style={styles.input}>
                                     <Input
                                         placeholder='Enter 6-Digit Code'
+                                        style={styles.inputText}
                                         value={this.state.code}
                                         keyboardType="numeric"
                                         placeholderTextColor={colors.SILVER}
                                         onChangeText={(text) => this.inputChangeHandler(text, 'otp')} />
                                 </Item>
                                 <Button block style={styles.loginButton} onPress={this.handleVerifyCode}>
-                                    <Text>Verify Code</Text>
+                                    <Text style={{ fontFamily: 'opensans-bold' }}>Verify Code</Text>
                                 </Button>
                                 <Text style={styles.link} onPress={() => this.props.navigation.navigate('Login')}>
                                     Go to Login Page
@@ -138,9 +139,15 @@ const styles = StyleSheet.create({
         marginVertical: 10,
         borderColor: colors.SILVER
     },
+    inputText: {
+        color: colors.GREY,
+        fontSize: 17,
+        fontFamily: 'opensans'
+    },
     link: {
         textDecorationColor: 'black',
-        textDecorationLine: 'underline'
+        textDecorationLine: 'underline',
+        fontFamily: 'opensans'
     }
 })
 export default VerifyCode;

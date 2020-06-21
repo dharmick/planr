@@ -82,7 +82,7 @@ export default class BrowsePlaces extends Component {
                             <Icon name='ios-arrow-back' onPress={() => this.props.navigation.goBack()} />
                         </Left>
                         <Body>
-                            <Title>Browse Places</Title>
+                            <Title style={{ fontFamily: 'opensans-bold' }}>Browse Places</Title>
                         </Body>
                         <Right>
                             <Icon name='filter' type="AntDesign" />

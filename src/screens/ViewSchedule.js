@@ -221,7 +221,7 @@ export default class ViewSchedule extends Component {
                         <Icon name='ios-arrow-back' onPress={() => this.props.navigation.goBack()} />
                     </Left>
                     <Body>
-                        <Title>Schedule</Title>
+                        <Title style={{ fontFamily: 'opensans-bold' }}>Schedule</Title>
                     </Body>
                     <Right>
                         <Button transparent onPress={this.downloadSchedule}>

@@ -65,6 +65,7 @@ export default class SearchCity extends Component {
                             <RippleIcon iconName="ios-arrow-back" onPress={() => this.props.navigation.goBack()} />
                             <Input
                                 autoFocus
+                                style={{ fontFamily: 'opensans-bold' }}
                                 placeholder="Search, Explore, Wander"
                                 onChangeText={this.handleSearchTextChange}
                                 value={this.state.searchText}
@@ -78,7 +79,7 @@ export default class SearchCity extends Component {
 
                             <TouchableOpacity onPress={item.isCity ? () => this.onCitySelect(item) : () => this.onPoISelect(item) }>
                                 <View style={{ paddingVertical: 20, paddingHorizontal: 10 }}>
-                                    <Text>{item.name}</Text>
+                                    <Text style={{ fontFamily: 'opensans' }}>{item.name}</Text>
                                 </View>
                             </TouchableOpacity>
                         )}
@@ -87,13 +88,13 @@ export default class SearchCity extends Component {
                                 {
                                     this.state.searchText ?
                                         <>
-                                            <Text style={{ fontSize: 20, color: colors.SILVER }}>OOPS!</Text>
-                                            <Text style={{ fontSize: 16, color: colors.SILVER }}>Nothing found.</Text>
+                                            <Text style={{ fontSize: 20, color: colors.SILVER, fontFamily: 'opensans' }}>OOPS!</Text>
+                                            <Text style={{ fontSize: 16, color: colors.SILVER, fontFamily: 'opensans' }}>Nothing found.</Text>
                                         </>
                                         :
                                         <>
-                                            <Text style={{ fontSize: 20, color: colors.SILVER }}>Try Mumbai :)</Text>
-                                            <Text style={{ fontSize: 16, color: colors.SILVER }}>You won't regret. Promise.</Text>
+                                            <Text style={{ fontSize: 20, color: colors.SILVER, fontFamily: 'opensans' }}>Try Mumbai :)</Text>
+                                            <Text style={{ fontSize: 16, color: colors.SILVER, fontFamily: 'opensans' }}>You won't regret. Promise.</Text>
                                         </>
                                 }
                             </View>

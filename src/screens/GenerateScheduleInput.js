@@ -155,7 +155,7 @@ export default class GenerateScheduleInput extends Component {
                         <RippleIcon iconName="ios-arrow-back" onPress={() => this.props.navigation.goBack()} />
                     </Left>
                     <Body>
-                        <Title>Generate Schedule - {this.props.navigation.getParam('cityName')}</Title>
+                        <Title style={{ fontFamily: 'opensans-bold' }}>Generate Schedule - {this.props.navigation.getParam('cityName')}</Title>
                     </Body>
                 </Header>
 
@@ -165,10 +165,10 @@ export default class GenerateScheduleInput extends Component {
                     <Text style={styles.label}>Source</Text>
                     <Item regular>
                         <Input
-                            placeholder='e.g. your hotel or airport'
+                            placeholder='e.g. Your hotel or airport'
                             value={this.state.source}
                             placeholderTextColor={colors.SILVER}
-                            style={{ fontSize: 22, fontWeight: 'bold', color: '#777', height: 60, borderWidth: 2, borderColor: colors.SILVER }}
+                            style={{ fontSize: 22, fontFamily: 'opensans', color: '#777', height: 60, borderWidth: 2, borderColor: colors.SILVER }}
                             onChangeText={(text) => this.autocompleteChangeHandler("source", text, "sourceSuggestions")} />
                     </Item>
                     <FlatList
@@ -176,7 +176,7 @@ export default class GenerateScheduleInput extends Component {
                         data={this.state.sourceSuggestions}
                         renderItem={({ item, index, separators }) => (
                             <TouchableOpacity onPress={() => this.sourceSelectHandler(item)}>
-                                <View style={{ paddingVertical: 20, paddingHorizontal: 10 }}>
+                                <View style={{ paddingVertical: 20, paddingHorizontal: 10, fontFamily: 'opensans' }}>
                                     <Text>{item.placeName}</Text>
                                     <Text>{item.placeAddress}</Text>
                                 </View>
@@ -189,10 +189,10 @@ export default class GenerateScheduleInput extends Component {
                     <Text style={styles.label}>Destination</Text>
                     <Item regular>
                         <Input
-                            placeholder='e.g. your hotel or airport'
+                            placeholder='e.g. Your hotel or airport'
                             value={this.state.destination}
                             placeholderTextColor={colors.SILVER}
-                            style={{ fontSize: 22, fontWeight: 'bold', color: '#777', height: 60, borderWidth: 2, borderColor: colors.SILVER }}
+                            style={{ fontSize: 22, fontFamily: 'opensans', color: '#777', height: 60, borderWidth: 2, borderColor: colors.SILVER }}
                             onChangeText={(text) => this.autocompleteChangeHandler("destination", text, "destinationSuggestions")} />
                     </Item>
                     <FlatList
@@ -249,7 +249,7 @@ export default class GenerateScheduleInput extends Component {
 
                 <View style={styles.inputWrapper}>
                     <Button block style={{ marginVertical: 20, height: 60, backgroundColor: colors.PRIMARY }} onPress={this.generateSchedule}>
-                        <Text style={{ fontSize: 18 }}>PLAN MY TRIP</Text>
+                        <Text style={{ fontSize: 18, fontFamily: 'opensans-bold' }}>PLAN MY TRIP</Text>
                     </Button>
                 </View>
             </>
@@ -261,11 +261,12 @@ const styles = StyleSheet.create({
     inputWrapper: {
         width: '90%',
         alignSelf: 'center',
-        marginTop: 20
+        marginTop: 20,
     },
     label: {
         fontSize: 18,
-        color: '#777'
+        color: '#777',
+        fontFamily: 'opensans-bold'
     },
     dateTime: {
         width: '100%',

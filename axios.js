@@ -3,7 +3,8 @@ import { AsyncStorage } from 'react-native';
 import { Toast } from 'native-base';
 import NavigationService from './NavigationService';
 
-const BASE_URL = 'https://a3e5d6281ff3.ngrok.io';
+
+const BASE_URL = 'https://91c772776015.ngrok.io';
 
 // const BASE_URL = 'https://planr-api-dev.herokuapp.com';
 

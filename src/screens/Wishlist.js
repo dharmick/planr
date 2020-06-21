@@ -105,27 +105,32 @@ export default class Wishlist extends Component {
 
             this.state.isLoaded ?
             <>
-                <Header androidStatusBarColor="#FFFFFF" iosBarStyle="dark-content">
+                <Header androidStatusBarColor={colors.PRIMARY} style={{backgroundColor: colors.PRIMARY}} iosBarStyle="light-content">
                     <Left>
-                        <Icon name='ios-arrow-back' onPress={() => this.props.navigation.goBack()} />
+                        <Icon name='ios-arrow-back' style={{color: 'white'}} onPress={() => this.props.navigation.goBack()} />
                     </Left>
                     <Body>
-                        <Title>My Wishlist</Title>
+                        <Title style={{color: 'white'}}>My Wishlist</Title>
                     </Body>
                 </Header>
                 <Tabs>
-                    <Tab style={styles.tabs} heading="Places">
+                    <Tab 
+                        tabStyle={styles.tab}
+                        activeTabStyle={styles.activeTab}
+                        textStyle={styles.tabText}
+                        activeTextStyle={styles.activeTabText} 
+                        heading="Places">
                         <ScrollView style={styles.cardsWrapper}>
                             {
                                 this.state.pois.map((item, index) => (
                                     <TouchableOpacity key={index} onPress={() => this.onPoISelect(item)}>
                                         <View style={styles.card}>
-                                            <View style={{width:400, height:100, flex:1, flexDirection:'row'}}>
+                                            <View style={{flex:1, flexDirection:'row'}}>
                                                 <View>
                                                     <Image style={{ width: 84, height: 68, }} source={{ uri: item.image }} />
                                                 </View> 
                                                 <View>
-                                                    <View style={{width:400, height:100, flex:1, flexDirection:'row', }}>
+                                                    <View style={{flex:1, flexDirection:'column', }}>
                                                         <View>
                                                             <Text style={styles.cardHeading}>{item.name}</Text>
                                                             <Text style={styles.cardSubHeading}>Monument of India</Text>
@@ -166,50 +171,18 @@ export default class Wishlist extends Component {
                         {/* <Text>You Clicked on Places!!</Text> */}
 
                     </Tab>
-                    <Tab heading="Cities">
+                    <Tab 
+                        tabStyle={styles.tab}
+                        activeTabStyle={styles.activeTab}
+                        textStyle={styles.tabText}
+                        activeTextStyle={styles.activeTabText} 
+                        heading="Cities">
                         <ScrollView style={styles.cardsWrapper}>
                             {
                                 this.state.cities.map((item, index) => (
                                     <TouchableOpacity key={index} onPress={() => this.onCitySelect(item)}>
                                         <View style={styles.card}>
-                                            <View style={{width:400, height:100, flex:1, flexDirection:'row'}}>
-                                                <View>
-                                                    <Image style={{ width: 84, height: 68, }} source={{ uri: item.image }} />
-                                                </View> 
-                                                <View>
-                                                    <View style={{width:400, height:100, flex:1, flexDirection:'row', }}>
-                                                        <View>
-                                                            <Text style={styles.cardHeading}>{item.name}</Text>
-                                                            <Text style={styles.cardSubHeading}>City of India</Text>
-                                                        </View>
-                                                        <View>
-                                                            <Text style={styles.starWrapper}> {item.rating}
-                                                                {' '}<Icon name="ios-star" style={styles.star} />
-                                                            </Text>
-                                                        </View>
-                                                    </View>
-                                                    <TouchableOpacity
-                                                                activeOpacity={1}
-                                                                onPress={() => this.handleOnPressCity(item, index)}
-                                                            >
-                                                                <AnimatedIcon
-                                                                    ref={this.handleSmallAnimatedIconRef}
-                                                                    name={item.isWishlisted ? 'heart' : 'ios-heart-empty'}
-                                                                    style={styles.icon}
-                                                                    style={{
-                                                                        color: (() => {
-                                                                            if (item.isWishlisted) {
-                                                                                return colors.heartColor;
-                                                                            }
-                                                                            else {
-                                                                                return colors.BLACK;
-                                                                            }
-                                                                        })()
-                                                                    }}
-                                                                />
-                                                    </TouchableOpacity>
-                                                </View>                                   
-                                            </View>
+                                            
                                         </View>
                                     </TouchableOpacity>
                                 ))
@@ -283,5 +256,19 @@ const styles = StyleSheet.create({
         backgroundColor: colors.WISHLIST,
         padding: 5,
         borderRadius: 4,
+    },
+    tab: {
+        backgroundColor: colors.PRIMARY
+    },
+    activeTab: {
+        backgroundColor: colors.PRIMARY
+    },
+    tabText: {
+        fontWeight: 'normal',
+        color: 'white'
+    },
+    activeTabText: {
+        fontWeight: 'bold',
+        color: 'white'
     }
 })

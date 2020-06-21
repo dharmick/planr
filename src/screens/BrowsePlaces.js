@@ -14,6 +14,7 @@ export default class BrowsePlaces extends Component {
             searchText: '',
             filteredPlaces: [],
             isSearched: false,
+            isNull: false,
             poiDetails: [
                 {
                     name: "Bandra Worli Sea Link",
@@ -62,6 +63,11 @@ export default class BrowsePlaces extends Component {
                 var patt = new RegExp(text.toLowerCase());
                 filteredPlaces = this.state.poiDetails.filter(poi => patt.test(poi.name.toLowerCase()));
                 this.setState({ filteredPlaces })
+                if (filteredPlaces && filteredPlaces.length) {
+                    this.setState({ isNull: false})
+                } else {
+                    this.setState({ isNull: true})
+                }
             }
         })
     }
@@ -83,43 +89,53 @@ export default class BrowsePlaces extends Component {
                         </Right>
                     </Header>
 
-                    <Item style={{ margin: -5}}>
-                        <Icon style={{ color: colors.LIGHT_GREY, marginLeft: 18 }} name="ios-search" />
-                        <Input
-                            placeholder= "Gateway of India"
-                            onChangeText={this.handleSearchTextChange}
-                            value={this.state.searchText}
-                            style={styles.searchbar}
-                        />
-                    </Item>
-                        
+                    <View style={{margin: 10, marginTop: 15}}>
+                        <Item style={styles.searchBox}>
+                            <Icon style={styles.searchIcon} name="ios-search" />
+                            <Input
+                                placeholderTextColor= {colors.SILVER}
+                                placeholder= "Gateway of India"
+                                onChangeText={this.handleSearchTextChange}
+                                value={this.state.searchText}
+                                style={styles.searchbar}
+                            />
+                        </Item>
+                    </View>
+
                     <ScrollView>
                         {
-                            this.state.isSearched ? this.state.filteredPlaces.map((item, index) => (
-                                <TouchableOpacity key={index} onPress={() => this.onPoISelect(item)}>
-                                    <View style={{flex:1, flexDirection: 'row', margin: 10}}>
-                                        <View>
-                                            <Image style={{ width: 77, height: 70, }} source={{ uri: item.image }} />
+                            this.state.isSearched ?    
+                                (this.state.isNull ? 
+                                    <View style={{ paddingVertical: 100, alignItems: 'center', }}>
+                                        <Text style={{ fontSize: 20, color: colors.SILVER, fontFamily: 'opensans' }}>OOPS!</Text>
+                                        <Text style={{ fontSize: 16, color: colors.SILVER, fontFamily: 'opensans' }}>Nothing found.</Text>
+                                    </View> :
+                                    this.state.filteredPlaces.map((item, index) => (
+                                    <TouchableOpacity key={index} onPress={() => this.onPoISelect(item)}>
+                                        <View style={styles.container}>
+                                            <View>
+                                                <Image style={styles.image} source={{ uri: item.image }} />
+                                            </View>
+                                            <View style={styles.content}>
+                                                <Text numberOfLines={1} style={styles.heading}>{item.name}</Text>
+                                                <Text style={styles.subheading}>Monument of India</Text>
+                                                <View style={styles.horizontalLine}></View>
+                                                <Text style={{fontWeight: '500', color:colors.EXTRAGREY}}> 
+                                                    <Icon name="ios-star" style={styles.star} /> {item.average_rating}
+                                                </Text>
+                                            </View> 
                                         </View>
-                                        <View style={{flex:1, flexDirection:'column', marginLeft: 5,}}>
-                                            <Text numberOfLines={1} style={styles.heading}>{item.name}</Text>
-                                            <Text styles={styles.subheading}>Monument of India</Text>
-                                            <View style={styles.horizontalLine}></View>
-                                            <Text style={{fontWeight: '500', color:colors.EXTRAGREY}}> 
-                                                <Icon name="ios-star" style={styles.star} /> {item.average_rating}
-                                            </Text>
-                                        </View> 
-                                    </View>
-                                </TouchableOpacity>
-                            )) : this.state.poiDetails.map((item, index) => (
+                                    </TouchableOpacity>
+                                ))) : 
+                                this.state.poiDetails.map((item, index) => (
                                 <TouchableOpacity key={index} onPress={() => this.onPoISelect(item)}>
-                                    <View style={{flex:1, flexDirection: 'row', margin: 10}}>
+                                    <View style={styles.container}>
                                         <View>
-                                            <Image style={{ width: 77, height: 70, }} source={{ uri: item.image }} />
+                                            <Image style={styles.image} source={{ uri: item.image }} />
                                         </View>
-                                        <View style={{flex:1, flexDirection:'column', marginLeft: 5,}}>
+                                        <View style={styles.content}>
                                             <Text numberOfLines={1} style={styles.heading}>{item.name}</Text>
-                                            <Text styles={styles.subheading}>Monument of India</Text>
+                                            <Text style={styles.subheading}>Monument of India</Text>
                                             <View style={styles.horizontalLine}></View>
                                             <Text style={{fontWeight: '500', color:colors.EXTRAGREY}}> 
                                                 <Icon name="ios-star" style={styles.star} /> {item.average_rating}
@@ -130,7 +146,6 @@ export default class BrowsePlaces extends Component {
                             ))
                         }
                     </ScrollView>
-
                 </>:
                 <Loader />
         );
@@ -140,7 +155,24 @@ export default class BrowsePlaces extends Component {
 const styles = StyleSheet.create({
     star: {
         color: colors.GOLD,
-        fontSize: 16,
+        fontSize: 17,
+    },
+    container: {
+        flex:1, 
+        flexDirection: 'row', 
+        marginLeft: 12,
+        marginTop: 11,
+        marginBottom: 11,
+        marginRight: 15,
+    },
+    image: { 
+        width: 90, 
+        height: 74, 
+    },
+    content: {
+        flex:1, 
+        flexDirection:'column', 
+        marginLeft: 6,
     },
     heading: {
         fontSize: 17,
@@ -148,7 +180,7 @@ const styles = StyleSheet.create({
         fontFamily: 'opensans-extrabold',
     },
     subheading: {
-        fontSize: 12,
+        fontSize: 15,
         color: colors.EXTRAGREY,
         fontFamily: 'opensans',
     },
@@ -161,14 +193,20 @@ const styles = StyleSheet.create({
         margin: 15,
         marginLeft: -4,
         marginRight: 18,
-        // borderWidth: 0.5,
         borderColor: colors.SILVER,
-        shadowColor: "#fff",
         fontFamily: 'opensans',
-        shadowOffset: {
-            width: 0,
-            height: 8,
-        },
-        shadowOpacity: 0.5,
-    }
+    },
+    searchIcon: {
+        color: colors.SILVER, 
+        marginLeft: 18,
+    },
+    searchBox: { 
+        margin: 0, 
+        borderBottomWidth: 2, 
+        borderTopWidth: 2, 
+        borderRightWidth: 2, 
+        borderLeftWidth: 2,
+        height: 52,
+        elevation: 3,
+    },
 })

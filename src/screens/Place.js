@@ -167,7 +167,7 @@ export default class Place extends Component {
 
             this.state.isLoaded ?
                 <>
-                    <Header>
+                    <Header androidStatusBarColor="#ffffff" iosBarStyle="dark-content" >
                         <Left>
                             <Icon name='ios-arrow-back' onPress={() => this.props.navigation.goBack()} />
                         </Left>

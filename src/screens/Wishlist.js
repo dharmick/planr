@@ -119,50 +119,45 @@ export default class Wishlist extends Component {
                         activeTabStyle={styles.activeTab}
                         textStyle={styles.tabText}
                         activeTextStyle={styles.activeTabText} 
-                        heading="Places">
+                        heading={`Places (${this.state.pois.length})`}>
                         <ScrollView style={styles.cardsWrapper}>
                             {
                                 this.state.pois.map((item, index) => (
-                                    <TouchableOpacity key={index} onPress={() => this.onPoISelect(item)}>
+                                    <TouchableOpacity key={index} onPress={() => this.onCitySelect(item)} activeOpacity={0.9}>
                                         <View style={styles.card}>
-                                            <View style={{flex:1, flexDirection:'row'}}>
+                                            <View>
+                                                <Image style={styles.image} source={{ uri: item.image }} />
+                                            </View> 
+                                            <View style={styles.cardTextWrapper}>
+                                                <Text style={styles.cardHeading}>{item.name}</Text>   
+                                                <Text style={styles.cardTextLight} numberOfLines={2}>{item.description}</Text>
                                                 <View>
-                                                    <Image style={{ width: 84, height: 68, }} source={{ uri: item.image }} />
+                                                    <Text style={styles.starWrapper}> 
+                                                        {item.rating}{' '}<Icon name="ios-star" style={styles.star} />
+                                                    </Text>
                                                 </View> 
-                                                <View>
-                                                    <View style={{flex:1, flexDirection:'column', }}>
-                                                        <View>
-                                                            <Text style={styles.cardHeading}>{item.name}</Text>
-                                                            <Text style={styles.cardSubHeading}>Monument of India</Text>
-                                                        </View>
-                                                        <View>
-                                                            <Text style={styles.starWrapper}> {item.rating}
-                                                                {' '}<Icon name="ios-star" style={styles.star} />
-                                                            </Text>
-                                                        </View>
-                                                    </View>
-                                                    <TouchableOpacity
-                                                                activeOpacity={1}
-                                                                onPress={() => this.handleOnPressPlaces(item, index)}
-                                                            >
-                                                                <AnimatedIcon
-                                                                    ref={this.handleSmallAnimatedIconRef}
-                                                                    name={item.isWishlisted ? 'heart' : 'ios-heart-empty'}
-                                                                    style={styles.icon}
-                                                                    style={{
-                                                                        color: (() => {
-                                                                            if (item.isWishlisted) {
-                                                                                return colors.heartColor;
-                                                                            }
-                                                                            else {
-                                                                                return colors.BLACK;
-                                                                            }
-                                                                        })()
-                                                                    }}
-                                                                />
-                                                    </TouchableOpacity>
-                                                </View>                                   
-                                            </View>
+                                            </View>  
+                                            <TouchableOpacity
+                                                activeOpacity={1}
+                                                onPress={() => this.handleOnPressPlaces(item, index)}
+                                            >
+                                                <AnimatedIcon
+                                                    ref={this.handleSmallAnimatedIconRef}
+                                                    name={item.isWishlisted ? 'heart' : 'ios-heart-empty'}
+                                                    style={styles.icon}
+                                                    style={{
+                                                        color: (() => {
+                                                            if (item.isWishlisted) {
+                                                                return colors.PRIMARY;
+                                                            }
+                                                            else {
+                                                                return colors.BLACK;
+                                                            }
+                                                        })()
+                                                    }}
+                                                />
+                                            </TouchableOpacity>
+                                            
                                         </View>
                                     </TouchableOpacity>
                                 ))
@@ -176,12 +171,44 @@ export default class Wishlist extends Component {
                         activeTabStyle={styles.activeTab}
                         textStyle={styles.tabText}
                         activeTextStyle={styles.activeTabText} 
-                        heading="Cities">
-                        <ScrollView style={styles.cardsWrapper}>
+                        heading={`Cities (${this.state.cities.length})`}>
+                        <ScrollView>
                             {
                                 this.state.cities.map((item, index) => (
-                                    <TouchableOpacity key={index} onPress={() => this.onCitySelect(item)}>
+                                    <TouchableOpacity key={index} onPress={() => this.onCitySelect(item)} activeOpacity={0.9}>
                                         <View style={styles.card}>
+                                            <View>
+                                                <Image style={styles.image} source={{ uri: item.image }} />
+                                            </View> 
+                                            <View style={styles.cardTextWrapper}>
+                                                <Text style={styles.cardHeading}>{item.name}</Text>   
+                                                <Text style={styles.cardTextLight} numberOfLines={2}>{item.description}</Text>
+                                                <View>
+                                                    <Text style={styles.starWrapper}> 
+                                                        {item.rating}{' '}<Icon name="ios-star" style={styles.star} />
+                                                    </Text>
+                                                </View> 
+                                            </View>  
+                                            <TouchableOpacity
+                                                activeOpacity={1}
+                                                onPress={() => this.handleOnPressPlaces(item, index)}
+                                            >
+                                                <AnimatedIcon
+                                                    ref={this.handleSmallAnimatedIconRef}
+                                                    name={item.isWishlisted ? 'heart' : 'ios-heart-empty'}
+                                                    style={styles.icon}
+                                                    style={{
+                                                        color: (() => {
+                                                            if (item.isWishlisted) {
+                                                                return colors.PRIMARY;
+                                                            }
+                                                            else {
+                                                                return colors.BLACK;
+                                                            }
+                                                        })()
+                                                    }}
+                                                />
+                                            </TouchableOpacity>
                                             
                                         </View>
                                     </TouchableOpacity>
@@ -198,65 +225,53 @@ export default class Wishlist extends Component {
 }
 
 const { width } = Dimensions.get("window");
-const card_height = 90;
-const card_width = 340;
 
 const styles = StyleSheet.create({
 
     card: {
-        width: card_width,
-        height: card_height,
-        backgroundColor: colors.WHITE,
-        marginHorizontal: 10,
-        borderRadius: 4,
-        padding: 15,
-        elevation: 5,
-        marginTop: 15
+        marginHorizontal: 5,
+        paddingHorizontal: 5,
+        paddingVertical: 15,
+        display: 'flex',
+        flexDirection: 'row',
     },
-    cardWrapper: {
-        padding: 15,
-        borderWidth: 1,
-        borderColor: colors.SILVER,
-        borderTopWidth: 5,
-        borderTopColor: colors.GREEN,
-        borderRadius: 4,
-        marginVertical: 20,
-        width: '90%',
-        marginHorizontal: '5%',
-        backgroundColor: colors.WHITE,
-        elevation: 3,
+    cardTextWrapper: {
+        width: width - 130,
+        paddingHorizontal: 10
     },
     cardHeading: {
-        fontSize: 20,
-        color: colors.GREY,
+        fontSize: 18,
         fontFamily: 'opensans-extrabold',
-        marginLeft: 6
-    },
-    cardSubHeading: {
-        fontSize: 14,
         color: colors.GREY,
-        fontFamily: 'opensans',
-        marginLeft: 6
+        lineHeight: 21,
     },
     cardTextLight: {
-        fontSize: 16,
-        color: '#999'
+        fontSize: 13,
+        fontFamily: 'opensans',
+        color: colors.LIGHT_GREY,
+        lineHeight: 15
+    },
+    image: {
+        width: 80,
+        height: 80,
+        borderRadius: 4
     },
     star: {
         color: 'gold',
-        fontSize: 16,
+        fontSize: 12,
     },
     starWrapper: {
-        position: 'absolute',
-        bottom: 8,
-        right: 2,
-        fontSize: 14,
+        fontSize: 12,
         fontFamily: 'opensans',
         color: '#FFFFFF',
-        backgroundColor: colors.WISHLIST,
-        padding: 5,
-        borderRadius: 4,
+        backgroundColor: colors.PRIMARY,
+        padding: 3,
+        borderRadius: 2,
+        alignSelf: 'flex-start',
+        marginTop: 5
     },
+
+    // tabs style
     tab: {
         backgroundColor: colors.PRIMARY
     },

@@ -110,19 +110,19 @@ class Login extends Component {
 
 
                             <Button block style={styles.loginButton} onPress={this.handleLogin}>
-                                <Text>LOGIN</Text>
+                                <Text style={{ fontFamily: 'opensans-bold', fontSize: 15 }}>LOGIN</Text>
                             </Button>
 
 
                             <View style={styles.horizontalLineWrapper}>
                                 <View style={styles.horizontalLine} />
-                                <Text style={{ textAlign: 'center', color: colors.SILVER, fontSize: 20 }}>or</Text>
+                                <Text style={{ textAlign: 'center', color: colors.SILVER, fontSize: 20, fontFamily: 'opensans' }}>or</Text>
                                 <View style={styles.horizontalLine} />
                             </View>
 
 
                             <Button block style={styles.signupButton} onPress={() => this.props.navigation.navigate('Signup')}>
-                                <Text style={{ color: 'black' }}>SIGN UP</Text>
+                                <Text style={{ color: 'black', fontFamily: 'opensans-bold', fontSize: 15 }}>SIGN UP</Text>
                             </Button>
 
 
@@ -160,7 +160,7 @@ const styles = StyleSheet.create({
     headerText: {
         fontSize: 50,
         fontFamily: 'kalam-bold',
-        color: colors.SILVER,
+        color: colors.LIGHT_SILVER,
         marginTop: 30,
         // opacity: 0.3
     },
@@ -181,13 +181,15 @@ const styles = StyleSheet.create({
     },
     inputText: {
         color: colors.GREY,
-        fontSize: 20
+        fontSize: 17,
+        fontFamily: 'opensans'
     },
     link: {
         textDecorationColor: 'black',
         textDecorationLine: 'underline',
         width: '100%',
-        textAlign: 'right'
+        textAlign: 'right',
+        fontFamily: 'opensans'
     },
     horizontalLineWrapper: {
         width: '100%',

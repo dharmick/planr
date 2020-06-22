@@ -80,12 +80,14 @@ class Signup extends Component {
                                     <Input
                                         placeholder='Name'
                                         value={this.state.name}
+                                        style={styles.inputText}
                                         placeholderTextColor={colors.SILVER}
                                         onChangeText={(text) => this.inputChangeHandler(text, 'name')} />
                                 </Item>
                                 <Item regular style={styles.input}>
                                     <Input
                                         placeholder='Email'
+                                        style={styles.inputText}
                                         value={this.state.email}
                                         keyboardType="email-address"
                                         autoCorrect={false}
@@ -96,6 +98,7 @@ class Signup extends Component {
                                 <Item regular style={styles.input}>
                                     <Input
                                         placeholder='Password'
+                                        style={styles.inputText}
                                         value={this.state.password}
                                         secureTextEntry={true}
                                         placeholderTextColor={colors.SILVER}
@@ -103,7 +106,7 @@ class Signup extends Component {
                                 </Item>
                                 {/* </KeyboardAvoidingView> */}
                                 <Button block style={styles.loginButton} onPress={this.submitHandler}>
-                                    <Text>Create Account</Text>
+                                    <Text style={{ fontFamily: 'opensans-bold' }}>Create Account</Text>
                                 </Button>
                                 <Text style={styles.link} onPress={() => this.props.navigation.navigate('Login')}>
                                     Already have an account? Login here
@@ -155,9 +158,15 @@ const styles = StyleSheet.create({
         marginVertical: 10,
         borderColor: colors.SILVER
     },
+    inputText: {
+        color: colors.GREY,
+        fontSize: 17,
+        fontFamily: 'opensans'
+    },
     link: {
         textDecorationColor: 'black',
-        textDecorationLine: 'underline'
+        textDecorationLine: 'underline',
+        fontFamily: 'opensans'
     }
 })
 export default Signup;

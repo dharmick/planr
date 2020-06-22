@@ -20,10 +20,10 @@ class Profile extends Component {
                             </Button>
                         </Left>
                         <Body>
-                            <Text>History</Text>
+                            <Text style={styles.font}>History</Text>
                         </Body>
                         <Right>
-                            <Text>ON</Text>
+                            <Text style={{fontFamily: 'opensans-bold'}}>ON</Text>
                         </Right>
                     </ListItem>
                     <ListItem icon
@@ -36,7 +36,7 @@ class Profile extends Component {
                             </Button>
                         </Left>
                         <Body>
-                            <Text>Wishlist</Text>
+                            <Text style={styles.font}>Wishlist</Text>
                         </Body>
                     </ListItem>
                     <ListItem icon>
@@ -46,7 +46,7 @@ class Profile extends Component {
                             </Button>
                         </Left>
                         <Body>
-                            <Text>Contact Support</Text>
+                            <Text style={styles.font}>Contact Support</Text>
                         </Body>
                     </ListItem>
 
@@ -63,7 +63,7 @@ class Profile extends Component {
                             </Button>
                         </Left>
                         <Body>
-                            <Text>Change Password</Text>
+                            <Text style={styles.font}>Change Password</Text>
                         </Body>
                     </ListItem>
                     <ListItem icon
@@ -79,7 +79,7 @@ class Profile extends Component {
                             </Button>
                         </Left>
                         <Body>
-                            <Text>Logout</Text>
+                            <Text style={styles.font}>Logout</Text>
                         </Body>
                     </ListItem>
                 </Content>
@@ -89,6 +89,9 @@ class Profile extends Component {
 }
 
 const styles = StyleSheet.create({
-
+    font: {
+        fontFamily: 'opensans',
+        fontWeight: '400'
+    }
 })
 export default Profile;

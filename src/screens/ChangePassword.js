@@ -81,6 +81,7 @@ class ChangePassword extends Component {
                                 <Item regular style={styles.input}>
                                     <Input
                                         placeholder='Old Password'
+                                        style={styles.inputText}
                                         value={this.state.password}
                                         secureTextEntry={true}
                                         placeholderTextColor={colors.SILVER}
@@ -89,6 +90,7 @@ class ChangePassword extends Component {
                                 <Item regular style={styles.input}>
                                     <Input
                                         placeholder='New Password'
+                                        style={styles.inputText}
                                         value={this.state.newpassword}
                                         secureTextEntry={true}
                                         placeholderTextColor={colors.SILVER}
@@ -97,16 +99,17 @@ class ChangePassword extends Component {
                                 <Item regular style={styles.input}>
                                     <Input
                                         placeholder='Confirm New Password'
+                                        style={styles.inputText}
                                         value={this.state.confirmpassword}
                                         secureTextEntry={true}
                                         placeholderTextColor={colors.SILVER}
                                         onChangeText={(text) => this.inputChangeHandler(text, 'confirmpassword')} />
                                 </Item>
                                 <Button block style={styles.loginButton} onPress={this.handleChangePassword}>
-                                    <Text>Change Password</Text>
+                                    <Text style={{ fontFamily: 'opensans-bold' }}>Change Password</Text>
                                 </Button>
                                 <Button block style={styles.cancelButton} onPress={() => this.props.navigation.navigate('Profile')}>
-                                    <Text style={{ color: 'black' }}>CANCEL</Text>
+                                    <Text style={{ color: 'black', fontFamily: 'opensans-bold' }}>CANCEL</Text>
                                 </Button>
                                 
                             </View>
@@ -161,9 +164,10 @@ const styles = StyleSheet.create({
         marginVertical: 10,
         borderColor: colors.SILVER
     },
-    link: {
-        textDecorationColor: 'black',
-        textDecorationLine: 'underline'
-    }
+    inputText: {
+        color: colors.GREY,
+        fontSize: 17,
+        fontFamily: 'opensans'
+    },
 })
 export default ChangePassword;

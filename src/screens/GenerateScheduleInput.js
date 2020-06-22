@@ -31,7 +31,7 @@ export default class GenerateScheduleInput extends Component {
     }
 
     componentDidMount() {
-
+        this.setState({ isLoading: false })
     }
 
 

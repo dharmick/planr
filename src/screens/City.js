@@ -117,7 +117,7 @@ export default class City extends Component {
                     })
                 }
 
-            })
+            })  
     }
 
     handleSmallAnimatedIconRef = (ref) => {

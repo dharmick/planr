@@ -65,7 +65,7 @@ export default class SearchCity extends Component {
                             <RippleIcon iconName="ios-arrow-back" onPress={() => this.props.navigation.goBack()} />
                             <Input
                                 autoFocus
-                                style={{ fontFamily: 'opensans-bold' }}
+                                style={{ fontFamily: 'opensans-bold', fontWeight: 'normal' }}
                                 placeholder="Search, Explore, Wander"
                                 onChangeText={this.handleSearchTextChange}
                                 value={this.state.searchText}

@@ -139,6 +139,7 @@ export default class GenerateScheduleInput extends Component {
                 })
             })
             .catch(err => {
+                this.setState({ isLoading: false })
                 alert("something went wrong")
             })
     }

@@ -71,7 +71,7 @@ class VerifyCode extends Component {
                     <Grid>
                         <Row size={2}>
                             <View style={styles.header}>
-                                <Text style={styles.headerText}>Forgot Password</Text>
+                                <Text style={styles.headerText}>Verify Code</Text>
                             </View>
                         </Row>
                         <Row size={8} style={{ backgroundColor: colors.LIGHT_SILVER }}>

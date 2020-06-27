@@ -118,7 +118,7 @@ export default class City extends Component {
                     })
                 }
 
-            })  
+            })
     }
 
     handleSmallAnimatedIconRef = (ref) => {
@@ -209,7 +209,7 @@ export default class City extends Component {
                             </Text>
                             <Button iconLeft block
                                 style={{ marginTop: 20, marginHorizontal: 20, marginBottom: 10, backgroundColor: colors.PRIMARY }}
-                                onPress={() => this.props.navigation.navigate('GenerateScheduleInput', { cityId: this.state.cityId, cityName: this.state.cityDetails.name })}>
+                                onPress={() => this.props.navigation.navigate('GenerateScheduleInput', { cityId: this.state.cityId, cityName: this.state.cityDetails.name, pois: this.state.cityDetails.pois })}>
                                 <Icon name="map-marker-path" type="MaterialCommunityIcons" />
                                 <Text style={{ fontFamily: 'opensans-bold' }}>Generate Schedule</Text>
                             </Button>

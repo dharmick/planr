@@ -7,6 +7,7 @@ import { axiosGet, axiosPost } from '../../axios';
 import Loader from '../components/Loader';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import * as Animatable from 'react-native-animatable';
+import { metrics } from '../config/metrics';
 
 const AnimatedIcon = Animatable.createAnimatableComponent(Icon)
 
@@ -195,7 +196,7 @@ export default class City extends Component {
 
                     <ScrollView>
 
-                        <Image style={{ width: '100%', height: 200 }} source={{ uri: this.state.cityDetails.image }} />
+                        <Image style={{ width: metrics.DEVICE_WIDTH - 40, height: 200, alignSelf: 'center', marginTop: 20, borderRadius: 8 }} source={{ uri: this.state.cityDetails.image }} />
 
                         {/* ==============
                         ABOUT
@@ -203,7 +204,7 @@ export default class City extends Component {
 
                         <View style={{ paddingTop: 30 }}>
                             <Text style={{ fontSize: 18, marginHorizontal: 20, marginBottom: 10, fontFamily: 'opensans-bold' }}>About</Text>
-                            <Text style={{ color: "#444", fontSize: 14, marginHorizontal: 20, fontFamily: 'opensans', textAlign: 'justify' }}>
+                            <Text style={{ color: "#222", fontSize: 14, marginHorizontal: 20, fontFamily: 'opensans', textAlign: 'justify' }}>
                                 {this.state.cityDetails.description}
                             </Text>
                             <Button iconLeft block

@@ -19,7 +19,7 @@ export default class Place extends Component {
             cityId: this.props.navigation.getParam('cityId'),
             isLoaded: false,
             isWishlisted: false,
-            starCount: 3.5,
+            starCount: 4,
             poiDetails: {
                 name: "Bandra Worli Sea Link",
                 description: "The Bandra–Worli Sea Link (officially known as Rajiv Gandhi Sea Link) is a cable-stayed bridge with pre-stressed concrete-steel viaducts on either side that links Bandra in the Western Suburbs of Mumbai with Worli in South Mumbai. The bridge is a part of the proposed Western Freeway that will link the Western Suburbs to Nariman Point in Mumbai's main business district.",
@@ -62,13 +62,14 @@ export default class Place extends Component {
         const data = {
             poi_id: this.state.poiId
         }
-        axiosGet('/getPoI', data)
+        
+        this.ApiCall()
+
+        axiosGet('/getRatings', data)
             .then(res => {
                 if (res.data.success) {
                     this.setState({
-                        poiDetails: res.data.data,
-                        isWishlisted: res.data.data.isWishlisted,
-                        isLoaded: true
+                        starCount: res.data.rating
                     })
                 } else {
                     Toast.show({
@@ -79,12 +80,21 @@ export default class Place extends Component {
                     })
                 }
             })
+    }
 
-        axiosGet('/getRatings', data)
+    ApiCall = () => {
+
+        const data = {
+            poi_id: this.state.poiId
+        }
+
+        axiosGet('/getPoI', data)
             .then(res => {
                 if (res.data.success) {
                     this.setState({
-                        starCount: res.data.rating
+                        poiDetails: res.data.data,
+                        isWishlisted: res.data.data.isWishlisted,
+                        isLoaded: true
                     })
                 } else {
                     Toast.show({
@@ -111,6 +121,7 @@ export default class Place extends Component {
         axiosGet('/user-ratings', params)
             .then(res => {
                 if (res.data.success) {
+                    this.ApiCall()
                 }
                 else {
                     Toast.show({
@@ -259,6 +270,11 @@ export default class Place extends Component {
                         </Grid>
 
                         <Separator />
+
+                        {/* ==============
+                            Your RATINGS
+                    ============== */}
+
                         <Text style={{ fontSize: 18, marginHorizontal: 10, fontFamily: 'opensans-bold' }}>Your Ratings</Text>
                         <View style={{ marginLeft: 13, marginRight: 20, marginBottom: 15, marginTop: 15 }}>
                             <StarRating

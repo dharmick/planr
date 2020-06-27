@@ -31,7 +31,7 @@ export default class GenerateScheduleInput extends Component {
     }
 
     componentDidMount() {
-
+        this.setState({ isLoading: false })
     }
 
 
@@ -139,6 +139,7 @@ export default class GenerateScheduleInput extends Component {
                 })
             })
             .catch(err => {
+                this.setState({ isLoading: false })
                 alert("something went wrong")
             })
     }

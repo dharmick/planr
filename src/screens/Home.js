@@ -25,12 +25,12 @@ class Home extends Component {
                 {
                     id: 2,
                     name: "Bangalore",
-                    image: "https://res.cloudinary.com/planr/image/upload/v1588143110/font_images/bangalore-font-image_zmhsmb.png" 
+                    image: "https://res.cloudinary.com/planr/image/upload/v1588143110/font_images/bangalore-font-image_zmhsmb.png"
                 },
                 {
                     id: 4,
                     name: "Goa",
-                    image: "https://res.cloudinary.com/planr/image/upload/v1588147729/font_images/goa-font-image_xshlvn.png" 
+                    image: "https://res.cloudinary.com/planr/image/upload/v1588147729/font_images/goa-font-image_xshlvn.png"
                 },
                 {
                     id: 1,

@@ -1,19 +1,39 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, AsyncStorage } from 'react-native';
-import { Container, Content, ListItem, Left, Text, Button, Icon, Body, Right, Separator } from 'native-base';
+import { Container, Content, ListItem, Left, Text, Button, Icon, Body, Right, Separator, Header, Title } from 'native-base';
+import { colors } from '../config/colors';
 
 class Profile extends Component {
     constructor(props) {
         super(props);
-        this.state = {}
+        this.state = {
+            name: '',
+            email: ''
+        }
     }
-    componentDidMount() { }
+
+    async componentDidMount() {
+        const name = await AsyncStorage.getItem('name');
+        const email = await AsyncStorage.getItem('email');
+        this.setState({
+            name,
+            email
+        })
+    }
     render() {
         return (
             <Container>
+                <Header span noLeft noShadow androidStatusBarColor={colors.LIGHT_SILVER} iosBarStyle="dark-content">
+                    <View style={{ paddingHorizontal: 20, paddingVertical: 35, backgroundColor: colors.LIGHT_SILVER, flex: 1 }}>
+                        <Text style={{ fontSize: 24, fontFamily: 'opensans-extrabold', color: colors.LIGHT_GREY }}>{this.state.name}</Text>
+                        <Text style={{ fontSize: 16, fontFamily: 'opensans', color: colors.LIGHT_GREY }}>{this.state.email}</Text>
+                    </View>
+                </Header>
+
+
                 <Content>
 
-                    <ListItem icon>
+                    {/* <ListItem icon>
                         <Left>
                             <Button style={{ backgroundColor: "#FF9501" }}>
                                 <Icon name="history" type="FontAwesome5" />
@@ -25,18 +45,18 @@ class Profile extends Component {
                         <Right>
                             <Text style={{fontFamily: 'opensans-bold'}}>ON</Text>
                         </Right>
-                    </ListItem>
+                    </ListItem> */}
                     <ListItem icon
                         onPress={() =>
                             this.props.navigation.navigate('Wishlist')
-                    }>
+                        }>
                         <Left>
                             <Button style={{ backgroundColor: "#db2c8c" }}>
                                 <Icon name="heart" type="FontAwesome5" />
                             </Button>
                         </Left>
                         <Body>
-                            <Text style={styles.font}>Wishlist</Text>
+                            <Text style={styles.font}>My Wishlist</Text>
                         </Body>
                     </ListItem>
                     <ListItem icon>
@@ -50,15 +70,12 @@ class Profile extends Component {
                         </Body>
                     </ListItem>
 
-                    <Separator>
-                        <Text></Text>
-                    </Separator>
                     <ListItem icon
                         onPress={() =>
                             this.props.navigation.navigate('ChangePassword')
                         }>
                         <Left>
-                            <Button style={{ backgroundColor: "#d9454f" }}>
+                            <Button style={{ backgroundColor: "orange" }}>
                                 <Icon active name="md-lock" />
                             </Button>
                         </Left>
@@ -91,7 +108,7 @@ class Profile extends Component {
 const styles = StyleSheet.create({
     font: {
         fontFamily: 'opensans',
-        fontWeight: '400'
+        color: colors.GREY
     }
 })
 export default Profile;

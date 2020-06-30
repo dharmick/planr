@@ -26,7 +26,12 @@
       "supportsTablet": true
     },
     "android": {
-      "package": "com.planr.planr"
+      "package": "com.planr.planr",
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyB2rjxt7ZNwoYgzeQ_BlmBDWcIlZMzI2VE"
+        }
+      }
     },
     "androidStatusBar": {
       "backgroundColor": "#FFFFFF",

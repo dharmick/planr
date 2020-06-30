@@ -32,16 +32,6 @@ class Home extends Component {
                     name: "Goa",
                     image: "https://res.cloudinary.com/planr/image/upload/v1588147729/font_images/goa-font-image_xshlvn.png"
                 },
-                {
-                    id: 1,
-                    name: "Mumbai",
-                    image: "https://res.cloudinary.com/planr/image/upload/v1588147729/font_images/mumbai-font-image_xwlhtf"
-                },
-                {
-                    id: 4,
-                    name: "Goa",
-                    image: "https://res.cloudinary.com/planr/image/upload/v1588147729/font_images/goa-font-image_xshlvn.png"
-                }
             ],
             nearBy: [
                 {
@@ -150,8 +140,8 @@ class Home extends Component {
                     <View style={commonStyles.section}>
 
                         <View style={commonStyles.sectionInlineHeaderWrapper}>
-                            <Text style={commonStyles.sectionHeader}>Trending Cities</Text>
-                            <Text style={[commonStyles.sectionHeader, { color: colors.BLUE }]}>View all</Text>
+                            <Text style={commonStyles.sectionHeader}>Try this Out!</Text>
+                            {/* <Text style={[commonStyles.sectionHeader, { color: colors.BLUE }]}>View all</Text> */}
                         </View>
 
                         <ScrollView

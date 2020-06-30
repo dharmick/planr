@@ -10,9 +10,9 @@ class Signup extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            name: 'dfd',
-            email: 'user@gmail.com',
-            password: 'dfd',
+            name: '',
+            email: '',
+            password: '',
             isLoading: false,
         }
     }
@@ -64,7 +64,7 @@ class Signup extends Component {
             <>
                 {
                     this.state.isLoading &&
-                    <Loader />
+                    <Loader color="#FFFFFF" />
                 }
                 <Container>
                     <Grid>
@@ -73,7 +73,7 @@ class Signup extends Component {
                                 <Text style={styles.headerText}>Signup</Text>
                             </View>
                         </Row>
-                        <Row size={9} style={{ backgroundColor: colors.LIGHT_SILVER }}>
+                        <Row size={9} style={{ backgroundColor: colors.PRIMARY }}>
                             <View style={styles.login_wrapper}>
                                 {/* <KeyboardAvoidingView style={{ width: '100%' }} behavior="padding" enabled keyboardVerticalOffset={300}> */}
                                 <Item regular style={styles.input}>
@@ -137,7 +137,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
     },
     header: {
-        backgroundColor: colors.LIGHT_SILVER,
+        backgroundColor: colors.PRIMARY,
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
@@ -145,7 +145,7 @@ const styles = StyleSheet.create({
     headerText: {
         fontSize: 50,
         fontFamily: 'kalam-bold',
-        color: colors.SILVER,
+        color: colors.LIGHT_SILVER,
         marginTop: 20,
         // opacity: 0.3
     },
@@ -156,7 +156,8 @@ const styles = StyleSheet.create({
     },
     input: {
         marginVertical: 10,
-        borderColor: colors.SILVER
+        borderColor: '#f1f1f1',
+        backgroundColor: '#f8f8f8',
     },
     inputText: {
         color: colors.GREY,

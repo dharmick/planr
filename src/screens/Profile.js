@@ -25,7 +25,7 @@ class Profile extends Component {
             <Container>
                 <Header span noLeft noShadow androidStatusBarColor={colors.LIGHT_SILVER} iosBarStyle="dark-content">
                     <View style={{ paddingHorizontal: 20, paddingVertical: 35, backgroundColor: colors.LIGHT_SILVER, flex: 1 }}>
-                        <Text style={{ fontSize: 24, fontFamily: 'opensans-extrabold', color: colors.LIGHT_GREY }}>{this.state.name}</Text>
+                        <Text style={{ fontSize: 24, fontFamily: 'opensans-extrabold', color: colors.GREY }}>{this.state.name}</Text>
                         <Text style={{ fontSize: 16, fontFamily: 'opensans', color: colors.LIGHT_GREY }}>{this.state.email}</Text>
                     </View>
                 </Header>

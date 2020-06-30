@@ -161,10 +161,11 @@ const LoggedInStack = createBottomTabNavigator(
                 } else if (routeName === 'User') {
                     iconName = focused ? 'account' : 'account-outline';
                     iconType = 'MaterialCommunityIcons';
-                } else if (routeName === 'Trip') {
-                    iconName = focused ? 'map-marker' : 'map-marker-outline'
-                    iconType = 'MaterialCommunityIcons'
                 }
+                // } else if (routeName === 'Trip') {
+                //     iconName = focused ? 'map-marker' : 'map-marker-outline'
+                //     iconType = 'MaterialCommunityIcons'
+                // }
 
                 return <Icon name={iconName} type={iconType} />;
             },

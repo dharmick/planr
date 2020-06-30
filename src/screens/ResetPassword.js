@@ -35,6 +35,7 @@ class ResetPassword extends Component {
 
         axiosPost('/reset-password', data, false)
             .then(res => {
+                this.setState({isLoading: false})
                 alert(res.data.message)
                 if (res.data.message == 'Password did not match. Enter again!') {
                     try {
@@ -53,6 +54,7 @@ class ResetPassword extends Component {
                     }
                 }
             }, err => {
+                this.setState({isLoading: false})
                 alert(err)
             })
     }
@@ -68,16 +70,19 @@ class ResetPassword extends Component {
             <>
                 {
                     this.state.isLoading &&
-                    <Loader />
+                    <Loader color="#FFFFFF" />
                 }
                 <Container>
+                    
+                    <Header androidStatusBarColor={colors.PRIMARY} style={{ display: 'none' }} />
+                    
                     <Grid>
                         <Row size={2}>
                             <View style={styles.header}>
                                 <Text style={styles.headerText}>Reset Password</Text>
                             </View>
                         </Row>
-                        <Row size={8} style={{ backgroundColor: colors.LIGHT_SILVER }}>
+                        <Row size={8} style={{ backgroundColor: colors.PRIMARY }}>
                             <View style={styles.login_wrapper}>
                                 <Item regular style={styles.input}>
                                     <Input
@@ -130,7 +135,7 @@ const styles = StyleSheet.create({
 
     },
     header: {
-        backgroundColor: colors.LIGHT_SILVER,
+        backgroundColor: colors.PRIMARY,
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
@@ -138,7 +143,7 @@ const styles = StyleSheet.create({
     headerText: {
         fontSize: 42,
         fontFamily: 'kalam-bold',
-        color: colors.SILVER,
+        color: colors.LIGHT_SILVER,
         marginTop: 20,
         // opacity: 0.3
     },
@@ -149,7 +154,8 @@ const styles = StyleSheet.create({
     },
     input: {
         marginVertical: 10,
-        borderColor: colors.SILVER
+        borderColor: '#f1f1f1',
+        backgroundColor: '#f8f8f8',
     },
     inputText: {
         color: colors.GREY,
